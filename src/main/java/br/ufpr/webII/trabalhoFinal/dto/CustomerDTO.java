@@ -1,12 +1,14 @@
-package br.ufpr.webII.trabalhoFinal.model;
+package br.ufpr.webII.trabalhoFinal.dto;
 
-public class Customer {
+import br.ufpr.webII.trabalhoFinal.model.Address;
+
+public class CustomerDTO {
     private String cpf; // CPF do cliente
     private String name; // Nome do cliente
+    private String surname; // Sobrenome do cliente
     private String email; // E-mail do cliente
     private Address address; // Endereço do cliente
     private String phone; // Telefone do cliente
-    private String password; // Senha do cliente (deve ser armazenada como hash)
 
     // Getters e Setters
     public String getCpf() {
@@ -20,6 +22,12 @@ public class Customer {
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public String getSurname() {
+        return surname;
+    }
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
     public String getEmail() {
         return email;
@@ -38,11 +46,5 @@ public class Customer {
     }
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
