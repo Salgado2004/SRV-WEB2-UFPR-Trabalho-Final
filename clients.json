@@ -1,16 +1,16 @@
 {
-  "cpf" : "12345678909",
-  "name" : "John",
-  "email" : "test@dominio.com",
+  "cpf" : "09124024902",
+  "name" : "Pedro",
+  "email" : "pedrode@ufpr.com",
   "address" : {
     "id" : null,
     "cep" : null,
     "uf" : null,
     "city" : null,
     "district" : null,
-    "street" : "123 Street",
+    "street" : "544 minha casa",
     "number" : 0
   },
   "phone" : null,
-  "password" : "1484"
+  "password" : "7780"
 }

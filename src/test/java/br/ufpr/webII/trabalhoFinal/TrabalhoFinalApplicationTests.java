@@ -45,6 +45,28 @@ class TrabalhoFinalApplicationTests {
 	}
 
 	@Test
+	void testRegisterCustomerSuccessSecond() {
+		// Criar um CustomerDTO de teste
+		CustomerDTO customerDTO = new CustomerDTO();
+		customerDTO.setEmail("pedrode@ufpr.com");
+		customerDTO.setCpf("09124024902");
+		customerDTO.setName("Pedro");
+		customerDTO.setSurname("Souza");
+
+		// Criar um endereço de exemplo
+		Address address = new Address();
+		address.setStreet("544 minha casa"); // Substitua por métodos reais de Address
+		customerDTO.setAddress(address);
+
+		// Chamar o método de registro
+		ResponseEntity<String> response = authController.register(customerDTO);
+
+		// Verificar se a resposta é 201 Created
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		assertEquals("Cliente cadastrado com sucesso!", response.getBody());
+	}
+
+	@Test
 	void testRegisterCustomerInvalidEmail() {
 		// Criar um CustomerDTO com email inválido
 		CustomerDTO customerDTO = new CustomerDTO();
