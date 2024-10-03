@@ -1,16 +1,16 @@
 {
-  "cpf" : "09124024902",
-  "name" : "Pedro",
-  "email" : "pedrode@ufpr.com",
+  "cpf" : "12345678909",
+  "name" : "John",
+  "email" : "test@dominio.com",
   "address" : {
     "id" : null,
-    "cep" : null,
-    "uf" : null,
-    "city" : null,
-    "district" : null,
-    "street" : "544 minha casa",
-    "number" : 0
+    "cep" : "83414180",
+    "uf" : "Paraná",
+    "city" : "Colombo",
+    "district" : "Centro",
+    "street" : "Travessa Alfredo Lazaroto",
+    "number" : 65
   },
   "phone" : null,
-  "password" : "7780"
+  "password" : "1137"
 }
