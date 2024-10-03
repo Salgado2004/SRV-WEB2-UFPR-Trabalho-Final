@@ -30,32 +30,16 @@ class TrabalhoFinalApplicationTests {
 		customerDTO.setCpf("12345678909");
 		customerDTO.setName("John");
 		customerDTO.setSurname("Doe");
+		customerDTO.setPhone("4002-8922");
 
 		// Criar um endereço de exemplo
 		Address address = new Address();
-		address.setStreet("123 Street"); // Substitua por métodos reais de Address
-		customerDTO.setAddress(address);
-
-		// Chamar o método de registro
-		ResponseEntity<String> response = authController.register(customerDTO);
-
-		// Verificar se a resposta é 201 Created
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertEquals("Cliente cadastrado com sucesso!", response.getBody());
-	}
-
-	@Test
-	void testRegisterCustomerSuccessSecond() {
-		// Criar um CustomerDTO de teste
-		CustomerDTO customerDTO = new CustomerDTO();
-		customerDTO.setEmail("pedrode@ufpr.com");
-		customerDTO.setCpf("09124024902");
-		customerDTO.setName("Pedro");
-		customerDTO.setSurname("Souza");
-
-		// Criar um endereço de exemplo
-		Address address = new Address();
-		address.setStreet("544 minha casa"); // Substitua por métodos reais de Address
+		address.setCep("1234567");
+		address.setUf("Estado");
+		address.setCity("Cidade");
+		address.setDistrict("Bairro");
+		address.setStreet("Rua"); // Substitua por métodos reais de Address
+		address.setNumber(1);
 		customerDTO.setAddress(address);
 
 		// Chamar o método de registro
