@@ -1,20 +1,22 @@
 package br.ufpr.webII.trabalhoFinal.model;
 
+import br.ufpr.webII.trabalhoFinal.util.PasswordUtil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 @Entity
 public abstract class User {
 
-    private @Id
-    @GeneratedValue Long id;
+    private @Id @GeneratedValue Long id;
     private String email;
     private String name;
     private String surname;
     private String password;
+    private String salt;
 
     public User() {
     }
@@ -57,6 +59,23 @@ public abstract class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public void encryptPassword(String plainPassword) {
+        this.salt = PasswordUtil.generateSalt();
+        try {
+            this.password = PasswordUtil.hashPassword(plainPassword, this.salt);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error encrypting password", e);
+        }
     }
 
     @Override
