@@ -69,10 +69,18 @@ public abstract class User {
         this.salt = salt;
     }
 
-    public void encryptPassword(String plainPassword) {
+    public final void encryptPassword(String plainPassword) {
         this.salt = PasswordUtil.generateSalt();
         try {
             this.password = PasswordUtil.hashPassword(plainPassword, this.salt);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error encrypting password", e);
+        }
+    }
+
+    public final boolean checkPassword(String plainPassword) {
+        try {
+            return this.password.equals(PasswordUtil.hashPassword(plainPassword, this.salt));
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error encrypting password", e);
         }
