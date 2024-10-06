@@ -3,8 +3,8 @@ package br.ufpr.webII.trabalhoFinal.service;
 import br.ufpr.webII.trabalhoFinal.dto.CustomerDTO;
 import br.ufpr.webII.trabalhoFinal.model.Customer;
 import br.ufpr.webII.trabalhoFinal.model.Employee;
-import br.ufpr.webII.trabalhoFinal.repository.CustomerRepository;
-import br.ufpr.webII.trabalhoFinal.repository.EmployeeRepository;
+import br.ufpr.webII.trabalhoFinal.model.User;
+import br.ufpr.webII.trabalhoFinal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,7 @@ import java.util.Random;
 public class AuthService {
 
     @Autowired
-    private CustomerRepository customerRepository;
-
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private UserRepository userRepository;
 
 
     public Customer registerCustomer(CustomerDTO customerDTO) {
@@ -42,22 +39,21 @@ public class AuthService {
             return null;
         }
 
-        Customer customer = customerRepository.findByEmail(email);
+        Customer customer = (Customer) userRepository.findByEmail(email);
         if (customer != null && customer.checkPassword(password)) {
             return customer;
         }
         return null;
     }
 
-    public Employee loginEmployee(String email, String password) {
+    public <T extends User> User login(String email, String password) {
         if(!isValidEmail(email)){
             return null;
         }
-
-
-        Employee employee = employeeRepository.findByEmail(email);
-        if (employee != null && employee.checkPassword(password)) {
-            return employee;
+        
+        T user = (T) userRepository.findByEmail(email);
+        if (user != null && user.checkPassword(password)) {
+            return user;
         }
         return null;
     }

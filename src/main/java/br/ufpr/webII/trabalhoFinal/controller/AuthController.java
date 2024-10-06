@@ -49,7 +49,7 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("E-mail inválido.");
             }
 
-            Customer customer = authService.loginCustomer(email, password);
+            Customer customer = (Customer) authService.login(email, password);
             if (customer != null) {
                 // Retorna status OK se o login for bem-sucedido
                 return ResponseEntity.status(HttpStatus.OK).body("Customer logou com sucesso");
@@ -70,7 +70,7 @@ public class AuthController {
             }
 
             // Tenta realizar o login do funcionário com o e-mail e senha fornecidos
-            Employee employee = authService.loginEmployee(email, password);
+            Employee employee = (Employee) authService.login(email, password);
             if (employee != null) {
                 // Retorna status OK se o login for bem-sucedido
                 return ResponseEntity.status(HttpStatus.OK).body("Employee logou com sucesso");
