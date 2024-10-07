@@ -27,7 +27,7 @@ public class AuthService {
 
         // Gera uma senha aleatória de 4 números
         String password = generateRandomPassword();
-        customer.setPassword(password); // Aqui você deve hash a senha antes de armazená-la
+        customer.encryptPassword(password); // Aqui você deve hash a senha antes de armazená-la
 
         // Aqui você pode adicionar lógica para enviar o e-mail com a senha
 
