@@ -1,0 +1,16 @@
+{
+  "cpf" : "12345678909",
+  "name" : "John",
+  "email" : "test@dominio.com",
+  "address" : {
+    "id" : null,
+    "cep" : "1234567",
+    "uf" : "Estado",
+    "city" : "Cidade",
+    "district" : "Bairro",
+    "street" : "Rua",
+    "number" : 1
+  },
+  "phone" : "4002-8922",
+  "password" : "8479"
+}

@@ -2,11 +2,11 @@ package br.ufpr.webII.trabalhoFinal.model;
 
 import java.util.Date;
 
-public class Employee extends User{
-
+public class Employee extends User {
     private Date birthDate;
 
     public Employee() {
+        super();
     }
 
     public Date getBirthDate() {

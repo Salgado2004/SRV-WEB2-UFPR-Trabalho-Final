@@ -1,13 +1,11 @@
 package br.ufpr.webII.trabalhoFinal.model;
 
-public class Customer extends User{
-
+public class Customer extends User {
     private String cpf;
     private Address address;
+    private String phone;
 
-    public Customer() {
-    }
-
+    // Getters e Setters para todos os campos, incluindo os herdados de User
     public String getCpf() {
         return cpf;
     }
@@ -24,4 +22,11 @@ public class Customer extends User{
         this.address = address;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }
