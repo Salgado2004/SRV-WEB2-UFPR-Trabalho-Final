@@ -4,6 +4,7 @@ import br.ufpr.webII.trabalhoFinal.dto.CustomerDTO;
 import br.ufpr.webII.trabalhoFinal.model.Customer;
 import br.ufpr.webII.trabalhoFinal.service.AuthService;
 import br.ufpr.webII.trabalhoFinal.util.JsonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,17 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/service/v1/auth")
 public class AuthController {
 
-    private final AuthService authService;
-
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody CustomerDTO customerDTO) {
+        System.out.println(authService);
         // Valida CPF e E-mail no serviço
         if (!authService.isValidCpf(customerDTO.getCpf())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CPF inválido.");
