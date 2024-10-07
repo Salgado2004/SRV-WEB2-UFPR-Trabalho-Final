@@ -24,10 +24,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody CustomerDTO customerDTO) {
         // Valida CPF e E-mail no serviço
-        if (!AuthService.isValidCpf(customerDTO.getCpf())) {
+        if (!authService.isValidCpf(customerDTO.getCpf())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CPF inválido.");
         }
-        if (!AuthService.isValidEmail(customerDTO.getEmail())) {
+        if (!authService.isValidEmail(customerDTO.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("E-mail inválido.");
         }
 
