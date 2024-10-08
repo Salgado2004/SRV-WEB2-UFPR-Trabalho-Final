@@ -1,9 +1,9 @@
 package br.ufpr.webII.trabalhoFinal;
 
 import br.ufpr.webII.trabalhoFinal.controller.AuthController;
-import br.ufpr.webII.trabalhoFinal.dto.CustomerDTO;
 import br.ufpr.webII.trabalhoFinal.model.Address;
 import br.ufpr.webII.trabalhoFinal.service.AuthService;
+import br.ufpr.webII.trabalhoFinal.model.dto.CustomerInputDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -15,35 +15,29 @@ class TrabalhoFinalApplicationTests {
 
 	private AuthController authController;
 	private AuthService authService;
+	private Address address;
 
 	@BeforeEach
 	void setUp() {
-		authService = new AuthService(); // Criação da instância real do AuthService
-		authController = new AuthController(authService); // Passando o AuthService para o AuthController
-	}
-
-	@Test
-	void testRegisterCustomerSuccess() {
-		// Criar um CustomerDTO de teste
-		CustomerDTO customerDTO = new CustomerDTO();
-		customerDTO.setEmail("test@dominio.com");
-		customerDTO.setCpf("12345678909");
-		customerDTO.setName("John");
-		customerDTO.setSurname("Doe");
-		customerDTO.setPhone("4002-8922");
-
 		// Criar um endereço de exemplo
-		Address address = new Address();
+		address = new Address();
 		address.setCep("1234567");
 		address.setUf("Estado");
 		address.setCity("Cidade");
 		address.setDistrict("Bairro");
 		address.setStreet("Rua"); // Substitua por métodos reais de Address
 		address.setNumber(1);
-		customerDTO.setAddress(address);
+		authService = new AuthService(); // Criação da instância real do AuthService
+		authController = new AuthController(); // Passando o AuthService para o AuthController
+	}
+
+	@Test
+	void testRegisterCustomerSuccess() {
+		// Criar um CustomerDTO de teste
+		CustomerInputDTO customerInputDTO = new CustomerInputDTO("12345678909","John","Doe","test@dominio.com", address,"4002-8922");
 
 		// Chamar o método de registro
-		ResponseEntity<String> response = authController.register(customerDTO);
+		ResponseEntity<String> response = authController.register(customerInputDTO);
 
 		// Verificar se a resposta é 201 Created
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -53,19 +47,10 @@ class TrabalhoFinalApplicationTests {
 	@Test
 	void testRegisterCustomerInvalidEmail() {
 		// Criar um CustomerDTO com email inválido
-		CustomerDTO customerDTO = new CustomerDTO();
-		customerDTO.setEmail("invalid-email");
-		customerDTO.setCpf("12345678909");
-		customerDTO.setName("John");
-		customerDTO.setSurname("Doe");
-
-		// Criar um endereço de exemplo
-		Address address = new Address();
-		address.setStreet("123 Street"); // Substitua por métodos reais de Address
-		customerDTO.setAddress(address);
+		CustomerInputDTO customerInputDTO = new CustomerInputDTO("12345678909","John","Doe","aaaaaaaaaaaaaaa", address,"4002-8922");
 
 		// Chamar o método de registro
-		ResponseEntity<String> response = authController.register(customerDTO);
+		ResponseEntity<String> response = authController.register(customerInputDTO);
 
 		// Verificar se a resposta é 400 Bad Request
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -75,19 +60,10 @@ class TrabalhoFinalApplicationTests {
 	@Test
 	void testRegisterCustomerInvalidCpf() {
 		// Criar um CustomerDTO com CPF inválido
-		CustomerDTO customerDTO = new CustomerDTO();
-		customerDTO.setEmail("test@dominio.com");
-		customerDTO.setCpf("invalid-cpf");
-		customerDTO.setName("John");
-		customerDTO.setSurname("Doe");
-
-		// Criar um endereço de exemplo
-		Address address = new Address();
-		address.setStreet("123 Street"); // Substitua por métodos reais de Address
-		customerDTO.setAddress(address);
+		CustomerInputDTO customerInputDTO = new CustomerInputDTO("12345678910","John","Doe","test@dominio.com", address,"4002-8922");
 
 		// Chamar o método de registro
-		ResponseEntity<String> response = authController.register(customerDTO);
+		ResponseEntity<String> response = authController.register(customerInputDTO);
 
 		// Verificar se a resposta é 400 Bad Request
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

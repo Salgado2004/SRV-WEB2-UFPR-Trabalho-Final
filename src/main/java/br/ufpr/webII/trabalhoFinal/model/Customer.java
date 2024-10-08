@@ -1,9 +1,22 @@
 package br.ufpr.webII.trabalhoFinal.model;
 
+import br.ufpr.webII.trabalhoFinal.model.dto.CustomerInputDTO;
+
 public class Customer extends User {
     private String cpf;
     private Address address;
     private String phone;
+
+    public Customer(){}
+
+    public Customer(CustomerInputDTO dto){
+        this.setCpf(dto.cpf());
+        this.setName(dto.name());
+        this.setSurname(dto.surname());
+        this.setEmail(dto.email());
+        this.setAddress(dto.address());
+        this.setPhone(dto.phone());
+    }
 
     // Getters e Setters para todos os campos, incluindo os herdados de User
     public String getCpf() {

@@ -1,10 +1,9 @@
 package br.ufpr.webII.trabalhoFinal.service;
 
-import br.ufpr.webII.trabalhoFinal.dto.CustomerDTO;
+import br.ufpr.webII.trabalhoFinal.model.dto.CustomerInputDTO;
 import br.ufpr.webII.trabalhoFinal.model.Customer;
-import br.ufpr.webII.trabalhoFinal.model.Employee;
 import br.ufpr.webII.trabalhoFinal.model.User;
-import br.ufpr.webII.trabalhoFinal.repository.UserRepository;
+import br.ufpr.webII.trabalhoFinal.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +13,19 @@ import java.util.Random;
 public class AuthService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDao userDao;
 
+    /*@Autowired
+    private UserRepository userRepository;*/
 
-    public Customer registerCustomer(CustomerDTO customerDTO) {
-        Customer customer = new Customer();
-        customer.setCpf(customerDTO.getCpf());
-        customer.setName(customerDTO.getName());
-        customer.setEmail(customerDTO.getEmail());
-        customer.setAddress(customerDTO.getAddress());
-        customer.setPhone(customerDTO.getPhone());
+    public Customer registerCustomer(CustomerInputDTO customerInputDTO) {
+        Customer customer = new Customer(customerInputDTO);
 
         // Gera uma senha aleatória de 4 números
         String password = generateRandomPassword();
+        System.out.println(password);
         customer.encryptPassword(password); // Aqui você deve hash a senha antes de armazená-la
+        userDao.save(customer);
 
         // Aqui você pode adicionar lógica para enviar o e-mail com a senha
 
@@ -36,11 +34,11 @@ public class AuthService {
 
 
     public <T extends User> User login(String email, String password) {
-        if(!isValidEmail(email)){
+        if(isInvalidEmail(email)){
             return null;
         }
 
-        T user = (T) userRepository.findByEmail(email);
+        T user = (T) userDao.findByEmail(email);
         if (user != null && user.checkPassword(password)) {
             return user;
         }
@@ -77,10 +75,11 @@ public class AuthService {
         Random random = new Random();
         return String.format("%04d", random.nextInt(10000)); // Senha de 4 dígitos
     }
+
     // Função para validação de e-mail
-    static public boolean isValidEmail(String email) {
+    public boolean isInvalidEmail(String email) {
         // Verifica se o e-mail não é nulo e se contém o símbolo "@" seguido de um domínio.
-        return email != null && email.contains("@") && email.matches("[^@\\s]+@[^@\\s]+\\.[a-zA-Z]+(\\.[a-zA-Z]+)?");
+        return email == null || !email.contains("@") || !email.matches("[^@\\s]+@[^@\\s]+\\.[a-zA-Z]+(\\.[a-zA-Z]+)?");
     }
 
 }
