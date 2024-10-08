@@ -1,6 +1,7 @@
 package br.ufpr.webII.trabalhoFinal.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,7 @@ public class JsonUtil {
 
     // Método para gravar um objeto em um arquivo JSON
     public static void writeJsonToFile(String filePath, Object data) throws IOException {
-        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), data);
+        ClassPathResource resource = new ClassPathResource(filePath);
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(resource.getURI()), data);
     }
 }

@@ -3,10 +3,12 @@ package br.ufpr.webII.trabalhoFinal.service;
 import br.ufpr.webII.trabalhoFinal.model.dto.CustomerInputDTO;
 import br.ufpr.webII.trabalhoFinal.model.Customer;
 import br.ufpr.webII.trabalhoFinal.model.User;
+import br.ufpr.webII.trabalhoFinal.model.dto.UserLoginDTO;
 import br.ufpr.webII.trabalhoFinal.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Random;
 
 @Service
@@ -18,7 +20,7 @@ public class AuthService {
     /*@Autowired
     private UserRepository userRepository;*/
 
-    public Customer registerCustomer(CustomerInputDTO customerInputDTO) {
+    public Customer registerCustomer(CustomerInputDTO customerInputDTO) throws IOException {
         Customer customer = new Customer(customerInputDTO);
 
         // Gera uma senha aleatória de 4 números
@@ -33,14 +35,14 @@ public class AuthService {
     }
 
 
-    public <T extends User> User login(String email, String password) {
+    public UserLoginDTO login(String email, String password) {
         if(isInvalidEmail(email)){
             return null;
         }
 
-        T user = (T) userDao.findByEmail(email);
+        User user = userDao.findByEmail(email);
         if (user != null && user.checkPassword(password)) {
-            return user;
+            return new UserLoginDTO(user.getName(), user.getClass().getSimpleName());
         }
         return null;
     }
