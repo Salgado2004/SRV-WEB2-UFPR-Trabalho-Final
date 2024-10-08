@@ -1,6 +1,6 @@
-package br.ufpr.webII.trabalhoFinal.model.dto;
+package br.ufpr.webII.trabalhoFinal.domain.dto;
 
-import br.ufpr.webII.trabalhoFinal.model.Address;
+import br.ufpr.webII.trabalhoFinal.domain.model.Address;
 
 public record CustomerInputDTO(
         String cpf,

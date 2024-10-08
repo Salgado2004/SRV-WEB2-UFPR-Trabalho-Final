@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.util;
+package br.ufpr.webII.trabalhoFinal.infra.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;

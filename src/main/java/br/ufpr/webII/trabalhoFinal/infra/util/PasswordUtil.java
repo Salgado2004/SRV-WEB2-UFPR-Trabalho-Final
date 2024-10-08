@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.util;
+package br.ufpr.webII.trabalhoFinal.infra.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,9 +1,9 @@
-package br.ufpr.webII.trabalhoFinal.repository;
+package br.ufpr.webII.trabalhoFinal.infra.repository;
 
-import br.ufpr.webII.trabalhoFinal.model.Customer;
-import br.ufpr.webII.trabalhoFinal.model.User;
-import br.ufpr.webII.trabalhoFinal.model.dto.CustomerOutputDTO;
-import br.ufpr.webII.trabalhoFinal.util.JsonUtil;
+import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
+import br.ufpr.webII.trabalhoFinal.domain.model.User;
+import br.ufpr.webII.trabalhoFinal.domain.dto.CustomerOutputDTO;
+import br.ufpr.webII.trabalhoFinal.infra.util.JsonUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

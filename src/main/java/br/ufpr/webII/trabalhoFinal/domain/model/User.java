@@ -1,6 +1,6 @@
-package br.ufpr.webII.trabalhoFinal.model;
+package br.ufpr.webII.trabalhoFinal.domain.model;
 
-import br.ufpr.webII.trabalhoFinal.util.PasswordUtil;
+import br.ufpr.webII.trabalhoFinal.infra.util.PasswordUtil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
