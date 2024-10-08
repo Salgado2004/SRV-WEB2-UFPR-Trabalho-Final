@@ -1,6 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.domain.model;
 
-import br.ufpr.webII.trabalhoFinal.infra.util.PasswordUtil;
+import br.ufpr.webII.trabalhoFinal.infra.service.PasswordService;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -70,9 +70,9 @@ public abstract class User {
     }
 
     public final void encryptPassword(String plainPassword) {
-        this.salt = PasswordUtil.generateSalt();
+        this.salt = PasswordService.generateSalt();
         try {
-            this.password = PasswordUtil.hashPassword(plainPassword, this.salt);
+            this.password = PasswordService.hashPassword(plainPassword, this.salt);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error encrypting password", e);
         }
@@ -80,7 +80,7 @@ public abstract class User {
 
     public final boolean checkPassword(String plainPassword) {
         try {
-            return this.password.equals(PasswordUtil.hashPassword(plainPassword, this.salt));
+            return this.password.equals(PasswordService.hashPassword(plainPassword, this.salt));
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error encrypting password", e);
         }

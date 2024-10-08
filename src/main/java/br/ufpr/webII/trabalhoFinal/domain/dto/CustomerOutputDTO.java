@@ -14,6 +14,6 @@ public record CustomerOutputDTO(
         String password){
 
     public CustomerOutputDTO(Customer c){
-        this(c.getId(), c.getCpf(), c.getName(), c.getSurname(), c.getEmail(), c.getAddress(), c.getPhone(), c.getPassword());
+        this(c.getId(), c.getCpf(), c.getName(), c.getSurname(), c.getEmail(), c.getAddress(), c.getPhone(), c.getPassword()+":"+c.getSalt());
     }
 }

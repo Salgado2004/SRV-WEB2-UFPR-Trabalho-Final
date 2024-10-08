@@ -31,7 +31,7 @@ public class AuthService {
         customer.encryptPassword(password); // Aqui você deve hash a senha antes de armazená-la
 
         try {
-            userDao.save(customer);
+            userDao.insert(customer);
         } catch (IOException e){
             throw new RegisteringException("Erro ao salvar cliente.", e);
         }
