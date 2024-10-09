@@ -1,5 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import br.ufpr.webII.trabalhoFinal.infra.service.AuthService;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody CustomerInputDTO customerInputDTO) {
+    public ResponseEntity<String> register(@RequestBody @Valid CustomerInputDTO customerInputDTO) {
 
         authService.isValidCpf(customerInputDTO.cpf());
         authService.isValidEmail(customerInputDTO.email());
@@ -36,6 +37,6 @@ public class AuthController {
         // Retorna status OK se o login for bem-sucedido
         UserLoginDTO userData = authService.login(email, password);
 
-        return ResponseEntity.status(HttpStatus.OK).body(userData);
+        return ResponseEntity.ok().body(userData);
     }
 }

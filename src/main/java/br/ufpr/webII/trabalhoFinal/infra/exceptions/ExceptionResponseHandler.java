@@ -2,26 +2,47 @@ package br.ufpr.webII.trabalhoFinal.infra.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
 
 @RestControllerAdvice
 public class ExceptionResponseHandler {
 
     @ExceptionHandler(RegisteringException.class)
-    public ResponseEntity<String> handleRegisterExceptions(RegisteringException e){
+    public ResponseEntity<HttpRequestError> handleRegisterExceptions(RegisteringException e){
         if(e.getCause() != null){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.internalServerError().body(new HttpRequestError(e.getMessage()));
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        return ResponseEntity.badRequest().body(new HttpRequestError(e.getMessage()));
     }
 
     @ExceptionHandler(LoginException.class)
-    public ResponseEntity<String> handleLoginExceptions(LoginException e){
+    public ResponseEntity<HttpRequestError> handleLoginExceptions(LoginException e){
         if (e.getReason() == 1) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais Inválidas.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new HttpRequestError("Credenciais Inválidas."));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar login.");
+        return ResponseEntity.internalServerError().body(new HttpRequestError("Erro ao processar login."));
+    }
+
+    @ExceptionHandler(RequestException.class)
+    public ResponseEntity<String> handleRequestExceptions(RequestException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<List<HttpRequestError>> handleValidationExceptions(MethodArgumentNotValidException e){
+        List<FieldError> errors = e.getFieldErrors();
+        return ResponseEntity.badRequest().body(errors.stream().map(HttpRequestError::new).toList());
+    }
+
+    public record HttpRequestError(String cause) {
+        public HttpRequestError(FieldError error) {
+            this(error.getField() + " "+ error.getDefaultMessage());
+        }
     }
 
 }

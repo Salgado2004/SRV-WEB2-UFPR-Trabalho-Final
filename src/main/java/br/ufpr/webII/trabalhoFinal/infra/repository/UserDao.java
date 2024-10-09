@@ -27,6 +27,20 @@ public class UserDao {
         System.out.println("Usuário salvo com sucesso!");
     }
 
+    public Customer selectCustomer(Long id){
+        try {
+            List<CustomerOutputDTO> customers = jsonService.readObjectFromFile("clients.json", new TypeReference<>(){});
+            for (CustomerOutputDTO customer : customers) {
+                if (customer.id().equals(id)) {
+                    return new Customer(customer);
+                }
+            }
+        } catch (IOException e){
+            System.out.println("Erro ao consultar arquivos: "+ e.getMessage());
+        }
+        throw new IllegalArgumentException("Cliente não encontrado");
+    }
+
     public User findByEmail(String email) {
         try {
             List<CustomerOutputDTO> customers = jsonService.readObjectFromFile("clients.json", new TypeReference<>(){});

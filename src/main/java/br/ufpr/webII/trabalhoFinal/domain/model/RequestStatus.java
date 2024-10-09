@@ -12,21 +12,19 @@ public class RequestStatus {
 
     private @Id
     @GeneratedValue Long requestStatusId;
-    private Long requestId;
+    private Request request;
     private LocalDateTime dateTime;
-    private Long inChargeEmployeeId;
-    private Long senderEmployeeId;
-    private String category;
+    private Employee inChargeEmployee;
+    private Employee senderEmployee;
+    private RequestStatusCategory category;
 
     public RequestStatus() {
     }
 
-    public Long getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(Long requestId) {
-        this.requestId = requestId;
+    public RequestStatus(Request request,RequestStatusCategory category,  LocalDateTime dateTime){
+        this.request = request;
+        this.category = category;
+        this.dateTime = dateTime;
     }
 
     public Long getRequestStatusId() {
@@ -37,6 +35,14 @@ public class RequestStatus {
         this.requestStatusId = requestStatusId;
     }
 
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -45,27 +51,27 @@ public class RequestStatus {
         this.dateTime = dateTime;
     }
 
-    public Long getInChargeEmployeeId() {
-        return inChargeEmployeeId;
+    public Employee getInChargeEmployee() {
+        return inChargeEmployee;
     }
 
-    public void setInChargeEmployeeId(Long inChargeEmployeeId) {
-        this.inChargeEmployeeId = inChargeEmployeeId;
+    public void setInChargeEmployee(Employee inChargeEmployee) {
+        this.inChargeEmployee = inChargeEmployee;
     }
 
-    public Long getSenderEmployeeId() {
-        return senderEmployeeId;
+    public Employee getSenderEmployee() {
+        return senderEmployee;
     }
 
-    public void setSenderEmployeeId(Long senderEmployeeId) {
-        this.senderEmployeeId = senderEmployeeId;
+    public void setSenderEmployee(Employee senderEmployee) {
+        this.senderEmployee = senderEmployee;
     }
 
-    public String getCategory() {
+    public RequestStatusCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(RequestStatusCategory category) {
         this.category = category;
     }
 
@@ -74,11 +80,11 @@ public class RequestStatus {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RequestStatus that = (RequestStatus) o;
-        return Objects.equals(requestId, that.requestId);
+        return Objects.equals(requestStatusId, that.requestStatusId) && Objects.equals(request, that.request);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestId);
+        return Objects.hash(requestStatusId, request);
     }
 }

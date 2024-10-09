@@ -1,5 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.domain.model;
 
+import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -11,16 +12,25 @@ import java.util.Objects;
 public class Request {
     private @Id
     @GeneratedValue Long id;
-    private String requestDesc;
     private String equipmentDesc;
+    private EquipmentCategory equipmentCategory;
     private String defectDesc;
     private double budget;
     private String repairDesc;
     private String customerOrientations;
-    private Long customerId;
+    private Customer customer;
     private ArrayList<RequestStatus> requestStatus;
 
     public Request() {
+    }
+
+    public Request(RequestInputDTO dto, Customer customer, EquipmentCategory equipment){
+        this.equipmentDesc = dto.equipmentDesc();
+        this.defectDesc = dto.defectDesc();
+        this.equipmentCategory = equipment;
+        this.customer = customer;
+        this.requestStatus = new ArrayList<>();
+        this.requestStatus.add(new RequestStatus(this, RequestStatusCategory.OPEN, dto.startDate()));
     }
 
     public Long getId() {
@@ -31,20 +41,20 @@ public class Request {
         this.id = id;
     }
 
-    public String getRequestDesc() {
-        return requestDesc;
-    }
-
-    public void setRequestDesc(String requestDesc) {
-        this.requestDesc = requestDesc;
-    }
-
     public String getEquipmentDesc() {
         return equipmentDesc;
     }
 
     public void setEquipmentDesc(String equipmentDesc) {
         this.equipmentDesc = equipmentDesc;
+    }
+
+    public EquipmentCategory getEquipmentCategory() {
+        return equipmentCategory;
+    }
+
+    public void setEquipmentCategory(EquipmentCategory equipmentCategory) {
+        this.equipmentCategory = equipmentCategory;
     }
 
     public String getDefectDesc() {
@@ -79,12 +89,12 @@ public class Request {
         this.customerOrientations = customerOrientations;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public ArrayList<RequestStatus> getRequestStatus() {
