@@ -2,9 +2,9 @@ package br.ufpr.webII.trabalhoFinal.infra.repository;
 
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestStatusOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.model.Request;
 import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,9 @@ public class RequestDao {
 
     @Autowired
     EquipmentDao equipmentDao;
+
+    @Autowired
+    UserDao userDao;
 
     public void insert(Request request) {
         try{
@@ -64,5 +67,31 @@ public class RequestDao {
             System.out.println("Erro ao consultar arquivos: " + e.getMessage());
             return null;
         }
+    }
+
+    public Request select(Long id) {
+        try {
+            List<RequestOutputDTO> data = jsonService.readObjectFromFile("requests.json", new TypeReference<>() {
+            });
+            List<RequestStatusOutputDTO> status = jsonService.readObjectFromFile("requestStatuses.json", new TypeReference<>() {
+            });
+
+            for (RequestOutputDTO request : data) {
+                if (request.requestId().equals(id)) {
+                    Request newRequest = new Request(request);
+                    newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
+                    newRequest.setCustomer(userDao.selectCustomer(request.customerId()));
+                    for (RequestStatusOutputDTO requestStatus : status) {
+                        if (requestStatus.requestId().equals(request.requestId())) {
+                            newRequest.addRequestStatus(new RequestStatus(newRequest, requestStatus));
+                        }
+                    }
+                    return newRequest;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao consultar arquivos: " + e.getMessage());
+        }
+        throw new ResourceNotFoundException("Solicitação não encontrada");
     }
 }

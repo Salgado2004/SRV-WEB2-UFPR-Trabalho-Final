@@ -1,5 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
+import br.ufpr.webII.trabalhoFinal.domain.dto.RequestDetailDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestListItemDTO;
 import br.ufpr.webII.trabalhoFinal.domain.model.Request;
@@ -32,8 +33,10 @@ public class RequestController {
         return ResponseEntity.ok(requests.stream().map(RequestListItemDTO::new).toList());
     }
 
-    @GetMapping("/detail/:id")
-    public ResponseEntity<String> detailRequest() {
-        return ResponseEntity.ok("Detalhes da requisição de serviço");
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<RequestDetailDTO> detailRequest(@PathVariable Long id) {
+        Request request = requestService.detailRequest(id);
+        System.out.println(request);
+        return ResponseEntity.ok(new RequestDetailDTO(request));
     }
 }

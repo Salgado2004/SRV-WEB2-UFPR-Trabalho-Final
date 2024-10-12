@@ -1,6 +1,7 @@
 package br.ufpr.webII.trabalhoFinal.infra.repository;
 
 import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,6 @@ public class EquipmentDao {
         } catch (IOException e){
             System.out.println("Erro ao consultar arquivos: "+ e.getMessage());
         }
-        throw new IllegalArgumentException("Categoria de equipamento não encontrada");
+        throw new ResourceNotFoundException("Categoria de equipamento não encontrada");
     }
 }

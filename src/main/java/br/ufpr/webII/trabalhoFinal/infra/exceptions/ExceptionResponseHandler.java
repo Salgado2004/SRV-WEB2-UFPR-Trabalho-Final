@@ -39,6 +39,11 @@ public class ExceptionResponseHandler {
         return ResponseEntity.badRequest().body(errors.stream().map(HttpRequestError::new).toList());
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<HttpRequestError> handleResourceNotFound(ResourceNotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new HttpRequestError(e.getMessage()));
+    }
+
     public record HttpRequestError(String cause) {
         public HttpRequestError(FieldError error) {
             this(error.getField() + " "+ error.getDefaultMessage());

@@ -3,6 +3,7 @@ package br.ufpr.webII.trabalhoFinal.infra.repository;
 import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.model.User;
 import br.ufpr.webII.trabalhoFinal.domain.dto.CustomerOutputDTO;
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class UserDao {
         } catch (IOException e){
             System.out.println("Erro ao consultar arquivos: "+ e.getMessage());
         }
-        throw new IllegalArgumentException("Cliente não encontrado");
+        throw new ResourceNotFoundException("Cliente não encontrado");
     }
 
     public User findByEmail(String email) {

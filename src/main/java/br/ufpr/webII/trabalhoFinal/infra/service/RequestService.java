@@ -40,4 +40,8 @@ public class RequestService {
     public ArrayList<Request> listRequests() {
         return requestDao.selectAll();
     }
+
+    public Request detailRequest(Long id) {
+        return requestDao.select(id);
+    }
 }
