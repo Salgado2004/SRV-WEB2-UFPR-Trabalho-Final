@@ -10,6 +10,7 @@ import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +41,13 @@ public class EmployeeDAO {
             List<EmployeeOutputDTO> data = jsonService.readObjectFromFile("employees.json", new TypeReference<>() {});
             for(EmployeeOutputDTO emp:data){
                 if(emp.id() == id){
-                    //implementar a lógica de deleção do empregado impedindo que o empregado se apague.
+                    if(Employee.isLoggedIn() == id){
+                        System.out.println("O empregado não pode se deletar, sim somos anti-suicidio!");//Função demtro do empregado que vai validar se é ele logado
+                        return;                     //pelas regras de negocio, o funcionario não pode se deletar
+                    }else{
+                        data.remove(emp);
+                        return;
+                    }
                 }
                 System.out.println("Empregado não encontrado.");
             }
@@ -49,5 +56,30 @@ public class EmployeeDAO {
         }
     }
     
+    public void update(Employee employee){
+        try{
+            List<EmployeeOutputDTO> data = jsonService.readObjectFromFile("employees.json", new TypeReference<>() {});
+            for(EmployeeOutputDTO emp:data){
+                if(Objects.equals(employee.getId(), emp.id())){
+                    data.remove(emp);
+                    data.add(new EmployeeOutputDTO(employee));
+                }
+            }
+            
+        }catch(IOException e){
+            System.out.println("Erro ao acessar arquivos: "+e.getMessage());
+        }
+    }
+    
+    public void listAll(){
+        try{
+            List<EmployeeOutputDTO> data = jsonService.readObjectFromFile("employees.json", new TypeReference<>() {});
+            for (EmployeeOutputDTO emp: data){
+                //Entrega cada elemento do data, to cansadito depois eu implemento
+            }
+        } catch(IOException e){
+            System.out.println("Erro ao abrir arquivos: "+e.getMessage());
+        }
+    }
     
 }
