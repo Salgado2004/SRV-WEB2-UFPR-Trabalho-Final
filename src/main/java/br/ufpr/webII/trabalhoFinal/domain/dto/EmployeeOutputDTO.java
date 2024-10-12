@@ -19,9 +19,6 @@ public record EmployeeOutputDTO(
         Date birthDate,
         String password
         ) {
-
-        
-    
         
     public EmployeeOutputDTO(Employee e){
         this(e.getId(),e.getName(),e.getSurname(),e.getEmail(),e.getBirthDate(),e.getPassword()+":"+e.getSalt());
