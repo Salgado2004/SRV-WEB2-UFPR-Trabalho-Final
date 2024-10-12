@@ -1,6 +1,6 @@
-package br.ufpr.webII.trabalhoFinal.repository;
+package br.ufpr.webII.trabalhoFinal.infra.repository;
 
-import br.ufpr.webII.trabalhoFinal.model.User;
+import br.ufpr.webII.trabalhoFinal.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository<T extends User> extends JpaRepository<T, Long> {

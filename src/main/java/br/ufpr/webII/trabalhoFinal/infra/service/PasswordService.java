@@ -1,11 +1,11 @@
-package br.ufpr.webII.trabalhoFinal.util;
+package br.ufpr.webII.trabalhoFinal.infra.service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
-public class PasswordUtil {
+public class PasswordService {
 
     // Método para gerar um SALT aleatório
     public static String generateSalt() {

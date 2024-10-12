@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.model;
+package br.ufpr.webII.trabalhoFinal.domain.model;
 
 import java.util.Date;
 

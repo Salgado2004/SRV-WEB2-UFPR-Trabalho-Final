@@ -1,0 +1,271 @@
+[ {
+  "requestId" : 1,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Computador Positivo Unique 1GB",
+  "defectDesc" : "Estava funcionando normalmente, mas não ligou.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 1
+}, {
+  "requestId" : 2,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Teclado mecânico Logitech",
+  "defectDesc" : "A tecla 'A' não funciona.",
+  "budget" : 50.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 1
+}, {
+  "requestId" : 3,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Notebook Dell Inspiron",
+  "defectDesc" : "Desempenho abaixo do esperado.",
+  "budget" : 200.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 1
+}, {
+  "requestId" : 4,
+  "equipmentCategoryId" : 3,
+  "equipmentDesc" : "Impressora HP LaserJet",
+  "defectDesc" : "Erro de conexão via Wi-Fi.",
+  "budget" : 10.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 1
+}, {
+  "requestId" : 5,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Monitor Samsung 24 polegadas",
+  "defectDesc" : "Manchas na tela, dificultando a visualização.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 1
+}, {
+  "requestId" : 6,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Mouse Razer",
+  "defectDesc" : "O sensor do mouse está inoperante.",
+  "budget" : 40.0,
+  "repairDesc" : "Foi necessária a troca do sensor.",
+  "customerOrientations" : "Considerar a compra de um novo mouse.",
+  "customerId" : 1
+}, {
+  "requestId" : 7,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Carregador Dell 65W",
+  "defectDesc" : "Carregador não está funcionando.",
+  "budget" : 100.0,
+  "repairDesc" : "O cabo estava rompido.",
+  "customerOrientations" : "Recomendo substituição.",
+  "customerId" : 1
+}, {
+  "requestId" : 8,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Desktop HP",
+  "defectDesc" : "Ruído excessivo durante o funcionamento.",
+  "budget" : 75.0,
+  "repairDesc" : "Foi necessário lubrificar o ventilador.",
+  "customerOrientations" : "Realizamos a manutenção.",
+  "customerId" : 1
+}, {
+  "requestId" : 9,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Computador Lenovo",
+  "defectDesc" : "Sistema operacional não responde.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 2
+}, {
+  "requestId" : 10,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Notebook Asus",
+  "defectDesc" : "Aplicativos não estão abrindo.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 2
+}, {
+  "requestId" : 11,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Laptop Samsung",
+  "defectDesc" : "A tela pisca intermitentemente.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 3
+}, {
+  "requestId" : 12,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Desktop Sony",
+  "defectDesc" : "Falta de conexão com Wi-Fi.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 3
+}, {
+  "requestId" : 13,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Headset JBL",
+  "defectDesc" : "Microfone não capta som.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 4
+}, {
+  "requestId" : 14,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Notebook Acer",
+  "defectDesc" : "O notebook não liga.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 4
+}, {
+  "requestId" : 15,
+  "equipmentCategoryId" : 3,
+  "equipmentDesc" : "Impressora Epson",
+  "defectDesc" : "Impressora não responde ao comando de impressão.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 5
+}, {
+  "requestId" : 16,
+  "equipmentCategoryId" : 3,
+  "equipmentDesc" : "Impressora Canon",
+  "defectDesc" : "Impressões saem borradas.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 5
+}, {
+  "requestId" : 17,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Laptop Toshiba",
+  "defectDesc" : "O laptop não liga mesmo conectado.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 6
+}, {
+  "requestId" : 18,
+  "equipmentCategoryId" : 4,
+  "equipmentDesc" : "Tablet Apple",
+  "defectDesc" : "Tela está trincada.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 6
+}, {
+  "requestId" : 19,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Desktop HP",
+  "defectDesc" : "Erro na inicialização.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 7
+}, {
+  "requestId" : 20,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Teclado Microsoft",
+  "defectDesc" : "Teclas não respondem.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 7
+}, {
+  "requestId" : 21,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Desktop Dell",
+  "defectDesc" : "Não liga após a atualização.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 8
+}, {
+  "requestId" : 22,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Notebook HP",
+  "defectDesc" : "O notebook não reconhece a bateria.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 8
+}, {
+  "requestId" : 23,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Webcam Logitech",
+  "defectDesc" : "Não reconhecida pelo sistema.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 9
+}, {
+  "requestId" : 24,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Caixas de som Creative",
+  "defectDesc" : "Sem som durante a reprodução.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 9
+}, {
+  "requestId" : 25,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Notebook Acer",
+  "defectDesc" : "O desempenho é abaixo do esperado.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 10
+}, {
+  "requestId" : 26,
+  "equipmentCategoryId" : 3,
+  "equipmentDesc" : "Impressora Brother",
+  "defectDesc" : "Sem resposta ao comando de impressão.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 10
+}, {
+  "requestId" : 27,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Laptop Toshiba",
+  "defectDesc" : "Sem resposta ao pressionar o botão de ligar.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 11
+}, {
+  "requestId" : 28,
+  "equipmentCategoryId" : 2,
+  "equipmentDesc" : "Monitor LG 27 polegadas",
+  "defectDesc" : "Áreas da tela não respondem.",
+  "budget" : 0.0,
+  "repairDesc" : "",
+  "customerOrientations" : "",
+  "customerId" : 11
+}, {
+  "requestId" : 29,
+  "equipmentCategoryId" : 4,
+  "equipmentDesc" : "Samsung A30",
+  "defectDesc" : "A camera traseira não foca em nada.",
+  "budget" : 0.0,
+  "repairDesc" : null,
+  "customerOrientations" : null,
+  "customerId" : 1
+}, {
+  "requestId" : 30,
+  "equipmentCategoryId" : 3,
+  "equipmentDesc" : "Epson TX115 Series",
+  "defectDesc" : "O leitor de nível de tinta está falhando, as vezes o cartucho é novo e a impressão diz que precisa recarregar",
+  "budget" : 0.0,
+  "repairDesc" : null,
+  "customerOrientations" : null,
+  "customerId" : 1
+} ]
