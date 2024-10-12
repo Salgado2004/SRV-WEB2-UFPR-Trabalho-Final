@@ -1,6 +1,7 @@
 package br.ufpr.webII.trabalhoFinal.domain.model;
 
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.dto.RequestOutputDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -31,6 +32,17 @@ public class Request {
         this.customer = customer;
         this.requestStatus = new ArrayList<>();
         this.requestStatus.add(new RequestStatus(this, RequestStatusCategory.OPEN, dto.startDate()));
+    }
+
+    public Request(RequestOutputDTO request) {
+        this.id = request.requestId();
+        this.equipmentDesc = request.equipmentDesc();
+        this.equipmentCategory = new EquipmentCategory();
+        this.defectDesc = request.defectDesc();
+        this.budget = request.budget();
+        this.repairDesc = request.repairDesc();
+        this.customerOrientations = request.customerOrientations();
+        this.requestStatus = new ArrayList<>();
     }
 
     public Long getId() {
@@ -104,6 +116,9 @@ public class Request {
     public void setRequestStatus(ArrayList<RequestStatus> requestStatus) {
         this.requestStatus = requestStatus;
     }
+    public void addRequestStatus(RequestStatus requestStatus) {
+        this.requestStatus.add(requestStatus);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -117,4 +132,5 @@ public class Request {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }

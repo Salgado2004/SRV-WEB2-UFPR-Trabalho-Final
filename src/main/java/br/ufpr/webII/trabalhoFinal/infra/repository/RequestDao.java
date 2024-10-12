@@ -2,6 +2,7 @@ package br.ufpr.webII.trabalhoFinal.infra.repository;
 
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestStatusOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.model.Request;
 import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatus;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -17,6 +19,9 @@ public class RequestDao {
 
     @Autowired
     JsonFileService jsonService;
+
+    @Autowired
+    EquipmentDao equipmentDao;
 
     public void insert(Request request) {
         try{
@@ -33,6 +38,31 @@ public class RequestDao {
             jsonService.writeJsonToFile("requestStatuses.json", status);
         } catch (IOException e) {
             System.out.println("Erro ao consultar arquivos: "+ e.getMessage());
+        }
+    }
+
+    public ArrayList<Request> selectAll() {
+        try {
+            List<RequestOutputDTO> data = jsonService.readObjectFromFile("requests.json", new TypeReference<>() {
+            });
+            List<RequestStatusOutputDTO> status = jsonService.readObjectFromFile("requestStatuses.json", new TypeReference<>() {
+            });
+
+            ArrayList<Request> requests = new ArrayList<>();
+            for (RequestOutputDTO request : data) {
+                Request newRequest = new Request(request);
+                newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
+                for (RequestStatusOutputDTO requestStatus : status) {
+                    if (requestStatus.requestId().equals(request.requestId())) {
+                        newRequest.addRequestStatus(new RequestStatus(newRequest, requestStatus));
+                    }
+                }
+                requests.add(newRequest);
+            }
+            return requests;
+        } catch (IOException e) {
+            System.out.println("Erro ao consultar arquivos: " + e.getMessage());
+            return null;
         }
     }
 }

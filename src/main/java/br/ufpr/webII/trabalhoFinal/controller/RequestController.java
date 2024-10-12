@@ -1,12 +1,16 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.dto.RequestListItemDTO;
+import br.ufpr.webII.trabalhoFinal.domain.model.Request;
 import br.ufpr.webII.trabalhoFinal.infra.service.RequestService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/service/v1/requests")
@@ -23,8 +27,9 @@ public class RequestController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<String> listRequests() {
-        return ResponseEntity.ok("Listagem de requisições de serviço");
+    public ResponseEntity<List<RequestListItemDTO>> listRequests() {
+        List<Request> requests = requestService.listRequests();
+        return ResponseEntity.ok(requests.stream().map(RequestListItemDTO::new).toList());
     }
 
     @GetMapping("/detail/:id")

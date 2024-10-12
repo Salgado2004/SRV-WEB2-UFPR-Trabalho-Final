@@ -1,10 +1,12 @@
 package br.ufpr.webII.trabalhoFinal.domain.model;
 
+import br.ufpr.webII.trabalhoFinal.domain.dto.RequestStatusOutputDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 
 @Entity
@@ -21,10 +23,18 @@ public class RequestStatus {
     public RequestStatus() {
     }
 
-    public RequestStatus(Request request,RequestStatusCategory category,  LocalDateTime dateTime){
+    public RequestStatus(Request request,RequestStatusCategory category,  LocalDateTime dateTime) {
         this.request = request;
         this.category = category;
         this.dateTime = dateTime;
+    }
+
+    public RequestStatus(Request newRequest, RequestStatusOutputDTO requestStatus) {
+        this.request = newRequest;
+        this.dateTime = requestStatus.dateTime().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        this.category = requestStatus.category();
     }
 
     public Long getRequestStatusId() {
