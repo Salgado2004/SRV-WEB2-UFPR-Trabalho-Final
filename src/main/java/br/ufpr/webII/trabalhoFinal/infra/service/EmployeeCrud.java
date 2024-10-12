@@ -22,8 +22,8 @@ public class EmployeeCrud {
     
      try {
             employeeDao.insert(employee);
-        } catch (IOException e){
-            throw new RegisteringException("Erro ao salvar empregado.", e);
+        } catch (Exception e){
+            System.out.println("Erro ao inserir um novo empregado: "+e.getMessage());
         }
     
     return employee;
@@ -40,5 +40,22 @@ public class EmployeeCrud {
         Random random = new Random();
         return String.format("%04d", random.nextInt(10000)); // Senha de 4 dígitos
     }
+
+    public void deleteEmployee(Employee emp) {
+        try{
+            employeeDao.delete(emp.getId());
+        } catch (Exception e){
+            System.out.println("Erro ao deletar o empregado: "+e.getMessage());
+        }
+    }
+
+    public void updateEmployee(Employee emp) {
+        try{
+            employeeDao.update(emp);
+        } catch(Exception e){
+            System.out.println("Erro ao atualizar o emptrgado: "+e.getMessage());
+        }
+    }
   
+    
 }
