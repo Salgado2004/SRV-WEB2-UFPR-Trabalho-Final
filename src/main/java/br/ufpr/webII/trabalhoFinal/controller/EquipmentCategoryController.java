@@ -18,30 +18,31 @@ public class EquipmentCategoryController {
     @Autowired
     private EquipmentCategoryService equipmentCategoryService;
 
+    // create category
     @PostMapping("/new")
     public ResponseEntity<String> newEquipmentCategory(@RequestBody @Valid EquipmentCategoryInputDTO data){
         equipmentCategoryService.createEquipmentCategory(data);
-
         return ResponseEntity.status(HttpStatus.CREATED).body("Categoria de equipamento criada com sucesso!");
     }
 
+    // list all categories
     @GetMapping("/list")
     public ResponseEntity<List<EquipmentCategoryListItemDTO>> listEquipmentCategories(){
         List<EquipmentCategory> equipmentCategories = equipmentCategoryService.listEquipmentCategories();
         return ResponseEntity.ok(equipmentCategories.stream().map(EquipmentCategoryListItemDTO::new).toList());
     }
 
+    // delete category by id
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEquipmentCategory(@PathVariable Long id){
         equipmentCategoryService.deleteEquipmentCategory(id);
-
         return ResponseEntity.noContent().build();
     }
 
+    // update category by id
     @PutMapping("/update")
     public ResponseEntity<String> updateEquipmentCategory(@RequestBody @Valid EquipmentCategoryUpdateDTO data){
         equipmentCategoryService.updateEquipmentCategory(data);
-
         return ResponseEntity.status(HttpStatus.OK).body("Categoria de equipamento alterada com sucesso!");
     }
 

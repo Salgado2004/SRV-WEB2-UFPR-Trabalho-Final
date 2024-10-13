@@ -19,11 +19,15 @@ public class EquipmentDao {
     @Autowired
     JsonFileService jsonService;
 
+    // Insert a new category
     public void insert(EquipmentCategory equipmentCategory) {
         try {
+            // read json
             List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json",
                     new TypeReference<>() {
                     });
+
+            // find max id
             Long id = 0L;
             for (EquipmentCategory category : categories) {
                 if (category.getEquipCategoryId() > id) {
@@ -32,6 +36,8 @@ public class EquipmentDao {
             }
             id++;
             equipmentCategory.setEquipCategoryId(id);
+
+            // insert and save
             categories.add(equipmentCategory);
             jsonService.writeJsonToFile("equipmentCategory.json", categories);
         } catch (IOException e) {
@@ -41,6 +47,7 @@ public class EquipmentDao {
 
     public List<EquipmentCategory> selectAll() {
         try {
+            // read json
             List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json",
                 new TypeReference<>() {
                 });
@@ -53,9 +60,12 @@ public class EquipmentDao {
 
     public EquipmentCategory select(Long id) {
         try {
+            // read json
             List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json",
                     new TypeReference<>() {
                     });
+
+            // find category by id
             for (EquipmentCategory category : categories) {
                 if (category.getEquipCategoryId().equals(id)) {
                     return category;
@@ -69,7 +79,10 @@ public class EquipmentDao {
 
     public void delete(Long id) {
         try {
+            // read json
             List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json", new TypeReference<>() {});
+            
+            // find category by id and remove
             Iterator<EquipmentCategory> iterator = categories.iterator();
             while (iterator.hasNext()) {
                 EquipmentCategory category = iterator.next();
@@ -78,6 +91,8 @@ public class EquipmentDao {
                     break;
                 }
             }
+
+            // save
             jsonService.writeJsonToFile("equipmentCategory.json", categories);
         } catch (IOException e) {
             System.out.println("Erro ao excluir arquivo: " + e.getMessage());
@@ -86,15 +101,21 @@ public class EquipmentDao {
 
     public void update(EquipmentCategory equipmentCategory) {
         try {
+            // read json
             List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json", new TypeReference<>() {});
+            
+            // find category by id
             Iterator<EquipmentCategory> iterator = categories.iterator();
             while(iterator.hasNext()) {
                 EquipmentCategory category = iterator.next();
                 if(category.getEquipCategoryId().equals(equipmentCategory.getEquipCategoryId())) {
+                    // update
                     category.setCategoryDesc(equipmentCategory.getCategoryDesc());
                     break;
                 }
             }
+
+            // save
             jsonService.writeJsonToFile("equipmentCategory.json", categories);
         } catch (IOException e) {
             System.out.println("Erro ao alterar arquivo: " + e.getMessage());
