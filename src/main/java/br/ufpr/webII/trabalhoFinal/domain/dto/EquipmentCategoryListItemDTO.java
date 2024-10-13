@@ -7,11 +7,11 @@ import jakarta.validation.constraints.NotNull;
 
 public record EquipmentCategoryListItemDTO (
     @NotNull
-        Long equipmentCategoryId,
+        Long equipCategoryId,
     @NotBlank
-        String equipmentCategoryDesc
+        String categoryDesc
 ){
     public EquipmentCategoryListItemDTO (EquipmentCategory equipmentCategory){
-        this(equipmentCategory.getId(), equipmentCategory.getDescription());
+        this(equipmentCategory.getEquipCategoryId(), equipmentCategory.getCategoryDesc());
     }
 }

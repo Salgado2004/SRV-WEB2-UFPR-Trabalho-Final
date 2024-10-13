@@ -3,6 +3,7 @@ import br.ufpr.webII.trabalhoFinal.infra.service.EquipmentCategoryService;
 import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryListItemDTO;
+import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryUpdateDTO;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,20 @@ public class EquipmentCategoryController {
     public ResponseEntity<List<EquipmentCategoryListItemDTO>> listEquipmentCategories(){
         List<EquipmentCategory> equipmentCategories = equipmentCategoryService.listEquipmentCategories();
         return ResponseEntity.ok(equipmentCategories.stream().map(EquipmentCategoryListItemDTO::new).toList());
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteEquipmentCategory(@PathVariable Long id){
+        equipmentCategoryService.deleteEquipmentCategory(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateEquipmentCategory(@RequestBody @Valid EquipmentCategoryUpdateDTO data){
+        equipmentCategoryService.updateEquipmentCategory(data);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Categoria de equipamento alterada com sucesso!");
     }
 
 }

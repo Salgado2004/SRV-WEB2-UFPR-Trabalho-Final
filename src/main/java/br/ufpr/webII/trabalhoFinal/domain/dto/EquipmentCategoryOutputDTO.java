@@ -3,11 +3,11 @@ package br.ufpr.webII.trabalhoFinal.domain.dto;
 import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
 
 public record EquipmentCategoryOutputDTO (
-    Long equipmentCategoryId,
-    String equipmentCategoryDesc
+    Long equipCategoryId,
+    String categoryDesc
 ) {
     public EquipmentCategoryOutputDTO(EquipmentCategory equipmentCategory) {
-        this(equipmentCategory.getId(), equipmentCategory.getDescription());
+        this(equipmentCategory.getEquipCategoryId(), equipmentCategory.getCategoryDesc());
     }
 
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 
 import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryUpdateDTO;
 
 import java.util.Objects;
 
@@ -18,27 +19,33 @@ public class EquipmentCategory {
     public EquipmentCategory() {}
 
     public EquipmentCategory(EquipmentCategoryInputDTO data) {
-        this.categoryDesc = data.equipmentCategoryDesc();
+        this.equipCategoryId = 0L;
+        this.categoryDesc = data.categoryDesc();
     }
 
     public EquipmentCategory(EquipmentCategoryOutputDTO data) {
-        this.equipCategoryId = data.equipmentCategoryId();
-        this.categoryDesc = data.equipmentCategoryDesc();
+        this.equipCategoryId = data.equipCategoryId();
+        this.categoryDesc = data.categoryDesc();
     }
 
-    public Long getId() {
+    public EquipmentCategory(EquipmentCategoryUpdateDTO data) {
+        this.equipCategoryId = data.equipCategoryId();
+        this.categoryDesc = data.categoryDesc();
+    }
+
+    public Long getEquipCategoryId() {
         return equipCategoryId;
     }
 
-    public void setId(Long id) {
+    public void setEquipCategoryId(Long id) {
         this.equipCategoryId = id;
     }
 
-    public String getDescription() {
+    public String getCategoryDesc() {
         return categoryDesc;
     }
 
-    public void setDescription(String description) {
+    public void setCategoryDesc(String description) {
         this.categoryDesc = description;
     }
 
