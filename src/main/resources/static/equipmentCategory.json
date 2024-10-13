@@ -1,16 +1,18 @@
-[ {
-  "equipCategoryId" : 1,
-  "categoryDesc" : "Teste insert"
-}, {
-  "equipCategoryId" : 2,
-  "categoryDesc" : "Teste Update"
-}, {
-  "equipCategoryId" : 3,
-  "categoryDesc" : "Teste insert"
-}, {
-  "equipCategoryId" : 4,
-  "categoryDesc" : "Teste insert"
-}, {
-  "equipCategoryId" : 5,
-  "categoryDesc" : "Teste insert"
-} ]
+[
+  {
+    "id": 1,
+    "description": "Computador"
+  },
+  {
+    "id": 2,
+    "description": "Periféricos"
+  },
+  {
+    "id": 3,
+    "description": "Impressoras"
+  },
+  {
+    "id": 4,
+    "description": "Dispositivos móveis"
+  }
+]
