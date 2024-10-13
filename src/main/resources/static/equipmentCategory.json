@@ -1,18 +1,13 @@
-[
-  {
-    "id": 1,
-    "description": "Computador"
-  },
-  {
-    "id": 2,
-    "description": "Periféricos"
-  },
-  {
-    "id": 3,
-    "description": "Impressoras"
-  },
-  {
-    "id": 4,
-    "description": "Dispositivos móveis"
-  }
-]
+[ {
+  "id" : 1,
+  "description" : "Computador"
+}, {
+  "id" : 2,
+  "description" : "Periféricos"
+}, {
+  "id" : 3,
+  "description" : "Impressoras"
+}, {
+  "id" : 4,
+  "description" : "Dispositivos móveis"
+} ]

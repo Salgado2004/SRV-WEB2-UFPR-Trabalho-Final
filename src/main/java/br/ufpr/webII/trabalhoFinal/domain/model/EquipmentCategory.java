@@ -3,6 +3,7 @@ package br.ufpr.webII.trabalhoFinal.domain.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryOutputDTO;
@@ -12,8 +13,9 @@ import java.util.Objects;
 
 @Entity
 public class EquipmentCategory {
-
+    @JsonProperty("id")
     private @Id @GeneratedValue Long equipCategoryId;
+    @JsonProperty("description")
     private String categoryDesc;
 
     public EquipmentCategory() {}
