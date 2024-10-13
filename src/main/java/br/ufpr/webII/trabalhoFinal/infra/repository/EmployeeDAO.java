@@ -46,6 +46,8 @@ public class EmployeeDAO {
                         return;                     //pelas regras de negocio, o funcionario não pode se deletar
                     }else{
                         data.remove(emp);
+                        jsonService.writeJsonToFile("employees.json", data);
+
                         return;
                     }
                 }
@@ -63,6 +65,8 @@ public class EmployeeDAO {
                 if(Objects.equals(employee.getId(), emp.id())){
                     data.remove(emp);
                     data.add(new EmployeeOutputDTO(employee));
+                    jsonService.writeJsonToFile("employees.json", data);
+
                 }
             }
             
