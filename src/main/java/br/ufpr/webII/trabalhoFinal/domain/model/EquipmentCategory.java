@@ -3,32 +3,52 @@ package br.ufpr.webII.trabalhoFinal.domain.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryUpdateDTO;
 
 import java.util.Objects;
 
 @Entity
 public class EquipmentCategory {
+    @JsonProperty("id")
+    private @Id @GeneratedValue Long equipCategoryId;
+    @JsonProperty("description")
+    private String categoryDesc;
 
-    private @Id @GeneratedValue Long id;
-    private String description;
+    public EquipmentCategory() {}
 
-    public EquipmentCategory() {
+    public EquipmentCategory(EquipmentCategoryInputDTO data) {
+        this.equipCategoryId = 0L;
+        this.categoryDesc = data.categoryDesc();
     }
 
-    public Long getId() {
-        return id;
+    public EquipmentCategory(EquipmentCategoryOutputDTO data) {
+        this.equipCategoryId = data.equipCategoryId();
+        this.categoryDesc = data.categoryDesc();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public EquipmentCategory(EquipmentCategoryUpdateDTO data) {
+        this.equipCategoryId = data.equipCategoryId();
+        this.categoryDesc = data.categoryDesc();
     }
 
-    public String getDescription() {
-        return description;
+    public Long getEquipCategoryId() {
+        return equipCategoryId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEquipCategoryId(Long id) {
+        this.equipCategoryId = id;
+    }
+
+    public String getCategoryDesc() {
+        return categoryDesc;
+    }
+
+    public void setCategoryDesc(String description) {
+        this.categoryDesc = description;
     }
 
     @Override
@@ -36,11 +56,11 @@ public class EquipmentCategory {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EquipmentCategory that = (EquipmentCategory) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(equipCategoryId, that.equipCategoryId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(equipCategoryId);
     }
 }

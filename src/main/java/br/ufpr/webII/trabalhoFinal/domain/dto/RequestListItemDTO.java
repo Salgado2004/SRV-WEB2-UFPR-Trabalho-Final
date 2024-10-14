@@ -17,7 +17,7 @@ public record RequestListItemDTO(
                 request.getEquipmentDesc(),
                 request.getDefectDesc(),
                 request.getRequestStatus().get(request.getRequestStatus().size() - 1).getCategory().toString(),
-                request.getEquipmentCategory().getDescription(),
+                request.getEquipmentCategory().getCategoryDesc(),
                 request.getRequestStatus().get(0).getDateTime()
         );
     }

@@ -36,7 +36,6 @@ public class RequestController {
     @GetMapping("/detail/{id}")
     public ResponseEntity<RequestDetailDTO> detailRequest(@PathVariable Long id) {
         Request request = requestService.detailRequest(id);
-        System.out.println(request);
         return ResponseEntity.ok(new RequestDetailDTO(request));
     }
 }
