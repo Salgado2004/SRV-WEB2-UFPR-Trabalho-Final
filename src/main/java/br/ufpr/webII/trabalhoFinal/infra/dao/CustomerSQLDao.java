@@ -13,6 +13,10 @@ import java.util.List;
  */
 public class CustomerSQLDao implements ClientDao {
 
+    static ClientDao getCustomerSQLDao() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     @Override
     public void insert(Customer element) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

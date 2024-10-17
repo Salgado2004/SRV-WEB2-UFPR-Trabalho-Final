@@ -13,6 +13,10 @@ import java.util.List;
  */
 public class EmployeeSQLDao implements EmployeeDao {
 
+    static EmployeeDao getEmployeeSQLDao() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     @Override
     public void insert(Employee element) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

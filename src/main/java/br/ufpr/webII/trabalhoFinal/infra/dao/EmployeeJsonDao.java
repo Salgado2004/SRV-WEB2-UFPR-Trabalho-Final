@@ -9,6 +9,7 @@ import br.ufpr.webII.trabalhoFinal.domain.model.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author mateus
  */
 public class EmployeeJsonDao implements EmployeeDao {
+
+    static EmployeeDao getEmployeeJsonDao() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     @Autowired
     JsonFileService jsonService;
@@ -79,7 +84,12 @@ public class EmployeeJsonDao implements EmployeeDao {
     public List<Employee> listAll() throws Exception {
         try{
             List<EmployeeOutputDTO> data = jsonService.readObjectFromFile("employees.json", new TypeReference<>() {});
-            return data; //arrumar o return
+            ArrayList<Employee> employees = new ArrayList<>();
+            for (EmployeeOutputDTO emp : data) {
+                Employee newEmployee = new Employee(emp);
+                employees.add(newEmployee);
+            }
+            return employees;
         } catch(IOException e){
             System.out.println("Erro ao abrir arquivos: "+e.getMessage());
         }

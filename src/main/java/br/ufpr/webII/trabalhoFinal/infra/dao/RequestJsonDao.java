@@ -23,6 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author mateus
  */
 public class RequestJsonDao implements RequestDao {
+
+    static RequestDao getRequestJsonDao() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     @Autowired
     JsonFileService jsonService;
@@ -125,6 +129,18 @@ public class RequestJsonDao implements RequestDao {
             System.out.println("Erro ao consultar arquivos: " + e.getMessage());
         }
         throw new ResourceNotFoundException("Solicitação não encontrada");
+    }
+
+    @Override
+    public void insertStatus(RequestStatus requestStatus) throws Exception {
+        try{
+            List<RequestStatusOutputDTO> data = jsonService.readObjectFromFile("requestStatuses.json", new TypeReference<>() {
+            });
+            data.add(new RequestStatusOutputDTO(requestStatus));
+            jsonService.writeJsonToFile("requestStatuses.json", data);
+        } catch(Exception e){
+            System.out.println("Erro ao acessar o arquivo: "+e.getMessage());
+        }
     }
     
 }

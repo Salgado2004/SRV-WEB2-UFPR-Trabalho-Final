@@ -5,6 +5,7 @@
 package br.ufpr.webII.trabalhoFinal.infra.dao;
 
 import br.ufpr.webII.trabalhoFinal.domain.model.Request;
+import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatus;
 import java.util.List;
 
 /**
@@ -12,6 +13,10 @@ import java.util.List;
  * @author mateus
  */
 public class RequestSQLDao implements RequestDao {
+
+    static RequestDao getRequestSQLDao() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     @Override
     public void insert(Request element) throws Exception {
@@ -30,6 +35,11 @@ public class RequestSQLDao implements RequestDao {
 
     @Override
     public List<Request> listAll() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void insertStatus(RequestStatus requestStatus) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
