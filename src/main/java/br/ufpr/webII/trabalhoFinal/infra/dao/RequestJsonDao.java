@@ -13,6 +13,7 @@ import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
+import static java.lang.constant.ConstantDescs.NULL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,9 +24,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author mateus
  */
 public class RequestJsonDao implements RequestDao {
+    
+    public static RequestJsonDao requestDao;
+    
+    private RequestJsonDao(){}
 
     static RequestDao getRequestJsonDao() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(requestDao == NULL){
+            return requestDao = new RequestJsonDao();
+        }else
+            return requestDao;    
     }
     
     @Autowired
@@ -76,7 +84,7 @@ public class RequestJsonDao implements RequestDao {
 
     @Override
     public void delete(Request objeto) throws Exception {
-        throw new UnsupportedOperationException("Uma requisição não pode ser Deletada."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Uma requisição não pode ser Deletada."); 
     }
 
     @Override
@@ -116,7 +124,7 @@ public class RequestJsonDao implements RequestDao {
                 if (request.requestId().equals(id)) {
                     Request newRequest = new Request(request);
                     newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
-                    newRequest.setCustomer(custumerDao.selectCustomer(request.customerId())); //refatorar para CustomerJsonDao e implementar
+                    newRequest.setCustomer(custumerDao.selectCustomer(request.customerId()));
                     for (RequestStatusOutputDTO requestStatus : status) {
                         if (requestStatus.requestId().equals(request.requestId())) {
                             newRequest.addRequestStatus(new RequestStatus(newRequest, requestStatus));
