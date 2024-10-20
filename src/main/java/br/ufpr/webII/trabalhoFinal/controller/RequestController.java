@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import br.ufpr.webII.trabalhoFinal.domain.dto.RequestUpdateDTO;
 
 import java.util.List;
 
@@ -37,5 +38,11 @@ public class RequestController {
     public ResponseEntity<RequestDetailDTO> detailRequest(@PathVariable Long id) {
         Request request = requestService.detailRequest(id);
         return ResponseEntity.ok(new RequestDetailDTO(request));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateRequest(@RequestBody @Valid RequestUpdateDTO data) {
+        requestService.updateRequest(data);
+        return ResponseEntity.ok("Requisição de serviço atualizada com sucesso!");
     }
 }

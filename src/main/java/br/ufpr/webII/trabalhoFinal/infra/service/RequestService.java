@@ -1,16 +1,25 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
+import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.domain.model.Request;
+import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatusCategory;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.repository.RequestDao;
 import br.ufpr.webII.trabalhoFinal.infra.repository.UserDao;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.ufpr.webII.trabalhoFinal.domain.dto.RequestUpdateDTO;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -43,5 +52,14 @@ public class RequestService {
 
     public Request detailRequest(Long id) {
         return requestDao.select(id);
+    }
+
+    public void updateRequest(RequestUpdateDTO data) {
+        try{
+            RequestStatusCategory status = RequestStatusCategory.valueOf(data.status());
+            requestDao.update(data, status);
+        } catch (IllegalArgumentException e){
+            throw new RequestException(e.getMessage());
+        }
     }
 }

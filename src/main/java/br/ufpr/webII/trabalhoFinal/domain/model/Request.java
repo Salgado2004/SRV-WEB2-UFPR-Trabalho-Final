@@ -2,12 +2,15 @@ package br.ufpr.webII.trabalhoFinal.domain.model;
 
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.dto.RequestUpdateDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Request {
@@ -43,6 +46,13 @@ public class Request {
         this.repairDesc = request.repairDesc();
         this.customerOrientations = request.customerOrientations();
         this.requestStatus = new ArrayList<>();
+    }
+
+    public Request(RequestUpdateDTO request) {
+        this.id = request.requestId();
+        this.budget = request.budget();
+        this.repairDesc = request.repairDesc();
+        this.customerOrientations = request.customerOrientations();
     }
 
     public Long getId() {
