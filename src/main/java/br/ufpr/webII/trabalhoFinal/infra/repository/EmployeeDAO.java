@@ -35,13 +35,16 @@ public class EmployeeDAO {
             System.out.println("Erro ao acessar arquivos: "+e.getMessage());
         }
     }
-    
+
+
     public void delete(long id){
         try{
             List<EmployeeOutputDTO> data = jsonService.readObjectFromFile("employees.json", new TypeReference<>() {});
             for(EmployeeOutputDTO emp:data){
                 if(emp.id() == id){
-                    if(Employee.whoIsLoggedIn() == id){
+                    //Bloco comentado enquanto o IsLoggedIn não é implementado
+                    /*
+                    if(Employee.isLoggedIn() == id){
                         System.out.println("O empregado não pode se deletar, sim somos anti-suicidio!");//Função demtro do empregado que vai validar se é ele logado
                         return;                     //pelas regras de negocio, o funcionario não pode se deletar
                     }else{
@@ -49,7 +52,7 @@ public class EmployeeDAO {
                         jsonService.writeJsonToFile("employees.json", data);
 
                         return;
-                    }
+                    }*/
                 }
                 System.out.println("Empregado não encontrado.");
             }
@@ -57,7 +60,7 @@ public class EmployeeDAO {
             System.out.println("Erro ao acessar arquivos: "+e.getMessage());
         }
     }
-    
+
     public void update(Employee employee){
         try{
             List<EmployeeOutputDTO> data = jsonService.readObjectFromFile("employees.json", new TypeReference<>() {});
