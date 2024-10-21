@@ -1,8 +1,7 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.EmployeeInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.model.Employee;
-import br.ufpr.webII.trabalhoFinal.infra.service.EmployeeCrud;
+import br.ufpr.webII.trabalhoFinal.infra.dao.EmployeeJsonDao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,30 +19,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmployeeCrudController {
     
     @Autowired
-    private EmployeeCrud employeeCrud;
+    private EmployeeJsonDao employeeCrud;
     
     @PostMapping("/new")
-    public ResponseEntity<String> newEmployee(@RequestBody @Valid Employee data) {
-        employeeCrud.registerEmployee(data);
+    public ResponseEntity<String> newEmployee(@RequestBody @Valid Employee data) throws Exception {
+        employeeCrud.insert(data);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Empregado criada com sucesso!");
     }
   
     @GetMapping("/detail/:id")
-    public ResponseEntity<String> detailEmployee(){
-        //implementar a listagem.
+    public ResponseEntity<String> detailEmployee() throws Exception{
+        employeeCrud.listAll();
+        
         return ResponseEntity.ok("Detalhes da requisição de Empregados");
     }
 
     @DeleteMapping("/delete/:id")
-    public ResponseEntity<String> deleteEmployee(Employee emp){
-        employeeCrud.deleteEmployee(emp);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Empregado deletado com sucesso");// Não sei se é esse created ou não
+    public ResponseEntity<String> deleteEmployee(Employee emp) throws Exception{
+        employeeCrud.delete(emp);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Empregado deletado com sucesso");
     }
     
     @PutMapping("/update/:id")
-    public ResponseEntity<String> updateEmployee(Employee emp){
-        employeeCrud.updateEmployee(emp);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Empregado atualizado com sucesso");//Não sei se é esse created ou nao
+    public ResponseEntity<String> updateEmployee(Employee emp) throws Exception{
+        employeeCrud.update(emp);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Empregado atualizado com sucesso");
     }
 }
