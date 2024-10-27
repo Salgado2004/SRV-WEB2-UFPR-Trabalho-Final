@@ -1,7 +1,9 @@
-package br.ufpr.webII.trabalhoFinal.domain.model;
+package br.ufpr.webII.trabalhoFinal.domain.request;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;

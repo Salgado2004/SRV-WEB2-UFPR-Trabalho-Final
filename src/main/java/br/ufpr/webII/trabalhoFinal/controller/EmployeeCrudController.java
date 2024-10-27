@@ -1,6 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Employee;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.dao.EmployeeJsonDao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

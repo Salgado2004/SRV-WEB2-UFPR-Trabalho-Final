@@ -1,9 +1,9 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
-import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
-import br.ufpr.webII.trabalhoFinal.domain.model.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.repository.RequestDao;

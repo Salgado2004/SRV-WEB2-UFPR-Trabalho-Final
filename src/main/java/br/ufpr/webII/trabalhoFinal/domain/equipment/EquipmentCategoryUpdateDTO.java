@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
+package br.ufpr.webII.trabalhoFinal.domain.equipment;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

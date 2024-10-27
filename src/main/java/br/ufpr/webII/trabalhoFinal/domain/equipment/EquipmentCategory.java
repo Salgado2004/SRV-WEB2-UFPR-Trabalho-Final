@@ -1,13 +1,9 @@
-package br.ufpr.webII.trabalhoFinal.domain.model;
+package br.ufpr.webII.trabalhoFinal.domain.equipment;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryUpdateDTO;
 
 import java.util.Objects;
 

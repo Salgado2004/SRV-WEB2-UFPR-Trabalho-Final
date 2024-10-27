@@ -1,6 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
-
-import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
+package br.ufpr.webII.trabalhoFinal.domain.equipment;
 
 public record EquipmentCategoryOutputDTO (
     Long equipCategoryId,

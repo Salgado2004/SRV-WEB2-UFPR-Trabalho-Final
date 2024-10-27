@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.domain.model;
+package br.ufpr.webII.trabalhoFinal.domain.request.status;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

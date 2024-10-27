@@ -4,7 +4,7 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.dao;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 
 
 /**

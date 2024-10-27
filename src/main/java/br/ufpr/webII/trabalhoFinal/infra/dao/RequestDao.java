@@ -4,8 +4,8 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.dao;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Request;
-import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 
 /**
  *

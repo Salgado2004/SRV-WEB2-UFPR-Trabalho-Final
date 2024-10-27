@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.domain.model;
+package br.ufpr.webII.trabalhoFinal.domain.address;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

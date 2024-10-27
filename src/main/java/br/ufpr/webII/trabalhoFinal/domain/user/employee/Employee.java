@@ -1,6 +1,7 @@
-package br.ufpr.webII.trabalhoFinal.domain.model;
+package br.ufpr.webII.trabalhoFinal.domain.user.employee;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.EmployeeOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.User;
+
 import java.util.Date;
 
 public class Employee extends User {

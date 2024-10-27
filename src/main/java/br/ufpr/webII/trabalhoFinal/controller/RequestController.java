@@ -1,9 +1,9 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestDetailDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestListItemDTO;
-import br.ufpr.webII.trabalhoFinal.domain.model.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestDetailDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestListItemDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.infra.service.RequestService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

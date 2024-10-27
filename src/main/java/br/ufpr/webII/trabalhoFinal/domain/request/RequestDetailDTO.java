@@ -1,7 +1,7 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
+package br.ufpr.webII.trabalhoFinal.domain.request;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
-import br.ufpr.webII.trabalhoFinal.domain.model.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 
 import java.util.List;
 

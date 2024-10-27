@@ -4,7 +4,7 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.dao;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;

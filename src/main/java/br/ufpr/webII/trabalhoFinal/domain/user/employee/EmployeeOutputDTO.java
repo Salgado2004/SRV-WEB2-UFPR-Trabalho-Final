@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Record.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.domain.dto;
+package br.ufpr.webII.trabalhoFinal.domain.user.employee;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Employee;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import java.util.Date;
 
 /**

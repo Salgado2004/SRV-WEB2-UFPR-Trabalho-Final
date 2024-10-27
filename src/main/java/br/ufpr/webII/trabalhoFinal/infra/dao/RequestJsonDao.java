@@ -4,10 +4,10 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.dao;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestStatusOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.model.Request;
-import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;

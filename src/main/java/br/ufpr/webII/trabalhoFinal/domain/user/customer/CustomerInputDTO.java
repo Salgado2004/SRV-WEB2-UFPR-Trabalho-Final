@@ -1,6 +1,6 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
+package br.ufpr.webII.trabalhoFinal.domain.user.customer;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Address;
+import br.ufpr.webII.trabalhoFinal.domain.address.Address;
 import jakarta.validation.constraints.NotBlank;
 
 public record CustomerInputDTO(

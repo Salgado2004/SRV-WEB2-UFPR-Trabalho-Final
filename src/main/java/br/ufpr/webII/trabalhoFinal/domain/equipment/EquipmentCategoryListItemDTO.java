@@ -1,6 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
-
-import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
+package br.ufpr.webII.trabalhoFinal.domain.equipment;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

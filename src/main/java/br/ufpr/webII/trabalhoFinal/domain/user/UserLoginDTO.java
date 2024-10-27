@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
+package br.ufpr.webII.trabalhoFinal.domain.user;
 
 public record UserLoginDTO(
         String name,

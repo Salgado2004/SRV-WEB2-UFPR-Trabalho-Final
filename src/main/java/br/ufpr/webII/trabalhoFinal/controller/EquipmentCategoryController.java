@@ -1,9 +1,9 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 import br.ufpr.webII.trabalhoFinal.infra.service.EquipmentCategoryService;
-import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
-import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryListItemDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategoryInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategoryListItemDTO;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategoryUpdateDTO;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

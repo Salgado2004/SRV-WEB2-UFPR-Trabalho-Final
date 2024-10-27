@@ -4,8 +4,8 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.dao;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.EmployeeOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.model.Employee;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.EmployeeOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.domain.model;
+package br.ufpr.webII.trabalhoFinal.domain.user;
 
 import br.ufpr.webII.trabalhoFinal.infra.service.PasswordService;
 import jakarta.persistence.Entity;

@@ -1,7 +1,7 @@
-package br.ufpr.webII.trabalhoFinal.domain.model;
+package br.ufpr.webII.trabalhoFinal.domain.user.customer;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.CustomerInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.CustomerOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.address.Address;
+import br.ufpr.webII.trabalhoFinal.domain.user.User;
 
 public class Customer extends User {
     private String cpf;

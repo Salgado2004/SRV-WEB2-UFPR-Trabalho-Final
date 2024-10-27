@@ -1,7 +1,7 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
+package br.ufpr.webII.trabalhoFinal.domain.request.status;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatus;
-import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatusCategory;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
 
 import java.time.ZoneId;
 import java.util.Date;

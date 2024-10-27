@@ -1,6 +1,6 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
+package br.ufpr.webII.trabalhoFinal.domain.request;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 
 public record RequestOutputDTO(
         Long requestId,

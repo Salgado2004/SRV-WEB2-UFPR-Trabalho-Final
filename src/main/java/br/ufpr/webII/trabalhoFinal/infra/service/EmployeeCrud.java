@@ -1,6 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Employee;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

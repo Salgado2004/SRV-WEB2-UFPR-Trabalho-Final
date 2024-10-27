@@ -4,8 +4,8 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.dao;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.CustomerOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;

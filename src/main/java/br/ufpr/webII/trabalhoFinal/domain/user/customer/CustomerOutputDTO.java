@@ -1,7 +1,6 @@
-package br.ufpr.webII.trabalhoFinal.domain.dto;
+package br.ufpr.webII.trabalhoFinal.domain.user.customer;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Address;
-import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
+import br.ufpr.webII.trabalhoFinal.domain.address.Address;
 
 public record CustomerOutputDTO(
         Long id,

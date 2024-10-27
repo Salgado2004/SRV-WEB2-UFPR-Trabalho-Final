@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
-import br.ufpr.webII.trabalhoFinal.domain.dto.CustomerInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.UserLoginDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.UserLoginDTO;
 
 @RestController
 @RequestMapping("/service/v1/auth")
@@ -32,9 +32,6 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<UserLoginDTO> login(@RequestParam String email, @RequestParam String password) {
 
-        authService.isValidEmail(email);
-
-        // Retorna status OK se o login for bem-sucedido
         UserLoginDTO userData = authService.login(email, password);
 
         return ResponseEntity.ok().body(userData);
