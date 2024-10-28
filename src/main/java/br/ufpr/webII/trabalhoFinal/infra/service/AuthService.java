@@ -20,6 +20,8 @@ public class AuthService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired TokenService tokenService;
+
     /*@Autowired
     private UserRepository userRepository;*/
 
@@ -50,7 +52,7 @@ public class AuthService {
         if (user == null || !user.checkPassword(password)) {
             throw new LoginException("Credenciais inválidas", 1);
         }
-        return new UserLoginDTO(user.getName(), user.getClass().getSimpleName());
+        return new UserLoginDTO(tokenService.getToken(user));
     }
 
     // Função para validação de CPF
