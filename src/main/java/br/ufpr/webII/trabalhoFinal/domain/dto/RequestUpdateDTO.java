@@ -10,8 +10,10 @@ public record RequestUpdateDTO(
         @NotNull Long requestId,
         Long inChargeEmployeeId,
         Long senderEmployeeId,
-        @NotBlank String status,
+        @NotBlank String currentStatus,
+        @NotBlank String nextStatus,
         @PastOrPresent LocalDateTime datetime,
+        String rejectionReason,
         Double budget,
         String repairDesc,
         String customerOrientations

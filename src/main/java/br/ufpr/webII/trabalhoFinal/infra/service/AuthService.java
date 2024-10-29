@@ -1,12 +1,13 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.CustomerInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
-import br.ufpr.webII.trabalhoFinal.domain.model.User;
-import br.ufpr.webII.trabalhoFinal.domain.dto.UserLoginDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+import br.ufpr.webII.trabalhoFinal.domain.user.User;
+import br.ufpr.webII.trabalhoFinal.domain.user.UserLoginDTO;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.LoginException;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.UserDao;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,12 @@ public class AuthService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired TokenService tokenService;
+
     /*@Autowired
     private UserRepository userRepository;*/
 
-    public Customer registerCustomer(CustomerInputDTO customerInputDTO) {
+    public Customer registerCustomer(@Valid CustomerInputDTO customerInputDTO) {
         Customer customer = new Customer(customerInputDTO);
 
         // Gera uma senha aleatória de 4 números
@@ -49,7 +52,7 @@ public class AuthService {
         if (user == null || !user.checkPassword(password)) {
             throw new LoginException("Credenciais inválidas", 1);
         }
-        return new UserLoginDTO(user.getName(), user.getClass().getSimpleName());
+        return new UserLoginDTO(tokenService.getToken(user));
     }
 
     // Função para validação de CPF

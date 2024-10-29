@@ -1,13 +1,10 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.Employee;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
-import java.io.IOException;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.ufpr.webII.trabalhoFinal.domain.dto.EmployeeInputDTO;
-import br.ufpr.webII.trabalhoFinal.infra.repository.EmployeeDAO;
+import br.ufpr.webII.trabalhoFinal.infra.dao.EmployeeJsonDao;
 import java.util.Random;
 
 
@@ -15,7 +12,7 @@ import java.util.Random;
 public class EmployeeCrud {
 
   @Autowired
-  private EmployeeDAO employeeDao;
+  private EmployeeJsonDao employeeDao;
 
 
   public Employee registerEmployee(Employee employee){
@@ -43,7 +40,7 @@ public class EmployeeCrud {
 
     public void deleteEmployee(Employee emp) {
         try{
-            employeeDao.delete(emp.getId());
+            employeeDao.delete(emp);
         } catch (Exception e){
             System.out.println("Erro ao deletar o empregado: "+e.getMessage());
         }

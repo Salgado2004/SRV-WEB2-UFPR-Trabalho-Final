@@ -44,6 +44,11 @@ public class ExceptionResponseHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new HttpRequestError(e.getMessage()));
     }
 
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity<HttpRequestError> handleTokenExceptions(TokenException e){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new HttpRequestError(e.getMessage()));
+    }
+
     public record HttpRequestError(String cause) {
         public HttpRequestError(FieldError error) {
             this(error.getField() + " "+ error.getDefaultMessage());

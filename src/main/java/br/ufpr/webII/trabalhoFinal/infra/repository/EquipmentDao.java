@@ -1,6 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.infra.repository;
 
-import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 

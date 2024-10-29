@@ -1,30 +1,30 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.EquipmentCategoryUpdateDTO;
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.model.Customer;
-import br.ufpr.webII.trabalhoFinal.domain.model.EquipmentCategory;
-import br.ufpr.webII.trabalhoFinal.domain.model.Request;
-import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatus;
-import br.ufpr.webII.trabalhoFinal.domain.model.RequestStatusCategory;
+import br.ufpr.webII.trabalhoFinal.infra.dao.RequestSQLDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.repository.RequestDao;
 import br.ufpr.webII.trabalhoFinal.infra.repository.UserDao;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.ufpr.webII.trabalhoFinal.domain.dto.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
+import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeContext;
+import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeByClient;
+import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeByEmployee;
 
-import java.time.LocalDateTime;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+
 import java.util.ArrayList;
 
 @Service
 public class RequestService {
 
+    // Remover todos os que forem de JSON no futuro, quando o SQL estiver pronto
     @Autowired
     private RequestDao requestDao;
 
@@ -33,6 +33,9 @@ public class RequestService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RequestSQLDao requestSQLDao;
 
     public void createRequest(RequestInputDTO data) {
         try {
@@ -55,9 +58,25 @@ public class RequestService {
     }
 
     public void updateRequest(RequestUpdateDTO data) {
+        ValidateStatusChangeContext context = new ValidateStatusChangeContext();
+        
+        // Alterar o RequestUpdateDTO para receber o tipo do usuário (cliente ou empregado)
+        // e adicionar na condição dos ifs
         try{
-            RequestStatusCategory status = RequestStatusCategory.valueOf(data.status());
-            requestDao.update(data, status);
+            if (é cliente) {
+                context.setStrategy(new ValidateStatusChangeByClient());
+            } else if (é funcionário) {
+                context.setStrategy(new ValidateStatusChangeByEmployee());
+            } else {
+                throw new RequestException("Usuário não autorizado a realizar essa ação");
+            }
+
+            if (context.isValid(data)) {
+                // Implementar o DAO de SQL
+                requestSQLDao.update(data);
+            } else {
+                throw new RequestException("Não é possível alterar o status da requisição para " + data.nextStatus());
+            }
         } catch (IllegalArgumentException e){
             throw new RequestException(e.getMessage());
         }

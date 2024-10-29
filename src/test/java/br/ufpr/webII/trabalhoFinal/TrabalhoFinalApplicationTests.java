@@ -1,9 +1,9 @@
 package br.ufpr.webII.trabalhoFinal;
 
 import br.ufpr.webII.trabalhoFinal.controller.AuthController;
-import br.ufpr.webII.trabalhoFinal.domain.model.Address;
+import br.ufpr.webII.trabalhoFinal.domain.address.Address;
 import br.ufpr.webII.trabalhoFinal.infra.service.AuthService;
-import br.ufpr.webII.trabalhoFinal.domain.dto.CustomerInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerInputDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
