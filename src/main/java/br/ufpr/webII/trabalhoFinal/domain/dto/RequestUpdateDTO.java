@@ -16,5 +16,6 @@ public record RequestUpdateDTO(
         String rejectionReason,
         Double budget,
         String repairDesc,
-        String customerOrientations
+        String customerOrientations,
+        @NotBlank String userType // Novo campo para identificar o tipo de usuário
 ) {}

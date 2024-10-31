@@ -24,7 +24,6 @@ import java.util.ArrayList;
 @Service
 public class RequestService {
 
-    // Remover todos os que forem de JSON no futuro, quando o SQL estiver pronto
     @Autowired
     private RequestDao requestDao;
 
@@ -44,7 +43,7 @@ public class RequestService {
 
             Request request = new Request(data, customer, equipment);
             requestDao.insert(request);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             throw new RequestException(e.getMessage());
         }
     }
@@ -59,25 +58,25 @@ public class RequestService {
 
     public void updateRequest(RequestUpdateDTO data) {
         ValidateStatusChangeContext context = new ValidateStatusChangeContext();
-        
-        // Alterar o RequestUpdateDTO para receber o tipo do usuário (cliente ou empregado)
-        // e adicionar na condição dos ifs
-        try{
-            if (é cliente) {
+
+        try {
+            // Verificar o tipo de usuário usando o campo userType do DTO
+            if ("CLIENT".equals(data.userType())) { // Verifica se é cliente
                 context.setStrategy(new ValidateStatusChangeByClient());
-            } else if (é funcionário) {
+            } else if ("EMPLOYEE".equals(data.userType())) { // Verifica se é funcionário
                 context.setStrategy(new ValidateStatusChangeByEmployee());
             } else {
                 throw new RequestException("Usuário não autorizado a realizar essa ação");
             }
-
+            /*   codigo comentado pois é necessário fazer a integração com o bd
             if (context.isValid(data)) {
                 // Implementar o DAO de SQL
                 requestSQLDao.update(data);
             } else {
                 throw new RequestException("Não é possível alterar o status da requisição para " + data.nextStatus());
             }
-        } catch (IllegalArgumentException e){
+            */
+        } catch (IllegalArgumentException e) {
             throw new RequestException(e.getMessage());
         }
     }
