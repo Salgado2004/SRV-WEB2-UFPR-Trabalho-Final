@@ -28,29 +28,50 @@ public class UserAuthentication extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
         String autorizationURL = request.getRequestURI();
-      //  int contem = autorizationURL.contains("employee") ? 1 : autorizationURL.contains("customer") ? 2 : autorizationURL.contains("request") ? 3 : autorizationURL.contains("category") ? 4 : autorizationURL.contains("receipt") ? 5 : 0;
-        
+       
         String[] partes = new String[7];
         partes = autorizationURL.split("/");
         
-        switch (partes[2]){
-            case ("employee"):
+        switch (partes[3]){ //o switch case foi alterado para o rule switch por recomendação da IDE. sintaxe está correta.
+            case ("employee") -> {
                 if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
-                    /*follow your life :D;*/
+                    /*follow your life :D*/
                     filterChain.doFilter(request, response);
                 } else  
-                    throw new TokenException("Token não autorizado");
-                break;
-            case ("customer"):
-                break;
-            case ("request"):
-                break;
-            case ("category"):
-                break;
-            case ("receipt"):
-                break;
-            default:
-                break;
+                    throw new TokenException("Token não autorizado!!");
+            }
+            case ("customer") -> {
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Customer")){
+                    filterChain.doFilter(request, response);
+                } else
+                    throw new TokenException("Token não autorizado!!");
+            }
+            case ("request") -> {
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
+                    if (partes[4].equalsIgnoreCase("new"))
+                        throw new TokenException("Um empregado não pode criar um request, se registre como cliente e tente novamente.");
+                } else
+                    filterChain.doFilter(request, response);
+            }
+            case ("equipment-category") -> {
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
+                    filterChain.doFilter(request, response);
+                } else if(tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Customar")){
+                    if (partes[4].equalsIgnoreCase("list")){
+                        filterChain.doFilter(request, response);
+                    }
+                }else  
+                    throw new TokenException("Token não autorizado!!");
+            }
+            case ("receipt") -> {
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
+                    filterChain.doFilter(request, response);
+                } else  
+                    throw new TokenException("Token não autorizado!!");
+            }
+            default -> {
+                throw new TokenException("O token é inválido totalmente, seu user miguelento.");
+            }
         }
     }
     
