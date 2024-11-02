@@ -46,7 +46,7 @@ public class UserAuthentication extends OncePerRequestFilter {
                 } else
                     throw new TokenException("Token não autorizado!!");
             }
-            case ("request") -> {
+            case ("requests") -> {
                 if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
                     if (partes[4].equalsIgnoreCase("new"))
                         throw new TokenException("Um empregado não pode criar um request, se registre como cliente e tente novamente.");
