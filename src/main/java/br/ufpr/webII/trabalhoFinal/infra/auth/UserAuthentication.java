@@ -11,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,11 +24,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class UserAuthentication extends OncePerRequestFilter {
 
-    TokenService tokenSrv = new TokenService();
+    @Autowired
+    TokenService tokenSrv;
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");
+        // TODO: Implementar validação de token == null
+        String authorizationHeader = request.getHeader("Authorization").replace("Bearer ", "");
         String autorizationURL = request.getRequestURI();
        
         String[] partes = new String[7];
@@ -46,7 +50,7 @@ public class UserAuthentication extends OncePerRequestFilter {
                 } else
                     throw new TokenException("Token não autorizado!!");
             }
-            case ("request") -> {
+            case ("requests") -> {
                 if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
                     if (partes[4].equalsIgnoreCase("new"))
                         throw new TokenException("Um empregado não pode criar um request, se registre como cliente e tente novamente.");
@@ -56,10 +60,11 @@ public class UserAuthentication extends OncePerRequestFilter {
             case ("equipment-category") -> {
                 if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
                     filterChain.doFilter(request, response);
-                } else if(tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Customar")){
+                } else if(tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Customer")){
                     if (partes[4].equalsIgnoreCase("list")){
                         filterChain.doFilter(request, response);
-                    }
+                    }else
+                        throw new TokenException("Token não autorizado!!");
                 }else  
                     throw new TokenException("Token não autorizado!!");
             }
@@ -70,7 +75,7 @@ public class UserAuthentication extends OncePerRequestFilter {
                     throw new TokenException("Token não autorizado!!");
             }
             default -> {
-                throw new TokenException("O token é inválido totalmente, seu user miguelento.");
+                filterChain.doFilter(request, response);
             }
         }
     }
