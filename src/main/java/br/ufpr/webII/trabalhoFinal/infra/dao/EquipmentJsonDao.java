@@ -6,7 +6,6 @@ package br.ufpr.webII.trabalhoFinal.infra.dao;
 
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
-import br.ufpr.webII.trabalhoFinal.infra.exceptions.TokenException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import br.ufpr.webII.trabalhoFinal.infra.service.TokenService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,9 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class EquipmentJsonDao implements EquipmentDao {
     
     public static EquipmentJsonDao equipmentDao;
-    
-    TokenService tokenSrv = new TokenService();
-    
+        
     private EquipmentJsonDao(){}
     
     @Autowired
