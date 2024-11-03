@@ -4,6 +4,13 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.dao;
 
+import br.ufpr.webII.trabalhoFinal.infra.dao.json.CustomerJsonDao;
+import br.ufpr.webII.trabalhoFinal.infra.dao.json.EmployeeJsonDao;
+import br.ufpr.webII.trabalhoFinal.infra.dao.json.RequestJsonDao;
+import br.ufpr.webII.trabalhoFinal.infra.dao.sql.CustomerSQLDao;
+import br.ufpr.webII.trabalhoFinal.infra.dao.sql.EmployeeSQLDao;
+import br.ufpr.webII.trabalhoFinal.infra.dao.sql.RequestSQLDao;
+
 /**
  *
  * @author mateus

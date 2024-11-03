@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao;
+package br.ufpr.webII.trabalhoFinal.infra.dao.json;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.infra.dao.RequestDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
@@ -29,7 +30,7 @@ public class RequestJsonDao implements RequestDao {
     
     private RequestJsonDao(){}
 
-    static RequestDao getRequestJsonDao() {
+    public static RequestDao getRequestJsonDao() {
         if(requestDao == NULL){
             return requestDao = new RequestJsonDao();
         }else
