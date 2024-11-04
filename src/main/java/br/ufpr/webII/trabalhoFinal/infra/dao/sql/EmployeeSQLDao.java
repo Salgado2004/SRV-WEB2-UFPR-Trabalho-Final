@@ -2,39 +2,40 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao;
+package br.ufpr.webII.trabalhoFinal.infra.dao.sql;
 
-import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
+import br.ufpr.webII.trabalhoFinal.infra.dao.EmployeeDao;
+
 import java.util.List;
 
 /**
  *
  * @author mateus
  */
-public class EquipmentSQLDao implements EquipmentDao {
+public class EmployeeSQLDao implements EmployeeDao {
 
-    @Override
-    public void insert(EquipmentCategory element) throws Exception {
+    public static EmployeeDao getEmployeeSQLDao() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void update(EquipmentCategory objeto) throws Exception {
+    public void insert(Employee element) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(EquipmentCategory objeto) throws Exception {
+    public void update(Employee objeto) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<EquipmentCategory> listAll() throws Exception {
+    public void delete(Employee objeto) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public EquipmentCategory select(EquipmentCategory objeto) throws Exception {
+    public List<Employee> listAll() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
