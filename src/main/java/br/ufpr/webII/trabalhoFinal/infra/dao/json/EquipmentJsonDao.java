@@ -8,7 +8,6 @@ import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.infra.dao.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
-import br.ufpr.webII.trabalhoFinal.infra.service.TokenService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import static java.lang.constant.ConstantDescs.NULL;
