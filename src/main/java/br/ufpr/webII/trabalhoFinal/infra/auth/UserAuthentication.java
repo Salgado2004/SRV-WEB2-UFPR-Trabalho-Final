@@ -29,43 +29,38 @@ public class UserAuthentication extends OncePerRequestFilter {
     
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // TODO: Implementar validação de token == null
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null)
-            throw new TokenException("Token nulo. Refazer o login");
-        authorizationHeader = authorizationHeader.replace("Bearer ", "");
+
+        String authorizationHeader = getAuthorizationToken(request);
         String autorizationURL = request.getRequestURI();
        
         String[] partes = new String[7];
         partes = autorizationURL.split("/");
         
-        String usr = tokenSrv.getProfile(authorizationHeader);
-        
         switch (partes[3]){ //o switch case foi alterado para o rule switch por recomendação da IDE. sintaxe está correta.
             case ("employee") -> {
-                if (usr.equalsIgnoreCase("Employee")){
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
                     /*follow your life :D*/
                     filterChain.doFilter(request, response);
                 } else  
                     throw new TokenException("Token não autorizado!!");
             }
             case ("customer") -> {
-                if (usr.equalsIgnoreCase("Customer")){
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Customer")){
                     filterChain.doFilter(request, response);
                 } else
                     throw new TokenException("Token não autorizado!!");
             }
             case ("requests") -> {
-                if (usr.equalsIgnoreCase("Employee")){
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
                     if (partes[4].equalsIgnoreCase("new"))
                         throw new TokenException("Um empregado não pode criar um request, se registre como cliente e tente novamente.");
                 } else
                     filterChain.doFilter(request, response);
             }
             case ("equipment-category") -> {
-                if (usr.equalsIgnoreCase("Employee")){
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
                     filterChain.doFilter(request, response);
-                } else if(usr.equalsIgnoreCase("Customer")){
+                } else if(tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Customer")){
                     if (partes[4].equalsIgnoreCase("list")){
                         filterChain.doFilter(request, response);
                     }else
@@ -74,7 +69,7 @@ public class UserAuthentication extends OncePerRequestFilter {
                     throw new TokenException("Token não autorizado!!");
             }
             case ("receipt") -> {
-                if (usr.equalsIgnoreCase("Employee")){
+                if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
                     filterChain.doFilter(request, response);
                 } else  
                     throw new TokenException("Token não autorizado!!");
@@ -84,6 +79,12 @@ public class UserAuthentication extends OncePerRequestFilter {
             }
         }
     }
-    
+
+    private String getAuthorizationToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null)
+            return "";
+        return authorizationHeader.replace("Bearer ", "");
+    }
     
 }

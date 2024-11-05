@@ -268,4 +268,13 @@
   "repairDesc" : null,
   "customerOrientations" : null,
   "customerId" : 1
+}, {
+  "requestId" : 31,
+  "equipmentCategoryId" : 1,
+  "equipmentDesc" : "Lenovo ideapad 3",
+  "defectDesc" : "A tela não liga mais depois de eu pisar, sem querer",
+  "budget" : 0.0,
+  "repairDesc" : null,
+  "customerOrientations" : null,
+  "customerId" : 1
 } ]
