@@ -6,6 +6,7 @@ CREATE TABLE "user" (
     name VARCHAR(100) NOT NULL,
     surname VARCHAR(100) NOT NULL,
     password CHAR(69) NOT NULL,
+    profile varchar(50) NOT NULL,
     active BOOLEAN DEFAULT TRUE
 );
 
@@ -73,7 +74,7 @@ CREATE TABLE request_status (
     id SERIAL PRIMARY KEY,
     date_time TIMESTAMP NOT NULL,
     request_id INTEGER NOT NULL,
-    sending_employee_id INTEGER NOT NULL,
+    sending_employee_id INTEGER,
     in_charge_employee_id INTEGER NOT NULL,
     status status_enum NOT NULL,
     active BOOLEAN DEFAULT TRUE,
