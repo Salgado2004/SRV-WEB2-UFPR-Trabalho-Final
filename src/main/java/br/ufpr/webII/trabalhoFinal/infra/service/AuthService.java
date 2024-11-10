@@ -4,26 +4,25 @@ import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.user.User;
 import br.ufpr.webII.trabalhoFinal.domain.user.UserLoginDTO;
+import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.LoginException;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
-import br.ufpr.webII.trabalhoFinal.infra.repository.UserDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.UserDao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 @Service
 public class AuthService {
 
     @Autowired
-    private UserDao userDao;
+    private DaoFactory daoFactory;
 
     @Autowired TokenService tokenService;
-
-    /*@Autowired
-    private UserRepository userRepository;*/
 
     public Customer registerCustomer(@Valid CustomerInputDTO customerInputDTO) {
         Customer customer = new Customer(customerInputDTO);
@@ -34,8 +33,9 @@ public class AuthService {
         customer.encryptPassword(password); // Aqui você deve hash a senha antes de armazená-la
 
         try {
+            UserDao userDao = daoFactory.getUserDao();
             userDao.insert(customer);
-        } catch (IOException e){
+        } catch (Exception e){
             throw new RegisteringException("Erro ao salvar cliente.", e);
         }
 
@@ -48,6 +48,7 @@ public class AuthService {
     public UserLoginDTO login(String email, String password) {
         this.isValidEmail(email);
 
+        UserDao userDao = daoFactory.getUserDao();
         User user = userDao.findByEmail(email);
         if (user == null || !user.checkPassword(password)) {
             throw new LoginException("Credenciais inválidas", 1);

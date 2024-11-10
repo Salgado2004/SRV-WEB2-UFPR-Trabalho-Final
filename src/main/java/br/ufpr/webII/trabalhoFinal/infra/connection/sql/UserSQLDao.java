@@ -2,6 +2,7 @@ package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.User;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.UserDao;
 
@@ -47,7 +48,7 @@ public class UserSQLDao implements UserDao {
     public List<User> listAll() throws Exception {
         ArrayList<User> users = new ArrayList<>();
         try(Connection con = connectionFactory.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE profile = 'CUSTOMER'");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM public.\"user\" u WHERE u.profile = 'CUSTOMER'");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 User user = new Customer();
@@ -64,7 +65,23 @@ public class UserSQLDao implements UserDao {
 
     @Override
     public User findByEmail(String email) {
-        // TODO Auto-generated method stub
+        try(Connection con = connectionFactory.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM public.\"user\" u WHERE u.email = ?");
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                User user = rs.getString("profile").equals("CUSTOMER") ? new Customer() : new Employee();
+                user.setId(rs.getLong("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                String[] credentials = rs.getString("password").split(":");
+                user.setPassword(credentials[0]);
+                user.setSalt(credentials[1]);
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
