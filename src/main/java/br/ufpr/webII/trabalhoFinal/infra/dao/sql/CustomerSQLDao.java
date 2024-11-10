@@ -2,38 +2,40 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao;
+package br.ufpr.webII.trabalhoFinal.infra.dao.sql;
 
-import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+import br.ufpr.webII.trabalhoFinal.infra.dao.ClientDao;
+
 import java.util.List;
 
 /**
  *
  * @author mateus
  */
-public class EmployeeSQLDao implements EmployeeDao {
+public class CustomerSQLDao implements ClientDao {
 
-    static EmployeeDao getEmployeeSQLDao() {
+    public static ClientDao getCustomerSQLDao() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void insert(Employee element) throws Exception {
+    public void insert(Customer element) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void update(Employee objeto) throws Exception {
+    public void update(Customer objeto) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void delete(Employee objeto) throws Exception {
+    public void delete(Customer objeto) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<Employee> listAll() throws Exception {
+    public List<Customer> listAll() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

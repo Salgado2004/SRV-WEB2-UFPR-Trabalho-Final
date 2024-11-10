@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao;
+package br.ufpr.webII.trabalhoFinal.infra.dao.json;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+import br.ufpr.webII.trabalhoFinal.infra.dao.ClientDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,7 +30,7 @@ public class CustomerJsonDao implements ClientDao {
     private CustomerJsonDao(){
     }
 
-    static ClientDao getCustomerJsonDao() {
+    public static ClientDao getCustomerJsonDao() {
         if(customerDao == null){
             return customerDao = new CustomerJsonDao();
         } else{

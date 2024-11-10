@@ -1,6 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.infra.dao.RequestSQLDao;
+import br.ufpr.webII.trabalhoFinal.infra.dao.sql.RequestSQLDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.repository.RequestDao;

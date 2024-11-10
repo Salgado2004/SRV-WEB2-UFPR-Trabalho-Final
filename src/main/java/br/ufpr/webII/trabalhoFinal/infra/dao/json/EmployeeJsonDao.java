@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao;
+package br.ufpr.webII.trabalhoFinal.infra.dao.json;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.EmployeeOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
+import br.ufpr.webII.trabalhoFinal.infra.dao.EmployeeDao;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class EmployeeJsonDao implements EmployeeDao {
     
     private EmployeeJsonDao(){}
 
-    static EmployeeDao getEmployeeJsonDao() {
+    public static EmployeeDao getEmployeeJsonDao() {
         if(employeeDao == null)
             return employeeDao = new EmployeeJsonDao();
         else

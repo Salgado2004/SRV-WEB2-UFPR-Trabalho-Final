@@ -260,12 +260,12 @@
   "customerOrientations" : null,
   "customerId" : 1
 }, {
-  "requestId" : 1,
+  "requestId" : 31,
   "equipmentCategoryId" : 1,
-  "equipmentDesc" : "Computador Positivo Unique 1GB",
-  "defectDesc" : "Estava funcionando normalmente, mas não ligou.",
-  "budget" : 777.0,
-  "repairDesc" : "Troquei a rebimboca da parafuseta",
-  "customerOrientations" : "recomendo comprar outro",
+  "equipmentDesc" : "Lenovo ideapad 3",
+  "defectDesc" : "A tela não liga mais depois de eu pisar, sem querer",
+  "budget" : 0.0,
+  "repairDesc" : null,
+  "customerOrientations" : null,
   "customerId" : 1
 } ]

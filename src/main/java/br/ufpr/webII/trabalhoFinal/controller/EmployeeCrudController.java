@@ -1,7 +1,7 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
-import br.ufpr.webII.trabalhoFinal.infra.dao.EmployeeJsonDao;
+import br.ufpr.webII.trabalhoFinal.infra.dao.json.EmployeeJsonDao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("service/v1/employee")
+@RequestMapping("/service/v1/employee")
 public class EmployeeCrudController {
     
     @Autowired
