@@ -1,13 +1,4 @@
 [ {
-  "requestId" : 1,
-  "equipmentCategoryId" : 1,
-  "equipmentDesc" : "Computador Positivo Unique 1GB",
-  "defectDesc" : "Estava funcionando normalmente, mas não ligou.",
-  "budget" : 0.0,
-  "repairDesc" : "",
-  "customerOrientations" : "",
-  "customerId" : 1
-}, {
   "requestId" : 2,
   "equipmentCategoryId" : 2,
   "equipmentDesc" : "Teclado mecânico Logitech",

@@ -10,7 +10,6 @@ import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
-import static java.lang.constant.ConstantDescs.NULL;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +27,7 @@ public class EquipmentJsonDao implements EquipmentDao {
     
     @Autowired
     JsonFileService jsonService;
-    
+
     public static EquipmentDao getEquipmentJsonDao(){
         if (equipmentDao == null)
             equipmentDao = new EquipmentJsonDao();

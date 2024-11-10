@@ -10,7 +10,6 @@ import br.ufpr.webII.trabalhoFinal.infra.connection.EmployeeDao;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
-import static java.lang.constant.ConstantDescs.NULL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +29,7 @@ public class EmployeeJsonDao implements EmployeeDao {
     private EmployeeJsonDao(){}
 
     public static EmployeeDao getEmployeeJsonDao() {
-        if(employeeDao == NULL)
+        if(employeeDao == null)
             return employeeDao = new EmployeeJsonDao();
         else
             return employeeDao;

@@ -14,7 +14,6 @@ import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
-import static java.lang.constant.ConstantDescs.NULL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +30,7 @@ public class RequestJsonDao implements RequestDao {
     private RequestJsonDao(){}
 
     public static RequestDao getRequestJsonDao() {
-        if(requestDao == NULL){
+        if(requestDao == null){
             return requestDao = new RequestJsonDao();
         }else
             return requestDao;    
