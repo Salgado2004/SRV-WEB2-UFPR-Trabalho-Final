@@ -5,6 +5,7 @@
 package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
 
 import java.util.List;
@@ -16,11 +17,14 @@ import java.util.List;
 public class EquipmentSQLDao implements EquipmentDao {
 
     private static EquipmentSQLDao instance;
+    private ConnectionFactory connectionFactory;
 
-    private EquipmentSQLDao(){}
+    private EquipmentSQLDao(ConnectionFactory connectionFactory){
+        this.connectionFactory = connectionFactory;
+    }
 
-    public static EquipmentSQLDao getEquipmentSQLDao(){
-        return instance == null ? instance = new EquipmentSQLDao() : instance;
+    public static EquipmentSQLDao getEquipmentSQLDao(ConnectionFactory connectionFactory){
+        return instance == null ? instance = new EquipmentSQLDao(connectionFactory) : instance;
     }
 
     @Override

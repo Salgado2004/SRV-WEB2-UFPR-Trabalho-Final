@@ -62,8 +62,8 @@ public class DaoFactory {
 
     public EquipmentDao getEquipmentDao(){
         return switch (type) {
-            case JSON -> EquipmentJsonDao.getEquipmentJsonDao();
-            case POSTGRES -> EquipmentSQLDao.getEquipmentSQLDao();
+            case JSON -> EquipmentJsonDao.getEquipmentJsonDao(jsonFileService);
+            case POSTGRES -> EquipmentSQLDao.getEquipmentSQLDao(connectionFactory);
             default -> throw new RuntimeException("Tipo não existe:" + type);
         };
     }

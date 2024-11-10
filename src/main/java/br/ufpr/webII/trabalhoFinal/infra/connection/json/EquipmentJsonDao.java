@@ -22,15 +22,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class EquipmentJsonDao implements EquipmentDao {
     
     private static EquipmentJsonDao equipmentDao;
-        
-    private EquipmentJsonDao(){}
-    
-    @Autowired
-    JsonFileService jsonService;
+    private JsonFileService jsonService;
 
-    public static EquipmentDao getEquipmentJsonDao(){
+    private EquipmentJsonDao(JsonFileService jsonFileService){
+        this.jsonService = jsonFileService;
+    }
+
+    public static EquipmentDao getEquipmentJsonDao(JsonFileService jsonService){
         if (equipmentDao == null)
-            equipmentDao = new EquipmentJsonDao();
+            equipmentDao = new EquipmentJsonDao(jsonService);
         return equipmentDao;
     }
 
