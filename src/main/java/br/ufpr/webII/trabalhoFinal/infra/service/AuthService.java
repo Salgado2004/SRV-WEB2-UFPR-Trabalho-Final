@@ -1,5 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
+import br.ufpr.webII.trabalhoFinal.domain.email.MessageDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.user.User;
@@ -21,6 +22,11 @@ public class AuthService {
     private UserDao userDao;
 
     @Autowired TokenService tokenService;
+    
+    @Autowired
+    EmailService smailService;
+    
+    MessageDTO messageDTO = new MessageDTO();
 
     /*@Autowired
     private UserRepository userRepository;*/
@@ -30,6 +36,7 @@ public class AuthService {
 
         // Gera uma senha aleatória de 4 números
         String password = generateRandomPassword();
+        String plainPW = password;
         System.out.println(password);
         customer.encryptPassword(password); // Aqui você deve hash a senha antes de armazená-la
 
@@ -40,7 +47,8 @@ public class AuthService {
         }
 
         // Aqui você pode adicionar lógica para enviar o e-mail com a senha
-
+        smailService.setSenha(plainPW);
+        smailService.sendEmail(messageDTO);
         return customer;
     }
 

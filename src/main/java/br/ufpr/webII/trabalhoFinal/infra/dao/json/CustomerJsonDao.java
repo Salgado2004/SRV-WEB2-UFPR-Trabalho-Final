@@ -46,7 +46,7 @@ public class CustomerJsonDao implements ClientDao {
             long id = (data.size()+1);
             element.setId(id);
             data.add(new CustomerOutputDTO(element));
-            jsonService.writeJsonToFile("employees.json", data);
+            jsonService.writeJsonToFile("clients.json", data);
         } catch (IOException e){
             System.out.println("Erro ao acessar arquivos: "+e.getMessage());
         }    
