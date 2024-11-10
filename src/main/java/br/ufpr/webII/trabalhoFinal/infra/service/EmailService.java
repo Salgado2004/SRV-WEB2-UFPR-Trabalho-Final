@@ -26,7 +26,7 @@ public class EmailService {
             sender.send(message);
 
         } catch (MailException ex){
-            System.out.println(("Erro no envio do email!"));
+            System.out.println(("Erro no envio do email!"+ex.getMessage()));
         }
 
     }

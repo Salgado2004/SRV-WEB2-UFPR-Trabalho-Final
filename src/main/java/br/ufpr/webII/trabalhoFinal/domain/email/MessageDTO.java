@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.domain.email;
+    package br.ufpr.webII.trabalhoFinal.domain.email;
 
 import lombok.Data;
 
