@@ -1,27 +1,28 @@
-    package br.ufpr.webII.trabalhoFinal.domain.email;
-
-import lombok.Data;
+package br.ufpr.webII.trabalhoFinal.domain.email;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-@Data
-public class MessageDTO {
+public record MessageDTO (
 
     @NotBlank
-    private String owner;
-
-    @NotBlank
-    @Email
-    private String from;
+    String owner,
 
     @NotBlank
     @Email
-    private String to;
+    String from,
 
     @NotBlank
-    private String title;
+    @Email
+    String to,
 
     @NotBlank
-    private String text;
+    String title,
+
+    @NotBlank
+    String text
+){
+    public MessageDTO(String owner, String to){
+        this(owner, "manutads.noreply@gmail.com", to, "Assunto", "Texto do email");
+    }
 }

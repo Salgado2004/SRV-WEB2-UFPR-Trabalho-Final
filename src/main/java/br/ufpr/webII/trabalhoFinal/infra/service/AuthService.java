@@ -25,8 +25,6 @@ public class AuthService {
     
     @Autowired
     EmailService smailService;
-    
-    MessageDTO messageDTO = new MessageDTO();
 
     /*@Autowired
     private UserRepository userRepository;*/
@@ -36,8 +34,6 @@ public class AuthService {
 
         // Gera uma senha aleatória de 4 números
         String password = generateRandomPassword();
-        String plainPW = password;
-        System.out.println(password);
         customer.encryptPassword(password); // Aqui você deve hash a senha antes de armazená-la
 
         try {
@@ -46,9 +42,8 @@ public class AuthService {
             throw new RegisteringException("Erro ao salvar cliente.", e);
         }
 
-        // Aqui você pode adicionar lógica para enviar o e-mail com a senha
-        smailService.setSenha(plainPW);
-        smailService.sendEmail(messageDTO);
+        smailService.setSenha(password);
+        smailService.sendEmail(new MessageDTO(customerInputDTO.name(), customerInputDTO.email()));
         return customer;
     }
 
