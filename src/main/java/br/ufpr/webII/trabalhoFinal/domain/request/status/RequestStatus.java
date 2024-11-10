@@ -2,19 +2,14 @@ package br.ufpr.webII.trabalhoFinal.domain.request.status;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Objects;
 
-@Entity
 public class RequestStatus {
 
-    private @Id
-    @GeneratedValue Long requestStatusId;
+    private Long requestStatusId;
     private Request request;
     private LocalDateTime dateTime;
     private Employee inChargeEmployee;

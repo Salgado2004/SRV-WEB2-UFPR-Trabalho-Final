@@ -1,16 +1,12 @@
 package br.ufpr.webII.trabalhoFinal.domain.equipment;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-@Entity
 public class EquipmentCategory {
     @JsonProperty("id")
-    private @Id @GeneratedValue Long equipCategoryId;
+    private Long equipCategoryId;
     @JsonProperty("description")
     private String categoryDesc;
 
