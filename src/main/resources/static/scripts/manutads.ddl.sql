@@ -1,4 +1,6 @@
-CREATE SCHEMA manutads;
+CREATE DATABASE manutads;
+
+CREATE TYPE profile_enum AS ENUM ('CUSTOMER','EMPLOYEE');
 
 CREATE TABLE "user" (
     id SERIAL PRIMARY KEY,
@@ -6,13 +8,13 @@ CREATE TABLE "user" (
     name VARCHAR(100) NOT NULL,
     surname VARCHAR(100) NOT NULL,
     password CHAR(69) NOT NULL,
-    profile varchar(50) NOT NULL,
+    profile profile_enum NOT NULL,
     active BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE employee (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
+    user_id INTEGER UNIQUE NOT NULL,
     birth_date DATE NOT NULL,
     active BOOLEAN DEFAULT TRUE,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "user"(id)
@@ -33,7 +35,7 @@ CREATE TABLE address (
 
 CREATE TABLE customer (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
+    user_id INTEGER UNIQUE NOT NULL,
     cpf VARCHAR(11) UNIQUE NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
     address_id INTEGER NOT NULL,
@@ -75,7 +77,7 @@ CREATE TABLE request_status (
     date_time TIMESTAMP NOT NULL,
     request_id INTEGER NOT NULL,
     sending_employee_id INTEGER,
-    in_charge_employee_id INTEGER NOT NULL,
+    in_charge_employee_id INTEGER,
     status status_enum NOT NULL,
     active BOOLEAN DEFAULT TRUE,
     CONSTRAINT fk_request FOREIGN KEY (request_id) REFERENCES request(id),
