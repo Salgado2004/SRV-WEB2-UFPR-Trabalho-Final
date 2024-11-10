@@ -1,8 +1,5 @@
 package br.ufpr.webII.trabalhoFinal.domain.request.status;
 
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
-
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -21,5 +18,14 @@ public record RequestStatusOutputDTO(
                 requestStatus.getInChargeEmployee() == null ? null : requestStatus.getInChargeEmployee().getId(),
                 requestStatus.getSenderEmployee() == null ? null : requestStatus.getSenderEmployee().getId(),
                 requestStatus.getCategory());
+    }
+    public RequestStatusOutputDTO(
+            Long requestId,
+            Date dateTime,
+            Long inChargeEmployeeId,
+            Long senderEmployeeId,
+            RequestStatusCategory category)
+    {
+        this(null, requestId, dateTime, inChargeEmployeeId, senderEmployeeId, category);
     }
 }

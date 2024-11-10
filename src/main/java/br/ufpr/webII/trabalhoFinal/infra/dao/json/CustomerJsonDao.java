@@ -11,7 +11,6 @@ import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
-import static java.lang.constant.ConstantDescs.NULL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +31,7 @@ public class CustomerJsonDao implements ClientDao {
     }
 
     public static ClientDao getCustomerJsonDao() {
-        if(customerDao == NULL){
+        if(customerDao == null){
             return customerDao = new CustomerJsonDao();
         } else{
             return customerDao;

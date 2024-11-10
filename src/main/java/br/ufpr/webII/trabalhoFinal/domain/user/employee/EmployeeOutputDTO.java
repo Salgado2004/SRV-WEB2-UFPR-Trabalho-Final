@@ -4,7 +4,6 @@
  */
 package br.ufpr.webII.trabalhoFinal.domain.user.employee;
 
-import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import java.util.Date;
 
 /**

@@ -1,7 +1,5 @@
 package br.ufpr.webII.trabalhoFinal.domain.request;
 
-import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-
 import java.time.LocalDateTime;
 
 public record RequestListItemDTO(
