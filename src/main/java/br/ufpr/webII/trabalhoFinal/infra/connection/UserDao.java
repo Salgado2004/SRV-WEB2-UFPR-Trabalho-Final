@@ -1,2 +1,7 @@
-package br.ufpr.webII.trabalhoFinal.infra.connection;public interface UserDao {
+package br.ufpr.webII.trabalhoFinal.infra.connection;
+
+import br.ufpr.webII.trabalhoFinal.domain.user.User;
+
+public interface UserDao extends DAO<User>{
+    public User findByEmail(String email);
 }

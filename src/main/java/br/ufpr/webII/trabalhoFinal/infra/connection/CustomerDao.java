@@ -11,6 +11,5 @@ import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
  *
  * @author mateus
  */
-public interface ClientDao extends DAO<Customer> {
-    
+public interface CustomerDao extends DAO<Customer> {
 }

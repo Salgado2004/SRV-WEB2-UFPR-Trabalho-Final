@@ -4,7 +4,7 @@ import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.ufpr.webII.trabalhoFinal.infra.dao.json.EmployeeJsonDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.json.EmployeeJsonDao;
 import java.util.Random;
 
 

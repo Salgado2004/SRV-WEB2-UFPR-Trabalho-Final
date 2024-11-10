@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao.sql;
+package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
-import br.ufpr.webII.trabalhoFinal.infra.dao.EquipmentDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
 
 import java.util.List;
 
@@ -14,6 +14,14 @@ import java.util.List;
  * @author mateus
  */
 public class EquipmentSQLDao implements EquipmentDao {
+
+    private static EquipmentSQLDao instance;
+
+    private EquipmentSQLDao(){}
+
+    public static EquipmentSQLDao getEquipmentSQLDao(){
+        return instance == null ? instance = new EquipmentSQLDao() : instance;
+    }
 
     @Override
     public void insert(EquipmentCategory element) throws Exception {

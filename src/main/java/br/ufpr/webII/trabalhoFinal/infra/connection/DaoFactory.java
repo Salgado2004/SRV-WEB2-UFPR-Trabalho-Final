@@ -2,54 +2,69 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao;
+package br.ufpr.webII.trabalhoFinal.infra.connection;
 
-import br.ufpr.webII.trabalhoFinal.infra.dao.json.CustomerJsonDao;
-import br.ufpr.webII.trabalhoFinal.infra.dao.json.EmployeeJsonDao;
-import br.ufpr.webII.trabalhoFinal.infra.dao.json.RequestJsonDao;
-import br.ufpr.webII.trabalhoFinal.infra.dao.sql.CustomerSQLDao;
-import br.ufpr.webII.trabalhoFinal.infra.dao.sql.EmployeeSQLDao;
-import br.ufpr.webII.trabalhoFinal.infra.dao.sql.RequestSQLDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.json.*;
+import br.ufpr.webII.trabalhoFinal.infra.connection.sql.*;
+import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author mateus
  */
-public class DaoFactory {
-    
-    private DaoFactory(){}
-    
-    public static EmployeeDao getEmployeeDao(DaoType type){
-        switch(type){
-            case JSON_EMPLOYEE:
-                return EmployeeJsonDao.getEmployeeJsonDao();
-            case SQL_EMPLOYEE:
-                return EmployeeSQLDao.getEmployeeSQLDao();
-            default:
-                throw new RuntimeException("Tipo não existe:"+type);
-        }
-    }
-    
-    public static ClientDao getClientDao(DaoType type){
-        switch(type){
-            case JSON_CUSTOMER:
-                return CustomerJsonDao.getCustomerJsonDao();
-            case SQL_CUSTOMER:
-                return CustomerSQLDao.getCustomerSQLDao();
-            default:
-                throw new RuntimeException("Tipo não existe:"+type);
-        }
-    }
-    
-    public static RequestDao getRequestDao(DaoType type){
-        switch(type){
-            case JSON_REQUEST:
-                return RequestJsonDao.getRequestJsonDao();
-            case SQL_REQUEST:
-                return RequestSQLDao.getRequestSQLDao();
-            default:
-                throw new RuntimeException("Tipo não existe:"+type);
 
-        }
+@Service
+public class DaoFactory {
+
+    @Value("${dao.type}")
+    private DaoType type;
+
+    @Autowired
+    JsonFileService jsonFileService;
+
+    @Autowired
+    ConnectionFactory connectionFactory;
+
+    public UserDao getUserDao(){
+        return switch (type) {
+            case JSON -> UserJsonDao.getUserJsonDao(jsonFileService);
+            case POSTGRES -> UserSQLDao.getUserSQLDao(connectionFactory);
+            default -> throw new RuntimeException("Tipo não existe:" + type);
+        };
+    }
+    
+    public EmployeeDao getEmployeeDao(){
+        return switch (type) {
+            case JSON -> EmployeeJsonDao.getEmployeeJsonDao();
+            case POSTGRES -> EmployeeSQLDao.getEmployeeSQLDao();
+            default -> throw new RuntimeException("Tipo não existe:" + type);
+        };
+    }
+    
+    public CustomerDao getCustomerDao(){
+        return switch (type) {
+            case JSON -> CustomerJsonDao.getCustomerJsonDao();
+            case POSTGRES -> CustomerSQLDao.getCustomerSQLDao();
+            default -> throw new RuntimeException("Tipo não existe:" + type);
+        };
+    }
+    
+    public RequestDao getRequestDao(){
+        return switch (type) {
+            case JSON -> RequestJsonDao.getRequestJsonDao();
+            case POSTGRES -> RequestSQLDao.getRequestSQLDao();
+            default -> throw new RuntimeException("Tipo não existe:" + type);
+        };
+    }
+
+    public EquipmentDao getEquipmentDao(){
+        return switch (type) {
+            case JSON -> EquipmentJsonDao.getEquipmentJsonDao();
+            case POSTGRES -> EquipmentSQLDao.getEquipmentSQLDao();
+            default -> throw new RuntimeException("Tipo não existe:" + type);
+        };
     }
 }

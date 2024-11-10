@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao.sql;
+package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
-import br.ufpr.webII.trabalhoFinal.infra.dao.EmployeeDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.EmployeeDao;
 
 import java.util.List;
 
