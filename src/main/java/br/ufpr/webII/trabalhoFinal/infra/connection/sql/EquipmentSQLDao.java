@@ -10,6 +10,7 @@ import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class EquipmentSQLDao implements EquipmentDao {
     @Override
     public void insert(EquipmentCategory element) throws Exception {
         try(Connection con = connectionFactory.getConnection();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO public.equipment_category (name) VALUES (?)")){
+            PreparedStatement ps = con.prepareStatement("INSERT INTO public.equip_category (category_desc) VALUES (?)")){
             ps.setString(1, element.getCategoryDesc());
             ps.executeUpdate();
         } catch (Exception e){
@@ -44,7 +45,7 @@ public class EquipmentSQLDao implements EquipmentDao {
     @Override
     public void update(EquipmentCategory objeto) throws Exception {
         try(Connection con = connectionFactory.getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE public.equipment_category SET name = ? WHERE id = ?")){
+            PreparedStatement ps = con.prepareStatement("UPDATE public.equip_category SET category_desc = ? WHERE id = ?")){
             ps.setString(1, objeto.getCategoryDesc());
             ps.setLong(2, objeto.getEquipCategoryId());
             ps.executeUpdate();
@@ -56,7 +57,7 @@ public class EquipmentSQLDao implements EquipmentDao {
     @Override
     public void delete(EquipmentCategory objeto) throws Exception {
         try(Connection con = connectionFactory.getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE public.equipment_category SET active = false WHERE id = ?")){
+            PreparedStatement ps = con.prepareStatement("UPDATE public.equip_category SET active = false WHERE id = ?")){
             ps.setLong(1, objeto.getEquipCategoryId());
             ps.executeUpdate();
         } catch (Exception e){
@@ -67,16 +68,17 @@ public class EquipmentSQLDao implements EquipmentDao {
     @Override
     public List<EquipmentCategory> listAll() throws Exception {
         ArrayList<EquipmentCategory> categories = new ArrayList<>();
-        try(Connection con = connectionFactory.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM public.equipment_category WHERE active = true")){
-            while (ps.getResultSet().next()){
+        try (Connection con = connectionFactory.getConnection();
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM public.equip_category WHERE active = true");
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
                 EquipmentCategory category = new EquipmentCategory();
-                category.setEquipCategoryId(ps.getResultSet().getLong("id"));
-                category.setCategoryDesc(ps.getResultSet().getString("name"));
+                category.setEquipCategoryId(rs.getLong("id"));
+                category.setCategoryDesc(rs.getString("category_desc"));
                 categories.add(category);
             }
             return categories;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("Erro ao listar categorias de equipamento", e);
         }
     }
@@ -84,18 +86,20 @@ public class EquipmentSQLDao implements EquipmentDao {
     @Override
     public EquipmentCategory select(EquipmentCategory objeto) throws Exception {
         try(Connection con = connectionFactory.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM public.equipment_category WHERE id = ?")){
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM public.equip_category WHERE id = ? AND active = true")){
             ps.setLong(1, objeto.getEquipCategoryId());
-            if (ps.getResultSet().next()){
-                EquipmentCategory category = new EquipmentCategory();
-                category.setEquipCategoryId(ps.getResultSet().getLong("id"));
-                category.setCategoryDesc(ps.getResultSet().getString("name"));
-                return category;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    EquipmentCategory category = new EquipmentCategory();
+                    category.setEquipCategoryId(rs.getLong("id"));
+                    category.setCategoryDesc(rs.getString("category_desc"));
+                    return category;
+                }
             }
             return null;
         } catch (Exception e){
             throw new Exception("Erro ao selecionar categoria de equipamento", e);
         }
     }
-    
+
 }
