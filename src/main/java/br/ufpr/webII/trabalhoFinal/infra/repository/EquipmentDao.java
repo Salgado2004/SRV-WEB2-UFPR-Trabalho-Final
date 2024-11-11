@@ -45,7 +45,7 @@ public class EquipmentDao {
         }
     }
 
-    public List<EquipmentCategory> selectAll() {
+    public List<EquipmentCategory> listAll() {
         try {
             // read json
             List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json",

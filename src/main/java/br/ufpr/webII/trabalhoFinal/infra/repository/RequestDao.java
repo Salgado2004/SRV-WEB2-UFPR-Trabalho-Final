@@ -48,7 +48,7 @@ public class RequestDao {
         }
     }
 
-    public ArrayList<Request> selectAll() {
+    public ArrayList<Request> listAll() {
         try {
             List<RequestOutputDTO> data = jsonService.readObjectFromFile("requests.json", new TypeReference<>() {
             });

@@ -49,7 +49,7 @@ public class RequestService {
     }
 
     public ArrayList<Request> listRequests() {
-        return requestDao.selectAll();
+        return requestDao.listAll();
     }
 
     public Request detailRequest(Long id) {
