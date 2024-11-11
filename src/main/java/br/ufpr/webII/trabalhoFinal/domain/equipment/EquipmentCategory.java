@@ -27,6 +27,10 @@ public class EquipmentCategory {
         this.categoryDesc = data.categoryDesc();
     }
 
+    public EquipmentCategory(Long id) {
+        this.equipCategoryId = id;
+    }
+
     public Long getEquipCategoryId() {
         return equipCategoryId;
     }
