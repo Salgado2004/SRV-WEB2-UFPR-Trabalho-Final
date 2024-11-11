@@ -1,17 +1,13 @@
 package br.ufpr.webII.trabalhoFinal.domain.user;
 
 import br.ufpr.webII.trabalhoFinal.infra.service.PasswordService;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-@Entity
 public abstract class User {
 
-    private @Id @GeneratedValue Long id;
+    private Long id;
     private String email;
     private String name;
     private String surname;

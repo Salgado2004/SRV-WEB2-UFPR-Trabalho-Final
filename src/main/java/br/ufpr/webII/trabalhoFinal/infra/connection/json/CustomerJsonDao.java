@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao.json;
+package br.ufpr.webII.trabalhoFinal.infra.connection.json;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
-import br.ufpr.webII.trabalhoFinal.infra.dao.ClientDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.CustomerDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author mateus
  */
-public class CustomerJsonDao implements ClientDao {
+public class CustomerJsonDao implements CustomerDao {
     
     public static CustomerJsonDao customerDao;
      
@@ -30,7 +30,7 @@ public class CustomerJsonDao implements ClientDao {
     private CustomerJsonDao(){
     }
 
-    public static ClientDao getCustomerJsonDao() {
+    public static CustomerDao getCustomerJsonDao() {
         if(customerDao == null){
             return customerDao = new CustomerJsonDao();
         } else{

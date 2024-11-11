@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.ufpr.webII.trabalhoFinal.infra.dao.json;
+package br.ufpr.webII.trabalhoFinal.infra.connection.json;
 
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
-import br.ufpr.webII.trabalhoFinal.infra.dao.EquipmentDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
 import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -21,18 +21,17 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class EquipmentJsonDao implements EquipmentDao {
     
-    public static EquipmentJsonDao equipmentDao;
-        
-    private EquipmentJsonDao(){}
-    
-    @Autowired
-    JsonFileService jsonService;
-    
-    static EquipmentDao getEquipmentJsonDao(){
+    private static EquipmentJsonDao equipmentDao;
+    private JsonFileService jsonService;
+
+    private EquipmentJsonDao(JsonFileService jsonFileService){
+        this.jsonService = jsonFileService;
+    }
+
+    public static EquipmentDao getEquipmentJsonDao(JsonFileService jsonService){
         if (equipmentDao == null)
-            return equipmentDao = new EquipmentJsonDao();
-        else
-            return equipmentDao;
+            equipmentDao = new EquipmentJsonDao(jsonService);
+        return equipmentDao;
     }
 
     @Override

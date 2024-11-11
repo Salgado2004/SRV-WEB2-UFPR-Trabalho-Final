@@ -13,12 +13,12 @@ public class JsonFileService {
 
     // Método para gravar um objeto em um arquivo JSON
     public void writeJsonToFile(String filePath, Object data) throws IOException {
-        String pathname = "src/main/resources/static/"+filePath;
+        String pathname = "src/main/resources/static/json_database/"+filePath;
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(pathname), data);
     }
 
     public <T> T readObjectFromFile(String filePath, TypeReference<T> valueType) throws IOException{
-        String pathname = "src/main/resources/static/"+filePath;
+        String pathname = "src/main/resources/static/json_database/"+filePath;
         return objectMapper.readValue(new File(pathname), valueType);
     }
 }

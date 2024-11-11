@@ -1,6 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.infra.dao.sql.RequestSQLDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.sql.RequestSQLDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.repository.RequestDao;
@@ -33,8 +33,8 @@ public class RequestService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private RequestSQLDao requestSQLDao;
+//    @Autowired
+//    private RequestSQLDao requestSQLDao;
 
     public void createRequest(RequestInputDTO data) {
         try {
@@ -49,7 +49,7 @@ public class RequestService {
     }
 
     public ArrayList<Request> listRequests() {
-        return requestDao.selectAll();
+        return requestDao.listAll();
     }
 
     public Request detailRequest(Long id) {

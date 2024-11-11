@@ -4,17 +4,12 @@ import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-@Entity
 public class Request {
-    private @Id
-    @GeneratedValue Long id;
+    private Long id;
     private String equipmentDesc;
     private EquipmentCategory equipmentCategory;
     private String defectDesc;
