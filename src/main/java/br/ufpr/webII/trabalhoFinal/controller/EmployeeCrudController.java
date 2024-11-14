@@ -21,7 +21,7 @@ public class EmployeeCrudController {
     @Autowired
     private EmployeeJsonDao employeeCrud;
     
-    @PostMapping("/new")
+    @PostMapping()
     public ResponseEntity<String> newEmployee(@RequestBody @Valid Employee data) throws Exception {
         employeeCrud.insert(data);
 
