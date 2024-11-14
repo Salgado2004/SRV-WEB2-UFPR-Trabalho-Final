@@ -1,6 +1,5 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.infra.connection.sql.RequestSQLDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
 import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.repository.RequestDao;
@@ -8,14 +7,10 @@ import br.ufpr.webII.trabalhoFinal.infra.repository.UserDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
-import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeContext;
-import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeByClient;
-import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeByEmployee;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 
