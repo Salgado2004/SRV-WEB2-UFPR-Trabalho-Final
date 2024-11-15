@@ -18,8 +18,9 @@ public class Request {
     private String customerOrientations;
     private Customer customer;
     private ArrayList<RequestStatus> requestStatus;
+    private Boolean active;
 
-    public Request() {
+    public Request(){
     }
 
     public Request(RequestInputDTO dto, Customer customer, EquipmentCategory equipment){
@@ -115,6 +116,14 @@ public class Request {
     }
     public void addRequestStatus(RequestStatus requestStatus) {
         this.requestStatus.add(requestStatus);
+    }
+
+    public Boolean getActive(){
+        return this.active;
+    }
+
+    public void setActive(Boolean active){
+        this.active = active;
     }
 
     @Override

@@ -21,26 +21,26 @@ public class RequestController {
     @Autowired
     private RequestService requestService;
 
-    @PostMapping("/new")
+    @PostMapping()
     public ResponseEntity<String> newRequest(@RequestBody @Valid RequestInputDTO data) {
         requestService.createRequest(data);
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Requisição de serviço criada com sucesso!");
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     public ResponseEntity<List<RequestListItemDTO>> listRequests() {
         List<Request> requests = requestService.listRequests();
         return ResponseEntity.ok(requests.stream().map(RequestListItemDTO::new).toList());
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<RequestDetailDTO> detailRequest(@PathVariable Long id) {
         Request request = requestService.detailRequest(id);
         return ResponseEntity.ok(new RequestDetailDTO(request));
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<String> updateRequest(@RequestBody @Valid RequestUpdateDTO data) {
         requestService.updateRequest(data);
         return ResponseEntity.ok("Requisição de serviço atualizada com sucesso!");
