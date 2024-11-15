@@ -127,7 +127,7 @@ public class RequestSQLDao implements RequestDao {
             ps.setLong(3, requestStatus.getRequest().getId());
             ps.setLong(4, requestStatus.getSenderEmployee().getId());
             ps.setLong(5, requestStatus.getInChargeEmployee().getId());
-            ps.setString(6, requestStatus.getClass());
+            ps.setString(6, requestStatus.getCategory().toString());
             ps.setBoolean(7, true);
             ps.executeUpdate();
            
