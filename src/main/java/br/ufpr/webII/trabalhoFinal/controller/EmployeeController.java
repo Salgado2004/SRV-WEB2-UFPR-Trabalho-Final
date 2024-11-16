@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/service/v1/employee")
-public class EmployeeCrudController {
+public class EmployeeController {
     
     @Autowired
     private EmployeeJsonDao employeeCrud;
