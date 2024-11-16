@@ -37,12 +37,12 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id, @RequestHeader("Authorization") String auth) throws Exception{
         Long idLogged = tokenService.getUserId(auth);
         //employeeCrud.delete(emp);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Empregado deletado com sucesso");
+        return ResponseEntity.ok().body("Empregado deletado com sucesso");
     }
     
     @PutMapping()
     public ResponseEntity<String> updateEmployee(@RequestBody @Valid Employee emp) throws Exception{
         employeeCrud.update(emp);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Empregado atualizado com sucesso");
+        return ResponseEntity.ok().body("Empregado atualizado com sucesso");
     }
 }
