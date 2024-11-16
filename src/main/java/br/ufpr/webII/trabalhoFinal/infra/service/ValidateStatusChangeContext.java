@@ -1,6 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 
 public class ValidateStatusChangeContext {
     private ValidateStatusChangeInterface strategy;

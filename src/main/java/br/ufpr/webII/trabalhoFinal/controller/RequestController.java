@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import br.ufpr.webII.trabalhoFinal.domain.dto.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 
 import java.util.List;
 
