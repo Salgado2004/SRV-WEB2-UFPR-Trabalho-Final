@@ -49,6 +49,7 @@ public class AuthService {
 
 
     public UserLoginDTO login(String email, String password) {
+        //fazer alterações para integrar o front-end e back-end
         this.isValidEmail(email);
 
         UserDao userDao = daoFactory.getUserDao();
