@@ -17,7 +17,7 @@ public class ReceitaController {
     private ReceitaService receitaService;
 
     // Este método recebe um parâmetro opcional para listar receitas filtradas
-    @GetMapping("/receitas")
+    @GetMapping()
     public List<String> listarReceitas(@RequestParam(required = false) String opcao) {
         // Chama o service para recuperar a lista de receitas
         return receitaService.listarReceitas(opcao);

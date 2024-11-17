@@ -5,6 +5,7 @@ import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.user.User;
 import br.ufpr.webII.trabalhoFinal.domain.user.UserLoginDTO;
+import br.ufpr.webII.trabalhoFinal.infra.connection.CustomerDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.LoginException;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
@@ -13,8 +14,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Random;
 
 @Service
@@ -36,10 +35,10 @@ public class AuthService {
         customer.encryptPassword(password); // Aqui você deve hash a senha antes de armazená-la
 
         try {
-            UserDao userDao = daoFactory.getUserDao();
-            userDao.insert(customer);
+            CustomerDao customerDao = daoFactory.getCustomerDao();
+            customerDao.insert(customer);
         } catch (Exception e){
-            throw new RegisteringException("Erro ao salvar cliente.", e);
+            throw new RegisteringException("Erro ao salvar cliente", e);
         }
 
         smailService.setSenha(password);

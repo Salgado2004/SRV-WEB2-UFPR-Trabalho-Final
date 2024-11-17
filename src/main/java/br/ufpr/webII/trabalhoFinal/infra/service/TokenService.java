@@ -47,6 +47,19 @@ public class TokenService {
         }
     }
 
+    public Long getUserId(String token) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+            return Long.parseLong(JWT.require(algoritmo)
+                    .withIssuer("api-trabalho-final.ufpr.br")
+                    .build()
+                    .verify(token)
+                    .getSubject());
+        } catch (JWTVerificationException exception) {
+            throw new TokenException("Token JWT inválido ou expirado!");
+        }
+    }
+
     private Instant expireDate() {
         return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
     }
