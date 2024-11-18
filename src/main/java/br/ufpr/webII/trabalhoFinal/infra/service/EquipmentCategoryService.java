@@ -19,8 +19,8 @@ public class EquipmentCategoryService {
     public void createEquipmentCategory(EquipmentCategoryInputDTO data) {
         try {
             EquipmentCategory equipmentCategory = new EquipmentCategory(data);
-            EquipmentDao equipmentDAO = daoFactory.getEquipmentDao();
-            equipmentDAO.insert(equipmentCategory);
+            EquipmentDao equipmentDao = daoFactory.getEquipmentDao();
+            equipmentDao.insert(equipmentCategory);
         } catch (IllegalArgumentException e){
             throw new RequestException(e.getMessage());
         } catch (Exception e){
@@ -30,8 +30,8 @@ public class EquipmentCategoryService {
 
     public List<EquipmentCategory> listEquipmentCategories() {
         try {
-            EquipmentDao equipmentDAO = daoFactory.getEquipmentDao();
-            return equipmentDAO.listAll();
+            EquipmentDao equipmentDao = daoFactory.getEquipmentDao();
+            return equipmentDao.listAll();
         } catch (IllegalArgumentException e) {
             throw new RequestException(e.getMessage());
         } catch (Exception e) {
@@ -41,8 +41,8 @@ public class EquipmentCategoryService {
 
     public void deleteEquipmentCategory(Long id) {
         try {
-            EquipmentDao equipmentDAO = daoFactory.getEquipmentDao();
-            equipmentDAO.delete(new EquipmentCategory(id));
+            EquipmentDao equipmentDao = daoFactory.getEquipmentDao();
+            equipmentDao.delete(new EquipmentCategory(id));
         } catch (IllegalArgumentException e){
             throw new RequestException(e.getMessage());
         } catch (Exception e){
@@ -53,8 +53,8 @@ public class EquipmentCategoryService {
     public void updateEquipmentCategory(EquipmentCategoryUpdateDTO data) {
         try {
             EquipmentCategory equipmentCategory = new EquipmentCategory(data);
-            EquipmentDao equipmentDAO = daoFactory.getEquipmentDao();
-            equipmentDAO.update(equipmentCategory);
+            EquipmentDao equipmentDao = daoFactory.getEquipmentDao();
+            equipmentDao.update(equipmentCategory);
         } catch (IllegalArgumentException e){
             throw new RequestException(e.getMessage());
         } catch (Exception e){

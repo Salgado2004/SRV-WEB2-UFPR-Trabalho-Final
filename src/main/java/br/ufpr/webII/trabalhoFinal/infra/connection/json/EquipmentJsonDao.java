@@ -123,7 +123,7 @@ public class EquipmentJsonDao implements EquipmentDao {
     }
     
     @Override
-    public EquipmentCategory select(EquipmentCategory objeto) {
+    public EquipmentCategory getById(Long id) {
         try {
             // read json
             List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json",
@@ -132,7 +132,7 @@ public class EquipmentJsonDao implements EquipmentDao {
 
             // find category by id
             for (EquipmentCategory category : categories) {
-                if (category.getEquipCategoryId().equals(objeto.getEquipCategoryId())) {
+                if (category.getEquipCategoryId().equals(id)) {
                     return category;
                 }
             }
