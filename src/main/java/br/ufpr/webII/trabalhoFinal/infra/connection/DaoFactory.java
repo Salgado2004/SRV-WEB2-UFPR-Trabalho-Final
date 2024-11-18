@@ -39,7 +39,7 @@ public class DaoFactory {
     public EmployeeDao getEmployeeDao(){
         return switch (type) {
             case JSON -> EmployeeJsonDao.getEmployeeJsonDao();
-            case POSTGRES -> EmployeeSQLDao.getEmployeeSQLDao();
+            case POSTGRES -> old_EmployeeSQLDao.getEmployeeSQLDao();
             default -> throw new RuntimeException("Tipo não existe:" + type);
         };
     }
