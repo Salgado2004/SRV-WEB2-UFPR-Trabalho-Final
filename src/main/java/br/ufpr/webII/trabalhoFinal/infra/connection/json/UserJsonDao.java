@@ -33,6 +33,12 @@ public class UserJsonDao implements UserDao {
     }
 
     @Override
+    public User getById(Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public void update(User objeto) throws Exception {
 
     }
