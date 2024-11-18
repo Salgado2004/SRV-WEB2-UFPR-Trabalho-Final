@@ -5,6 +5,7 @@
 package br.ufpr.webII.trabalhoFinal.infra.connection;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 
 /**
@@ -13,6 +14,7 @@ import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
  */
 public interface RequestDao extends DAO<Request> {
     
+    public Request getById(Long id) throws Exception;
     public void insertStatus(RequestStatus requestStatus) throws Exception;
-    
+    public void requestUpdate(RequestUpdateDTO requestStatus) throws Exception;
 }

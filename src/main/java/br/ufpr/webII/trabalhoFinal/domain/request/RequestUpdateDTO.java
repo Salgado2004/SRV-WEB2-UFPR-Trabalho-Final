@@ -1,5 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.domain.request;
 
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
@@ -10,8 +11,8 @@ public record RequestUpdateDTO(
         @NotNull Long requestId,
         Long inChargeEmployeeId,
         Long senderEmployeeId,
-        @NotBlank String currentStatus,
-        @NotBlank String nextStatus,
+        @NotBlank RequestStatusCategory currentStatus,
+        @NotBlank RequestStatusCategory nextStatus,
         @PastOrPresent LocalDateTime datetime,
         String rejectionReason,
         Double budget,
