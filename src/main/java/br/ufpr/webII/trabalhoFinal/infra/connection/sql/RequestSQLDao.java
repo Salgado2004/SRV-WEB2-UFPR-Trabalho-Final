@@ -5,6 +5,7 @@
 package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
@@ -37,17 +38,17 @@ public class RequestSQLDao implements RequestDao {
     }
 
     @Override
-    public void insert(Request element) throws Exception {
+    public void insert(Request request) throws Exception {
         try(
         Connection con = connectionFactory.getConnection();
         PreparedStatement ps = con.prepareStatement("INSERT INTO public.request (equip_desc, defect_desc, budget, repair_desc, customer_orientations, equip_category_id, customer_id, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")){
-            ps.setString(1, element.getEquipmentDesc());
-            ps.setString(2, element.getDefectDesc());
-            ps.setDouble(3, element.getBudget());
-            ps.setString(4, element.getRepairDesc());
-            ps.setString(5, element.getCustomerOrientations());
-            ps.setLong(6, element.getEquipmentCategory().getEquipCategoryId());
-            ps.setLong(7, element.getCustomer().getId());
+            ps.setString(1, request.getEquipmentDesc());
+            ps.setString(2, request.getDefectDesc());
+            ps.setDouble(3, request.getBudget());
+            ps.setString(4, request.getRepairDesc());
+            ps.setString(5, request.getCustomerOrientations());
+            ps.setLong(6, request.getEquipmentCategory().getEquipCategoryId());
+            ps.setLong(7, request.getCustomer().getId());
             ps.setBoolean(8, true);
             ps.executeUpdate();
         }catch (Exception e){
@@ -58,8 +59,8 @@ public class RequestSQLDao implements RequestDao {
     @Override
     public void update(Request element) throws Exception {
         try (
-            Connection con = connectionFactory.getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE public.request SET equip_desc = ?, defect_desc = ?, budget = ?, repair_desc = ?, customer_orientations = ?, equip_category_id = ?, customer_id = ?, active = ? WHERE id = ?")
+                Connection con = connectionFactory.getConnection();
+                PreparedStatement ps = con.prepareStatement("UPDATE public.request SET equip_desc = ?, defect_desc = ?, budget = ?, repair_desc = ?, customer_orientations = ?, equip_category_id = ?, customer_id = ?, active = ? WHERE id = ?")
         ) {
             ps.setString(1, element.getEquipmentDesc());
             ps.setString(2, element.getDefectDesc());
@@ -77,13 +78,25 @@ public class RequestSQLDao implements RequestDao {
     }
 
     @Override
-    public void delete(Request element) throws Exception {
+    public void requestUpdate(RequestUpdateDTO requestUpdateDTO) throws Exception {
+        try (
+                Connection con = connectionFactory.getConnection();
+                PreparedStatement ps = con.prepareStatement("")
+        ) {
+
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao atualizar requisição de serviço", e);
+        }
+    }
+
+    @Override
+    public void delete(Request request) throws Exception {
         try (
             Connection con = connectionFactory.getConnection();
-            PreparedStatement ps = con.prepareStatement("UPDATE public.request SET active = ? WHERE id = ?")
+            PreparedStatement ps = con.prepareStatement("UPDATE public.request SET active = false WHERE id = ?")
         ) {
-            ps.setBoolean(1, false);
-            ps.setLong(2, element.getId());
+            ps.setLong(1, request.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             throw new Exception("Erro ao atualizar requisição de serviço", e);
@@ -118,21 +131,44 @@ public class RequestSQLDao implements RequestDao {
     }
 
     @Override
+    public Request getById(Long id) throws Exception {
+        try (
+            Connection con = connectionFactory.getConnection();
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request WHERE id = ? AND active = true");
+        ) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Request request = new Request();
+                request.setId(rs.getLong("id"));
+                request.setEquipmentDesc(rs.getString("equip_desc"));
+                request.setDefectDesc(rs.getString("defect_desc"));
+                request.setBudget(rs.getDouble("budget"));
+                request.setRepairDesc(rs.getString("repair_desc"));
+                request.setCustomerOrientations(rs.getString("customer_orientations"));
+                request.setEquipmentCategory(null);
+                request.setCustomer(null);
+                request.setActive(rs.getBoolean("active"));
+                return request;
+            }
+            return null;
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar requisição de serviço", e);
+        }
+    }
+
+    @Override
     public void insertStatus(RequestStatus requestStatus) throws Exception {
         try(
         Connection con = connectionFactory.getConnection();
-        PreparedStatement ps = con.prepareStatement("INSERT INTO public.request_status (id, date_time, request_id, sending_employee_id, in_charge_employee_id, status, active) VALUES (?, ?, ?, ?, ?, ?, ?)")){
-            ps.setLong(1, requestStatus.getRequestStatusId());
-            ps.setTimestamp(2, java.sql.Timestamp.valueOf(requestStatus.getDateTime()));
-            ps.setLong(3, requestStatus.getRequest().getId());
-            ps.setLong(4, requestStatus.getSenderEmployee().getId());
-            ps.setLong(5, requestStatus.getInChargeEmployee().getId());
-            ps.setString(6, requestStatus.getCategory().toString());
-            ps.setBoolean(7, true);
+        PreparedStatement ps = con.prepareStatement("INSERT INTO public.request_status (date_time, request_id, sending_employee_id, in_charge_employee_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)")){
+            ps.setTimestamp(1, java.sql.Timestamp.valueOf(requestStatus.getDateTime()));
+            ps.setLong(2, requestStatus.getRequest().getId());
+            ps.setLong(3, requestStatus.getSenderEmployee().getId());
+            ps.setLong(4, requestStatus.getInChargeEmployee().getId());
+            ps.setString(5, requestStatus.getCategory().toString());
             ps.executeUpdate();
-           
-        
-        }catch (Exception e){
+        } catch (Exception e){
             throw new Exception("Erro ao inserir status de requisição de serviço", e);
         }
     
