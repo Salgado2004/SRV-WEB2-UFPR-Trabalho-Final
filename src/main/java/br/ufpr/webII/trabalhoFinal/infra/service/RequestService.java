@@ -1,9 +1,13 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
+import br.ufpr.webII.trabalhoFinal.infra.connection.CustomerDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
+import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.sql.RequestSQLDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
-import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
-import br.ufpr.webII.trabalhoFinal.infra.repository.RequestDao;
-import br.ufpr.webII.trabalhoFinal.infra.repository.UserDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,68 +15,104 @@ import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
+import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeContext;
+import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeByClient;
+import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeByEmployee;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RequestService {
 
     @Autowired
-    private RequestDao requestDao;
+    private DaoFactory daoFactory;
+
+
 
     @Autowired
-    private EquipmentDao equipmentDao;
-
-    @Autowired
-    private UserDao userDao;
-
-//    @Autowired
-//    private RequestSQLDao requestSQLDao;
+    private RequestSQLDao requestSQLDao;
 
     public void createRequest(RequestInputDTO data) {
         try {
-            EquipmentCategory equipment = equipmentDao.select(data.equipmentCategoryId());
-            Customer customer = userDao.selectCustomer(data.customerId());
+            EquipmentDao equipmentDao = daoFactory.getEquipmentDao();
+            EquipmentCategory equipment = equipmentDao.getById(data.equipmentCategoryId());
 
+            CustomerDao customerDao = daoFactory.getCustomerDao();
+            Customer customer = customerDao.getById(data.customerId());
+
+            RequestDao requestDao = daoFactory.getRequestDao();
             Request request = new Request(data, customer, equipment);
+
             requestDao.insert(request);
+            requestDao.insertStatus(new RequestStatus(request, RequestStatusCategory.OPEN, data.startDate()));
+
         } catch (IllegalArgumentException e) {
+            throw new RequestException(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Request> listRequests() {
+        try {
+            RequestDao requestDao = daoFactory.getRequestDao();
+            return requestDao.listAll();
+        } catch (Exception e) {
             throw new RequestException(e.getMessage());
         }
     }
 
-    public ArrayList<Request> listRequests() {
-        return requestDao.listAll();
-    }
-
     public Request detailRequest(Long id) {
-        return requestDao.select(id);
+        try {
+            RequestDao requestDao = daoFactory.getRequestDao();
+            return requestDao.getById(id);
+        } catch (Exception e) {
+            throw new RequestException(e.getMessage());
+        }
     }
 
     public void updateRequest(RequestUpdateDTO data) {
         ValidateStatusChangeContext context = new ValidateStatusChangeContext();
-
         try {
-            // Verificar o tipo de usuário usando o campo userType do DTO
-            if ("CLIENT".equals(data.userType())) { // Verifica se é cliente
+            if ("CLIENT".equals(data.userType())) {
                 context.setStrategy(new ValidateStatusChangeByClient());
-            } else if ("EMPLOYEE".equals(data.userType())) { // Verifica se é funcionário
+            } else if ("EMPLOYEE".equals(data.userType())) {
                 context.setStrategy(new ValidateStatusChangeByEmployee());
             } else {
                 throw new RequestException("Usuário não autorizado a realizar essa ação");
             }
-            /*   codigo comentado pois é necessário fazer a integração com o bd
+
             if (context.isValid(data)) {
-                // Implementar o DAO de SQL
-                requestSQLDao.update(data);
+
+                RequestDao requestDao = daoFactory.getRequestDao();
+
+                Request request = requestDao.getById(data.requestId());
+                request.setRejectionReason(data.rejectionReason());
+                request.setBudget(data.budget());
+                request.setRepairDesc(data.repairDesc());
+                request.setCustomerOrientations(data.customerOrientations());
+                requestDao.update(request);
+
+                requestDao.insertStatus(
+                        new RequestStatus(
+                                new Request(data.requestId()),
+                                data.currentStatus(),
+                                new Employee(data.inChargeEmployeeId()),
+                                new Employee(data.senderEmployeeId()),
+                                data.datetime()
+                        ));
+
             } else {
                 throw new RequestException("Não é possível alterar o status da requisição para " + data.nextStatus());
             }
-            */
+
         } catch (IllegalArgumentException e) {
             throw new RequestException(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

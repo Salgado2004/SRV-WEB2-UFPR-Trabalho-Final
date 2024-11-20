@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
@@ -6,6 +10,9 @@ import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -108,5 +115,51 @@ public class CustomerSQLDao implements CustomerDao {
         }
         return customers;
     }
-    
+
+    @Override
+    public Customer getByUserId(Long id) throws Exception {
+        Customer customer = new Customer();
+        String query = "SELECT u.\"name\", u.surname, u.email, c.* FROM public.\"user\" u join customer c ON u.id = c.user_id WHERE u.profile = 'CUSTOMER' AND u.active = true AND u.id = ?;";
+        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)){
+            sql.setLong(1, id);
+            ResultSet rs = sql.executeQuery();
+            if (rs.next()) {
+                customer.setCustomerId(rs.getLong("id"));
+                customer.setId(rs.getLong("user_id"));
+                customer.setName(rs.getString("name"));
+                customer.setSurname(rs.getString("surname"));
+                customer.setEmail(rs.getString("email"));
+                customer.setCpf(rs.getString("cpf"));
+                customer.setPhone(rs.getString("phone_number"));
+            }
+        } catch (SQLException e) {
+            throw new Exception("Erro ao buscar cliente", e);
+        }
+        return customer;
+    }
+
+    @Override
+    public Customer getById(Long id) throws Exception {
+        Customer customer = new Customer();
+        String query = "SELECT u.\"name\", u.surname, u.email, c.* FROM public.\"user\" u join customer c ON u.id = c.user_id WHERE u.profile = 'CUSTOMER' AND u.active = true AND c.id = ?;";
+        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)){
+            sql.setLong(1, id);
+            ResultSet rs = sql.executeQuery();
+            if (rs.next()) {
+                customer.setCustomerId(rs.getLong("id"));
+                customer.setId(rs.getLong("user_id"));
+                customer.setName(rs.getString("name"));
+                customer.setSurname(rs.getString("surname"));
+                customer.setEmail(rs.getString("email"));
+                customer.setCpf(rs.getString("cpf"));
+                customer.setPhone(rs.getString("phone_number"));
+            }
+        } catch (SQLException e) {
+            throw new Exception("Erro ao buscar cliente", e);
+        }
+        return customer;
+    }
+
+
+
 }

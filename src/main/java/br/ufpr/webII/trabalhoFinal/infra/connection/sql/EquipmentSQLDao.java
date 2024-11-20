@@ -84,10 +84,10 @@ public class EquipmentSQLDao implements EquipmentDao {
     }
 
     @Override
-    public EquipmentCategory select(EquipmentCategory objeto) throws Exception {
+    public EquipmentCategory getById(Long id) throws Exception {
         try(Connection con = connectionFactory.getConnection();
             PreparedStatement ps = con.prepareStatement("SELECT * FROM public.equip_category WHERE id = ? AND active = true")){
-            ps.setLong(1, objeto.getEquipCategoryId());
+            ps.setLong(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     EquipmentCategory category = new EquipmentCategory();

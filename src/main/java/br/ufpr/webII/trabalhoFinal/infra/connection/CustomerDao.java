@@ -5,6 +5,7 @@
 package br.ufpr.webII.trabalhoFinal.infra.connection;
 
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+import jakarta.validation.constraints.NotNull;
 
 
 /**
@@ -12,4 +13,7 @@ import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
  * @author mateus
  */
 public interface CustomerDao extends DAO<Customer> {
+
+    public Customer getByUserId(@NotNull Long aLong) throws Exception;
+    public Customer getById(@NotNull Long aLong) throws Exception;
 }

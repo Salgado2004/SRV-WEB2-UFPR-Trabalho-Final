@@ -100,7 +100,23 @@ public class CustomerJsonDao implements CustomerDao {
         return null;
     }
 
-    Customer selectCustomer(Long customerId) {
+    @Override
+    public Customer getByUserId(Long customerId) {
+        try {
+            List<CustomerOutputDTO> customers = jsonService.readObjectFromFile("clients.json", new TypeReference<>(){});
+            for (CustomerOutputDTO customer : customers) {
+                if (customer.id().equals(customerId)) {
+                    return new Customer(customer);
+                }
+            }
+        } catch (IOException e){
+            System.out.println("Erro ao consultar arquivos: "+ e.getMessage());
+        }
+        throw new ResourceNotFoundException("Cliente não encontrado");
+    }
+
+    @Override
+    public Customer getById(Long customerId) {
         try {
             List<CustomerOutputDTO> customers = jsonService.readObjectFromFile("clients.json", new TypeReference<>(){});
             for (CustomerOutputDTO customer : customers) {

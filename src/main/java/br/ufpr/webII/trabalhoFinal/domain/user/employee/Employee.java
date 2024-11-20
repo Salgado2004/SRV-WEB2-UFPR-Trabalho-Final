@@ -22,6 +22,10 @@ public class Employee extends User {
         throw new UnsupportedOperationException("No fields populated yet.");
     }
 
+    public Employee(Long id) {
+        this.employeeId = id;
+    }
+
     public Long getEmployeeId() {
         return employeeId;
     }

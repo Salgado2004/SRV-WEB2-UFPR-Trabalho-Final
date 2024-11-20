@@ -49,6 +49,28 @@ public class UserSQLDao implements UserDao {
     }
 
     @Override
+    public User getById(Long id) {
+        try(Connection con = connectionFactory.getConnection();
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM public.\"user\" u WHERE u.id = ?")) {
+            ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                User user = rs.getString("profile").equals("CUSTOMER") ? new Customer() : new Employee();
+                user.setId(rs.getLong("id"));
+                user.setName(rs.getString("name"));
+                user.setEmail(rs.getString("email"));
+                String[] credentials = rs.getString("password").split(":");
+                user.setPassword(credentials[0]);
+                user.setSalt(credentials[1]);
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public List<User> listAll() throws Exception {
         ArrayList<User> users = new ArrayList<>();
         try (Connection con = connectionFactory.getConnection();
