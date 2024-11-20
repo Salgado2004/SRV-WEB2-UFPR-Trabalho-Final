@@ -16,34 +16,28 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(@NonNull CorsRegistry registry) {
         // Auth Controller
-        addCorsMapping(registry, BASE_URL + "/auth/register", "POST");
-        addCorsMapping(registry, BASE_URL + "/auth/login", "POST");
+        addCorsMapping(registry, BASE_URL + "/auth/register", new String[]{"POST"});
+        addCorsMapping(registry, BASE_URL + "/auth/login", new String[]{"POST"});
         
         // Employee Controller
-        addCorsMapping(registry, BASE_URL + "/employee/new", "POST");
-        addCorsMapping(registry, BASE_URL + "/employee/detail/:id", "GET");
-        addCorsMapping(registry, BASE_URL + "/employee/delete/:id", "DELETE");
-        addCorsMapping(registry, BASE_URL + "/employee/update/:id", "PUT");
+        addCorsMapping(registry, BASE_URL + "/employee", new String[]{"POST", "GET"});
+        addCorsMapping(registry, BASE_URL + "/employee/{userId}", new String[]{"DELETE", "PUT"});
         
         // Equipment Category Controller        
-        addCorsMapping(registry, BASE_URL + "/equipment-category/new", "POST");
-        addCorsMapping(registry, BASE_URL + "/equipment-category/list", "GET");
-        addCorsMapping(registry, BASE_URL + "/equipment-category/delete/{id}", "DELETE");
-        addCorsMapping(registry, BASE_URL + "/equipment-category/update", "PUT");
+        addCorsMapping(registry, BASE_URL + "/equipment-category", new String[]{"POST", "GET", "PUT"});
+        addCorsMapping(registry, BASE_URL + "/equipment-category/{id}", new String[]{"DELETE"});
 
         // Receipt Controller
-        addCorsMapping(registry, BASE_URL + "/receipt/receitas", "GET");
+        addCorsMapping(registry, BASE_URL + "/receipt", new String[]{"GET"});
 
         // Requests Controller        
-        addCorsMapping(registry, BASE_URL + "/requests/new", "POST");
-        addCorsMapping(registry, BASE_URL + "/requests/list", "GET");
-        addCorsMapping(registry, BASE_URL + "/requests/detail/{id}", "GET");
-        addCorsMapping(registry, BASE_URL + "/requests/update/{id}", "PUT");
+        addCorsMapping(registry, BASE_URL + "/requests", new String[]{"POST", "GET"});
+        addCorsMapping(registry, BASE_URL + "/requests/{id}", new String[]{"GET", "PUT"});
     }
 
-    private void addCorsMapping(CorsRegistry registry, String path, String method) {
+    private void addCorsMapping(CorsRegistry registry, String path, String[] methods) {
         registry.addMapping(path)
                 .allowedOrigins(ALLOWED_ORIGINS)
-                .allowedMethods(method);
+                .allowedMethods(methods);
     }
 }

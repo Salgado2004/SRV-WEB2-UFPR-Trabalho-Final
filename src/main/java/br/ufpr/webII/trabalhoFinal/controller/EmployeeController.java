@@ -35,15 +35,15 @@ public class EmployeeController {
         return ResponseEntity.ok().body(employees);
     }
 
-    @DeleteMapping()
-    public ResponseEntity<String> deleteEmployee(@RequestBody @Valid EmployeeInputDTO data) throws Exception{
-        employeeCrud.deleteEmployee(data);
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteEmployee(@RequestBody @Valid EmployeeInputDTO data, @PathVariable Long userId) throws Exception{
+        employeeCrud.deleteEmployee(data, userId);
         return ResponseEntity.ok().body("Empregado excluído com sucesso");
     }
     
-    @PutMapping()
-    public ResponseEntity<String> updateEmployee(@RequestBody @Valid EmployeeInputDTO data) throws Exception{
-        employeeCrud.updateEmployee(data);
+    @PutMapping("/{userId}")
+    public ResponseEntity<String> updateEmployee(@RequestBody @Valid EmployeeInputDTO data, @PathVariable Long userId) throws Exception{
+        employeeCrud.updateEmployee(data, userId);
         return ResponseEntity.ok().body("Empregado alterado com sucesso");
     }
 }

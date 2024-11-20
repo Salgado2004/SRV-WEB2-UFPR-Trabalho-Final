@@ -69,7 +69,7 @@ public class EmployeeSQLDao implements EmployeeDao {
             sql = "UPDATE public.employee SET birth_date = ? WHERE id = ?;";
             try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setDate(1, new java.sql.Date(employee.getBirthDate().getTime()));
-                ps.setLong(2, employee.getEmployeeId());
+                ps.setLong(2, employee.getId());
                 ps.executeUpdate();
             }
             con.commit();
@@ -87,9 +87,9 @@ public class EmployeeSQLDao implements EmployeeDao {
                 ps.setLong(1, employee.getId());
                 ps.executeUpdate();
             }
-            sql = "UPDATE public.employee SET active = false WHERE id = ?;";
+            sql = "UPDATE employee SET active = false WHERE user_id = ?;";
             try (PreparedStatement ps = con.prepareStatement(sql)) {
-                ps.setLong(1, employee.getEmployeeId());
+                ps.setLong(1, employee.getId());
                 ps.executeUpdate();
             }
             con.commit();
@@ -111,6 +111,7 @@ public class EmployeeSQLDao implements EmployeeDao {
                 employee.setName(rs.getString("name"));
                 employee.setSurname(rs.getString("surname"));
                 employee.setEmail(rs.getString("email"));
+                employee.setBirthDate(rs.getDate("birth_date"));
                 employees.add(employee);
             }
         } catch (SQLException e) {
