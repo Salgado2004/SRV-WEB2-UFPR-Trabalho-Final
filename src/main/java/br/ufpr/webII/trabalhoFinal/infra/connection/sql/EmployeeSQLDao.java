@@ -56,12 +56,46 @@ public class EmployeeSQLDao implements EmployeeDao {
 
     @Override
     public void update(Employee employee) throws Exception {
-        throw new UnsupportedOperationException("Ainda não suportado");
+        try (Connection con = connectionFactory.getConnection()) {
+            con.setAutoCommit(false);
+            String sql = "UPDATE public.\"user\" SET name = ?, surname = ?, email = ? WHERE id = ?;";
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setString(1, employee.getName());
+                ps.setString(2, employee.getSurname());
+                ps.setString(3, employee.getEmail());
+                ps.setLong(4, employee.getId());
+                ps.executeUpdate();
+            }
+            sql = "UPDATE public.employee SET birth_date = ? WHERE id = ?;";
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setDate(1, new java.sql.Date(employee.getBirthDate().getTime()));
+                ps.setLong(2, employee.getEmployeeId());
+                ps.executeUpdate();
+            }
+            con.commit();
+        } catch (SQLException e) {
+            throw new Exception("Erro ao atualizar funcionário: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void delete(Employee employee) throws Exception {
-        throw new UnsupportedOperationException("Ainda não suportado");
+        try(Connection con = connectionFactory.getConnection()) {
+            con.setAutoCommit(false);
+            String sql = "UPDATE public.\"user\" SET active = false WHERE id = ?;";
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setLong(1, employee.getId());
+                ps.executeUpdate();
+            }
+            sql = "UPDATE public.employee SET active = false WHERE id = ?;";
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setLong(1, employee.getEmployeeId());
+                ps.executeUpdate();
+            }
+            con.commit();
+        } catch (SQLException e) {
+            throw new Exception("Erro ao deletar funcionário: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -80,7 +114,7 @@ public class EmployeeSQLDao implements EmployeeDao {
                 employees.add(employee);
             }
         } catch (SQLException e) {
-            throw new Exception("Erro ao listar funcionários", e);
+            throw new Exception("Erro ao listar funcionários: " + e.getMessage(), e);
         }
         return employees;
     }
