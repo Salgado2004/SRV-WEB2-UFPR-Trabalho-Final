@@ -14,7 +14,14 @@ public abstract class User {
     private String password;
     private String salt;
 
-    public User() {
+    public User() { 
+    }
+
+    public User(String email, String name, String surname, String password) {
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        encryptPassword(password);
     }
 
     public Long getId() {

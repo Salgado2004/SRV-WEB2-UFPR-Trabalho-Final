@@ -4,6 +4,9 @@
  */
 package br.ufpr.webII.trabalhoFinal.domain.user.employee;
 
+import java.sql.Date;
+
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -16,16 +19,26 @@ public record EmployeeInputDTO(
         @NotBlank
         @Size (max = 255)
         String name,
+
+        @NotBlank
+        String surname,
         
         @NotBlank
         @Size (max = 50)
+        @Email
         String email,
+
+        @NotBlank
+        String password,
+
+        @NotBlank
+        Date birthDate,
         
+        // Remover e resolver os conflitos. Não existe no banco de dados
         @NotBlank
         String telefone
                
         ) {
+        
     
-    
-
 }

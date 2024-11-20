@@ -12,15 +12,15 @@ import java.util.Date;
  */
 public record EmployeeOutputDTO(
         Long id,
+        Long employeeId,
         String name,
         String surname,
         String email,
-        Date birthDate,
-        String password
+        Date birthDate
         ) {
         
     public EmployeeOutputDTO(Employee e){
-        this(e.getId(),e.getName(),e.getSurname(),e.getEmail(),e.getBirthDate(),e.getPassword()+":"+e.getSalt());
+        this(e.getId(), e.getEmployeeId(), e.getName(),e.getSurname(), e.getEmail(), e.getBirthDate());
     }
 
 }
