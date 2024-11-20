@@ -32,13 +32,5 @@ public record EmployeeInputDTO(
         String password,
 
         @NotBlank
-        Date birthDate,
-        
-        // Remover e resolver os conflitos. Não existe no banco de dados
-        @NotBlank
-        String telefone
-               
-        ) {
-        
-    
-}
+        Date birthDate
+        ) {}
