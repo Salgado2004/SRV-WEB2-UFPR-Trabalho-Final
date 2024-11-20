@@ -6,16 +6,16 @@ import br.ufpr.webII.trabalhoFinal.domain.user.employee.EmployeeOutputDTO;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.ufpr.webII.trabalhoFinal.infra.connection.sql.EmployeeSQLDao;
+import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
+import br.ufpr.webII.trabalhoFinal.infra.connection.EmployeeDao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EmployeeCrud {
-
     @Autowired
-    private EmployeeSQLDao employeeSQLDao;
+    private DaoFactory daoFactory;
 
     public void registerEmployee(EmployeeInputDTO data) {
         try {
@@ -23,24 +23,29 @@ public class EmployeeCrud {
             String salt = PasswordService.generateSalt();
             String password = PasswordService.hashPassword(data.password(), salt);
             employee.setPassword(password);
+            EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             employeeSQLDao.insert(employee);
         } catch (Exception e){
             throw new RegisteringException("Erro ao inserir funcionário: " + e.getMessage(), e);
         }
     }
 
-    public void deleteEmployee(EmployeeInputDTO data) {
+    public void deleteEmployee(EmployeeInputDTO data, Long userId) {
         try{
             Employee employee = new Employee(data);
+            employee.setId(userId);
+            EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             employeeSQLDao.delete(employee);
         } catch (Exception e){
             throw new RegisteringException("Erro ao excluir o empregado: " + e.getMessage(), e);
         }
     }
 
-    public void updateEmployee(EmployeeInputDTO data) {
+    public void updateEmployee(EmployeeInputDTO data, Long userId) {
         try{
             Employee employee = new Employee(data);
+            employee.setId(userId);
+            EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             employeeSQLDao.update(employee);
         } catch(Exception e){
             throw new RegisteringException("Erro ao atualizar o empregado: " + e.getMessage(), e);
@@ -49,6 +54,7 @@ public class EmployeeCrud {
 
     public List<EmployeeOutputDTO> listEmployees() {
         try{
+            EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             List<Employee> employees = employeeSQLDao.listAll();
             List<EmployeeOutputDTO> employeesOutputDTO = new ArrayList<>();
             for (Employee employee : employees) {
