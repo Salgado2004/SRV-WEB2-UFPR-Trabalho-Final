@@ -4,27 +4,30 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.connection.json;
 
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
-import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
-import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
-import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
-import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
+import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
+import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
+import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 
 /**
  *
  * @author mateus
  */
-public class RequestJsonDao implements RequestDao {
+public class RequestJsonDao extends RequestDao {
     
     public static RequestJsonDao requestDao;
     
@@ -183,5 +186,4 @@ public class RequestJsonDao implements RequestDao {
             System.out.println("Erro ao acessar o arquivo: "+e.getMessage());
         }
     }
-    
 }

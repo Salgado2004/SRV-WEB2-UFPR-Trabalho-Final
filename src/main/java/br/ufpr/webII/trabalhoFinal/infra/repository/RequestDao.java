@@ -1,22 +1,25 @@
 package br.ufpr.webII.trabalhoFinal.infra.repository;
 
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
-import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
-import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
-import com.fasterxml.jackson.core.type.TypeReference;
+import java.io.IOException;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.time.ZoneId;
-import java.util.Date;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
+import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
+
 
 @Component
 public class RequestDao {
@@ -84,7 +87,7 @@ public class RequestDao {
                 if (request.requestId().equals(id)) {
                     Request newRequest = new Request(request);
                     newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
-                    newRequest.setCustomer(userDao.selectCustomer(request.customerId()));
+                    newRequest.setCustomer(userDao.getById(request.customerId()));
                     for (RequestStatusOutputDTO requestStatus : status) {
                         if (requestStatus.requestId().equals(request.requestId())) {
                             newRequest.addRequestStatus(new RequestStatus(newRequest, requestStatus));
@@ -148,4 +151,5 @@ public class RequestDao {
             System.out.println("Erro ao consultar arquivos: " + e.getMessage());
         }
     }
+
 }

@@ -4,23 +4,27 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 
-import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
-import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
-import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.reports.CategoryReport;
+import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReport;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
+import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
 
 /**
  *
  * @author mateus
  */
-public class RequestSQLDao implements RequestDao {
+public class RequestSQLDao extends RequestDao {
 
     private static RequestSQLDao instance;
     private ConnectionFactory connectionFactory;
@@ -173,4 +177,71 @@ public class RequestSQLDao implements RequestDao {
         }
     
     }
+
+   @Override
+   public ArrayList<CommomReport> listCommomReport(Timestamp startDate, Timestamp endDate) throws Exception {
+    ArrayList<CommomReport> reports = new ArrayList<>();
+    String query = "SELECT DATE(rs.date_time) AS day, SUM(r.budget) AS total_revenue " +
+                   "FROM request_status rs " +
+                   "JOIN request r ON rs.request_id = r.id " +
+                   "WHERE rs.status = 'PAID' " +
+                   "AND (rs.date_time >= COALESCE(?, rs.date_time)) " +
+                   "AND (rs.date_time <= COALESCE(?, rs.date_time)) " +
+                   "GROUP BY DATE(rs.date_time) " +
+                   "ORDER BY DATE(rs.date_time);";
+    try (Connection con = connectionFactory.getConnection();
+         PreparedStatement ps = con.prepareStatement(query)) {
+        
+        ps.setTimestamp(1, startDate);
+        ps.setTimestamp(2, endDate);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("day");
+                LocalDateTime day = timestamp != null ? timestamp.toLocalDateTime() : null;
+                CommomReport report = new CommomReport(day, rs.getDouble("total_revenue"));
+                reports.add(report);
+            }
+        }
+    } catch (Exception e) {
+        throw new Exception("Erro ao carregar dados do relatório");
+    }
+        return reports;
+    }
+
+    public ArrayList<CategoryReport> listCategoryReport() throws Exception {
+        ArrayList<CategoryReport> reports = new ArrayList<>();
+        String query = "SELECT " +
+                       "ec.category_desc AS category, " +
+                       "SUM(r.budget) AS total_revenue " +
+                       "FROM " +
+                       "request r " +
+                       "JOIN " +
+                       "equip_category ec ON r.equip_category_id = ec.id " +
+                       "JOIN " +
+                       "request_status rs ON rs.request_id = r.id " +
+                       "WHERE " +
+                       "rs.status = 'PAID' " +
+                       "GROUP BY " +
+                       "ec.category_desc " +
+                       "ORDER BY " +
+                       "ec.category_desc;";
+
+        try(
+            Connection con = connectionFactory.getConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+        ) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    CategoryReport report = new CategoryReport(rs.getString("category"), rs.getDouble("total_revenue"));
+                    reports.add(report);
+                }
+            } 
+        } catch (Exception e) {
+            throw new Exception("Erro ao carregar dados do relatório de categoria");
+        }
+        return reports;
+    }
+
+  
 }
