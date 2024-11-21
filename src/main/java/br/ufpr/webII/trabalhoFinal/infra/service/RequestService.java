@@ -31,11 +31,6 @@ public class RequestService {
     @Autowired
     private DaoFactory daoFactory;
 
-
-
-    @Autowired
-    private RequestSQLDao requestSQLDao;
-
     public void createRequest(RequestInputDTO data) {
         try {
             EquipmentDao equipmentDao = daoFactory.getEquipmentDao();
