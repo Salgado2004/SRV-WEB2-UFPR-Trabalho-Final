@@ -1,6 +1,22 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.reports.CategoryReport;
+import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReport;
+import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReportDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.connection.CustomerDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
@@ -8,21 +24,6 @@ import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.sql.RequestSQLDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
-import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
-import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
-import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeContext;
-import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeByClient;
-import br.ufpr.webII.trabalhoFinal.infra.service.ValidateStatusChangeByEmployee;
-
-import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
-
-import java.util.List;
 
 @Service
 public class RequestService {
@@ -115,4 +116,28 @@ public class RequestService {
             throw new RuntimeException(e);
         }
     }
+
+    public List<CommomReport> listCommomReport(CommomReportDTO data){
+        List<CommomReport> report = new ArrayList<>();
+
+        try {
+            RequestDao requestDao = daoFactory.getRequestDao();
+            report = requestDao.listCommomReport(data.startDate(), data.endDate());
+        } catch (Exception e) {
+            throw new RequestException(e.getMessage());
+        }
+        return report;
+    }
+
+    public List<CategoryReport> listCategoryReport(){
+        List<CategoryReport> report = new ArrayList<>();
+        try {
+            RequestDao requestDao = daoFactory.getRequestDao();
+            report = requestDao.listCategoryReport();
+        } catch (Exception e) {
+            throw new RequestException(e.getMessage());
+        }
+        return report;
+    }
+
 }

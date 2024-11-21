@@ -1,18 +1,30 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestDetailDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestListItemDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-import br.ufpr.webII.trabalhoFinal.infra.service.RequestService;
-import jakarta.validation.Valid;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestDetailDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestListItemDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.reports.CategoryReport;
+import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReport;
+import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReportDTO;
+import br.ufpr.webII.trabalhoFinal.infra.service.RequestService;
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/service/v1/requests")
@@ -45,4 +57,18 @@ public class RequestController {
         requestService.updateRequest(data);
         return ResponseEntity.ok("Requisição de serviço atualizada com sucesso!");
     }
+
+    @PostMapping("/report")
+    public ResponseEntity<List<CommomReport>> getCommomReport(@RequestBody @Valid  CommomReportDTO data){
+        List<CommomReport> report = requestService.listCommomReport(data);
+        return ResponseEntity.ok(report.stream().map(reportItem -> reportItem).toList());
+    }
+
+    @GetMapping("/report/category")
+    public ResponseEntity<List<CategoryReport>> getCategoryReport(){
+        List<CategoryReport> report = requestService.listCategoryReport();
+        return ResponseEntity.ok(report.stream().map(reportItem -> reportItem).toList());
+    }
+    
+    
 }
