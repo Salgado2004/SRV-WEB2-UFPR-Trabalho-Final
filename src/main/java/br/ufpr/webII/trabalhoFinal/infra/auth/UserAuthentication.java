@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.ufpr.webII.trabalhoFinal.infra.auth;
 
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.TokenException;
@@ -52,8 +48,9 @@ public class UserAuthentication extends OncePerRequestFilter {
             }
             case ("requests") -> {
                 if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
-                    if (partes[4].equalsIgnoreCase("new"))
+                    if (request.getMethod().equals("POST"))
                         throw new TokenException("Um empregado não pode criar um request, se registre como cliente e tente novamente.");
+                    filterChain.doFilter(request, response);
                 } else
                     filterChain.doFilter(request, response);
             }
@@ -61,7 +58,7 @@ public class UserAuthentication extends OncePerRequestFilter {
                 if (tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Employee")){
                     filterChain.doFilter(request, response);
                 } else if(tokenSrv.getProfile(authorizationHeader).equalsIgnoreCase("Customer")){
-                    if (partes[4].equalsIgnoreCase("list")){
+                    if (request.getMethod().equals("GET")){
                         filterChain.doFilter(request, response);
                     }else
                         throw new TokenException("Token não autorizado!!");

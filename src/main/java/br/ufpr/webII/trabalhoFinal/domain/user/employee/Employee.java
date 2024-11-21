@@ -13,6 +13,11 @@ public class Employee extends User {
         super();
     }
 
+    public Employee(EmployeeInputDTO emp) {
+        super(emp.email(), emp.name(), emp.surname(), emp.password());
+        this.birthDate = emp.birthDate();
+    }
+
     public Employee(EmployeeOutputDTO emp) {
         throw new UnsupportedOperationException("No fields populated yet.");
     }

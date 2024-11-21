@@ -4,7 +4,11 @@
  */
 package br.ufpr.webII.trabalhoFinal.domain.user.employee;
 
+import java.sql.Date;
+
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -16,16 +20,18 @@ public record EmployeeInputDTO(
         @NotBlank
         @Size (max = 255)
         String name,
+
+        @NotBlank
+        String surname,
         
         @NotBlank
         @Size (max = 50)
+        @Email
         String email,
-        
-        @NotBlank
-        String telefone
-               
-        ) {
-    
-    
 
-}
+        @NotBlank
+        String password,
+
+        @NotNull
+        Date birthDate
+        ) {}
