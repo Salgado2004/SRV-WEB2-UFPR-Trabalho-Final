@@ -179,7 +179,7 @@ public class RequestSQLDao extends RequestDao {
     }
 
    @Override
-   public ArrayList<CommomReport> listCommomReport(Timestamp startDate, Timestamp endDate) throws Exception {
+   public ArrayList<CommomReport> listCommomReport(LocalDateTime startDate, LocalDateTime endDate) throws Exception {
     ArrayList<CommomReport> reports = new ArrayList<>();
     String query = "SELECT DATE(rs.date_time) AS day, SUM(r.budget) AS total_revenue " +
                    "FROM request_status rs " +
@@ -192,8 +192,8 @@ public class RequestSQLDao extends RequestDao {
     try (Connection con = connectionFactory.getConnection();
          PreparedStatement ps = con.prepareStatement(query)) {
         
-        ps.setTimestamp(1, startDate);
-        ps.setTimestamp(2, endDate);
+        ps.setTimestamp(1, startDate != null ? Timestamp.valueOf(startDate) : null);
+        ps.setTimestamp(2, endDate != null ? Timestamp.valueOf(endDate) : null);
         
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {

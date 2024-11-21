@@ -10,8 +10,8 @@ public class ValidateStatusChangeByEmployee implements ValidateStatusChangeInter
         RequestStatusCategory nextStatus;
 
         try {
-            currentStatus = RequestStatusCategory.valueOf(data.currentStatus());
-            nextStatus = RequestStatusCategory.valueOf(data.nextStatus());
+            currentStatus = data.currentStatus();
+            nextStatus = data.nextStatus();
         } catch (IllegalArgumentException e) {
             return false; // Status inválido
         }
