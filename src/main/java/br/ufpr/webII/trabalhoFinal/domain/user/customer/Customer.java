@@ -33,6 +33,10 @@ public class Customer extends User {
         this.setSalt(auth[1]);
     }
 
+    public Customer(long customerId) {
+        this.setId(customerId);
+    }
+
     // Getters e Setters para todos os campos, incluindo os herdados de User
 
 

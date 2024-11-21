@@ -21,9 +21,9 @@ import java.util.List;
 public class EquipmentSQLDao implements EquipmentDao {
 
     private static EquipmentSQLDao instance;
-    private ConnectionFactory connectionFactory;
+    private final ConnectionFactory connectionFactory;
 
-    private EquipmentSQLDao(ConnectionFactory connectionFactory){
+    public EquipmentSQLDao(ConnectionFactory connectionFactory){
         this.connectionFactory = connectionFactory;
     }
 

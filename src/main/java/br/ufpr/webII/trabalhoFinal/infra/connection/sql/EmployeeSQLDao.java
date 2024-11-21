@@ -13,7 +13,7 @@ public class EmployeeSQLDao implements EmployeeDao {
     private static EmployeeSQLDao instance;
     private final ConnectionFactory connectionFactory;
 
-    private EmployeeSQLDao(ConnectionFactory connectionFactory) {
+    EmployeeSQLDao(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
 
@@ -33,7 +33,7 @@ public class EmployeeSQLDao implements EmployeeDao {
                 ps.setString(1, employee.getName());
                 ps.setString(2, employee.getSurname());
                 ps.setString(3, employee.getEmail());
-                ps.setString(4, employee.getPassword()+":"+employee.getSalt());
+                ps.setString(4, employee.getPassword() + ":" + employee.getSalt());
                 ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
@@ -80,7 +80,7 @@ public class EmployeeSQLDao implements EmployeeDao {
 
     @Override
     public void delete(Employee employee) throws Exception {
-        try(Connection con = connectionFactory.getConnection()) {
+        try (Connection con = connectionFactory.getConnection()) {
             con.setAutoCommit(false);
             String sql = "UPDATE public.\"user\" SET active = false WHERE id = ?;";
             try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -102,7 +102,7 @@ public class EmployeeSQLDao implements EmployeeDao {
     public List<Employee> listAll() throws Exception {
         List<Employee> employees = new ArrayList<>();
         String query = "SELECT u.\"name\", u.surname, u.email, e.* FROM public.\"user\" u join employee e ON u.id = e.user_id WHERE u.profile = 'EMPLOYEE' AND u.active = true;";
-        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)){
+        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)) {
             ResultSet rs = sql.executeQuery();
             while (rs.next()) {
                 Employee employee = new Employee();
@@ -119,5 +119,26 @@ public class EmployeeSQLDao implements EmployeeDao {
         }
         return employees;
     }
-    
+
+    public Employee getById(Long id) throws Exception {
+        String query = "SELECT u.\"name\", u.surname, u.email, e.* FROM public.\"user\" u join employee e ON u.id = e.user_id WHERE u.profile = 'EMPLOYEE' AND u.active = true AND e.id = ?";
+        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)) {
+            sql.setLong(1, id);
+            ResultSet rs = sql.executeQuery();
+            if (rs.next()) {
+                Employee employee = new Employee();
+                employee.setEmployeeId(rs.getLong("id"));
+                employee.setId(rs.getLong("user_id"));
+                employee.setName(rs.getString("name"));
+                employee.setSurname(rs.getString("surname"));
+                employee.setEmail(rs.getString("email"));
+                employee.setBirthDate(rs.getDate("birth_date"));
+                return employee;
+            }
+        } catch (SQLException e) {
+            throw new Exception("Erro ao listar funcionários: " + e.getMessage(), e);
+        }
+        return null;
+    }
+
 }

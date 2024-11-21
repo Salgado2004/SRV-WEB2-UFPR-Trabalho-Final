@@ -27,6 +27,15 @@ public class RequestStatus {
         this.dateTime = dateTime;
     }
 
+    public RequestStatus(Long id, Request request,RequestStatusCategory category, Employee inChargeEmployee, Employee senderEmployee, LocalDateTime dateTime) {
+        this.requestStatusId = id;
+        this.request = request;
+        this.category = category;
+        this.inChargeEmployee = inChargeEmployee;
+        this.senderEmployee = senderEmployee;
+        this.dateTime = dateTime;
+    }
+
     public RequestStatus(Request request,RequestStatusCategory category,  LocalDateTime dateTime) {
         this.request = request;
         this.category = category;

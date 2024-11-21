@@ -14,7 +14,7 @@ public record RequestListItemDTO(
                 request.getId(),
                 request.getEquipmentDesc(),
                 request.getDefectDesc(),
-                request.getRequestStatus().get(request.getRequestStatus().size() - 1).getCategory().toString(),
+                request.getRequestStatus() != null || !request.getRequestStatus().isEmpty() ? request.getRequestStatus().get(request.getRequestStatus().size() -1).getCategory().toString() : "Não identificado",
                 request.getEquipmentCategory().getCategoryDesc(),
                 request.getRequestStatus().get(0).getDateTime()
         );
