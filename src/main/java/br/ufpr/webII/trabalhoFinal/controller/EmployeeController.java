@@ -1,5 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
+import br.ufpr.webII.trabalhoFinal.domain.CommonResponse;
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.EmployeeInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.EmployeeOutputDTO;
 import br.ufpr.webII.trabalhoFinal.infra.service.EmployeeCrud;
@@ -24,9 +25,9 @@ public class EmployeeController {
     private TokenService tokenService;
     
     @PostMapping()
-    public ResponseEntity<String> newEmployee(@RequestBody @Valid EmployeeInputDTO data) throws Exception {
+    public ResponseEntity<CommonResponse> newEmployee(@RequestBody @Valid EmployeeInputDTO data) throws Exception {
         employeeCrud.registerEmployee(data);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Empregado criado com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse("Empregado criado com sucesso!"));
     }
 
     @GetMapping()
@@ -36,14 +37,14 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteEmployee(@RequestBody @Valid EmployeeInputDTO data, @PathVariable Long userId) throws Exception{
+    public ResponseEntity<CommonResponse> deleteEmployee(@RequestBody @Valid EmployeeInputDTO data, @PathVariable Long userId) throws Exception{
         employeeCrud.deleteEmployee(data, userId);
-        return ResponseEntity.ok().body("Empregado excluído com sucesso");
+        return ResponseEntity.ok().body(new CommonResponse("Empregado excluído com sucesso"));
     }
     
     @PutMapping("/{userId}")
-    public ResponseEntity<String> updateEmployee(@RequestBody @Valid EmployeeInputDTO data, @PathVariable Long userId) throws Exception{
+    public ResponseEntity<CommonResponse> updateEmployee(@RequestBody @Valid EmployeeInputDTO data, @PathVariable Long userId) throws Exception{
         employeeCrud.updateEmployee(data, userId);
-        return ResponseEntity.ok().body("Empregado alterado com sucesso");
+        return ResponseEntity.ok().body(new CommonResponse("Empregado alterado com sucesso"));
     }
 }

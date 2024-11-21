@@ -1,5 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
+import br.ufpr.webII.trabalhoFinal.domain.CommonResponse;
 import br.ufpr.webII.trabalhoFinal.domain.request.RequestDetailDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.RequestInputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.RequestListItemDTO;
@@ -22,10 +23,10 @@ public class RequestController {
     private RequestService requestService;
 
     @PostMapping()
-    public ResponseEntity<String> newRequest(@RequestBody @Valid RequestInputDTO data) {
+    public ResponseEntity<CommonResponse> newRequest(@RequestBody @Valid RequestInputDTO data) {
         requestService.createRequest(data);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Requisição de serviço criada com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse("Requisição de serviço criada com sucesso!"));
     }
 
     @GetMapping()
@@ -41,8 +42,8 @@ public class RequestController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateRequest(@RequestBody @Valid RequestUpdateDTO data) {
+    public ResponseEntity<CommonResponse> updateRequest(@RequestBody @Valid RequestUpdateDTO data) {
         requestService.updateRequest(data);
-        return ResponseEntity.ok("Requisição de serviço atualizada com sucesso!");
+        return ResponseEntity.ok(new CommonResponse("Requisição de serviço atualizada com sucesso!"));
     }
 }

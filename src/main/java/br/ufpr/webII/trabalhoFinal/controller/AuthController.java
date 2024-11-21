@@ -1,5 +1,6 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
+import br.ufpr.webII.trabalhoFinal.domain.CommonResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import br.ufpr.webII.trabalhoFinal.infra.service.AuthService;
@@ -19,14 +20,14 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid CustomerInputDTO customerInputDTO) {
+    public ResponseEntity<CommonResponse> register(@RequestBody @Valid CustomerInputDTO customerInputDTO) {
 
         authService.isValidCpf(customerInputDTO.cpf());
         authService.isValidEmail(customerInputDTO.email());
 
         Customer customer = authService.registerCustomer(customerInputDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente cadastrado com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse("Cliente cadastrado com sucesso!"));
     }
 
     @PostMapping("/login")

@@ -1,4 +1,5 @@
 package br.ufpr.webII.trabalhoFinal.controller;
+import br.ufpr.webII.trabalhoFinal.domain.CommonResponse;
 import br.ufpr.webII.trabalhoFinal.infra.service.EquipmentCategoryService;
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategoryInputDTO;
@@ -20,9 +21,9 @@ public class EquipmentCategoryController {
 
     // create category
     @PostMapping()
-    public ResponseEntity<String> newEquipmentCategory(@RequestBody @Valid EquipmentCategoryInputDTO data){
+    public ResponseEntity<CommonResponse> newEquipmentCategory(@RequestBody @Valid EquipmentCategoryInputDTO data){
         equipmentCategoryService.createEquipmentCategory(data);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Categoria de equipamento criada com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse("Categoria de equipamento criada com sucesso!"));
     }
 
     // list all categories
@@ -41,9 +42,9 @@ public class EquipmentCategoryController {
 
     // update category by id
     @PutMapping()
-    public ResponseEntity<String> updateEquipmentCategory(@RequestBody @Valid EquipmentCategoryUpdateDTO data){
+    public ResponseEntity<CommonResponse> updateEquipmentCategory(@RequestBody @Valid EquipmentCategoryUpdateDTO data){
         equipmentCategoryService.updateEquipmentCategory(data);
-        return ResponseEntity.status(HttpStatus.OK).body("Categoria de equipamento alterada com sucesso!");
+        return ResponseEntity.status(HttpStatus.OK).body(new CommonResponse("Categoria de equipamento alterada com sucesso!"));
     }
 
 }
