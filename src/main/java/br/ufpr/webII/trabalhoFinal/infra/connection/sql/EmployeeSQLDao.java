@@ -120,6 +120,7 @@ public class EmployeeSQLDao implements EmployeeDao {
         return employees;
     }
 
+    @Override
     public Employee getById(Long id) throws Exception {
         String query = "SELECT u.\"name\", u.surname, u.email, e.* FROM public.\"user\" u join employee e ON u.id = e.user_id WHERE u.profile = 'EMPLOYEE' AND u.active = true AND e.id = ?";
         try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)) {

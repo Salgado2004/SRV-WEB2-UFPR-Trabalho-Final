@@ -8,13 +8,13 @@ import java.util.List;
 public record RequestDetailDTO(
         Long id,
         String equipmentDesc,
-        EquipmentCategory equipmentCategory,
+        EquipmentCategory equipCategory,
         String defectDesc,
         double budget,
         String repairDesc,
         String customerOrientations,
         Long customerId,
-        List<RequestStatusOutputDTO> requestStatus
+        List<RequestStatusOutputDTO> status
 ) {
     public RequestDetailDTO(Request request){
         this(

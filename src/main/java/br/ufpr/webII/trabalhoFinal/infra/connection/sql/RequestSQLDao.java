@@ -186,7 +186,7 @@ public class RequestSQLDao extends RequestDao {
     public ArrayList<RequestStatus> getStatusList(Long requestId) throws Exception {
         ArrayList<RequestStatus> list = new ArrayList<>();
         try (Connection con = connectionFactory.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request_status WHERE request_id = ?")
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request_status WHERE request_id = ? ORDER BY id;")
         ) {
             ps.setLong(1, requestId);
             ResultSet rs = ps.executeQuery();
