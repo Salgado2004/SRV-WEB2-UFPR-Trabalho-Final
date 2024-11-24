@@ -63,8 +63,14 @@ public class RequestController {
 
     @GetMapping("/report")
     public ResponseEntity<List<CommomReport>> getCommomReport(
-            @RequestParam @PastOrPresent LocalDateTime startDate,
-            @RequestParam @PastOrPresent LocalDateTime endDate) {
+            @RequestParam(required = false) @PastOrPresent LocalDateTime startDate,
+            @RequestParam(required = false) @PastOrPresent LocalDateTime endDate) {
+        if (startDate == null) {
+            startDate = LocalDateTime.of(2020, 1, 1, 0, 0);
+        }
+        if (endDate == null) {
+            endDate = LocalDateTime.now();
+        }
         CommomReportDTO data = new CommomReportDTO(startDate, endDate);
         List<CommomReport> report = requestService.listCommomReport(data);
         return ResponseEntity.ok(report.stream().map(reportItem -> reportItem).toList());
