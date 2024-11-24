@@ -1,7 +1,9 @@
 package br.ufpr.webII.trabalhoFinal.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.validation.constraints.PastOrPresent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,8 +61,11 @@ public class RequestController {
         return ResponseEntity.ok(new CommonResponse("Requisição de serviço atualizada com sucesso!"));
     }
 
-    @PostMapping("/report")
-    public ResponseEntity<List<CommomReport>> getCommomReport(@RequestBody @Valid  CommomReportDTO data){
+    @GetMapping("/report")
+    public ResponseEntity<List<CommomReport>> getCommomReport(
+            @RequestParam @PastOrPresent LocalDateTime startDate,
+            @RequestParam @PastOrPresent LocalDateTime endDate) {
+        CommomReportDTO data = new CommomReportDTO(startDate, endDate);
         List<CommomReport> report = requestService.listCommomReport(data);
         return ResponseEntity.ok(report.stream().map(reportItem -> reportItem).toList());
     }
