@@ -67,6 +67,8 @@ CREATE TABLE request (
     CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customer(id)
 );
 
+ALTER TABLE request ADD COLUMN reject_reason TEXT;
+
 CREATE INDEX idx_request_equip_category_id ON request(equip_category_id);
 CREATE INDEX idx_request_customer_id ON request(customer_id);
 

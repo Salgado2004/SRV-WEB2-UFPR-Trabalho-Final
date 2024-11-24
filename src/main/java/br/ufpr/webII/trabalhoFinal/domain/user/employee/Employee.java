@@ -6,17 +6,32 @@ import java.util.Date;
 
 public class Employee extends User {
 
-    public static long whoIsLoggedIn() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    private Long employeeId;
     private Date birthDate;
 
     public Employee() {
         super();
     }
 
+    public Employee(EmployeeInputDTO emp) {
+        super(emp.email(), emp.name(), emp.surname(), emp.password());
+        this.birthDate = emp.birthDate();
+    }
+
     public Employee(EmployeeOutputDTO emp) {
-        throw new UnsupportedOperationException("No fields populated yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("No fields populated yet.");
+    }
+
+    public Employee(Long id) {
+        this.employeeId = id;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     public Date getBirthDate() {

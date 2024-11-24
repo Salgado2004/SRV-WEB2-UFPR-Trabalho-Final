@@ -12,6 +12,6 @@ import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
  */
 public interface EquipmentDao extends DAO<EquipmentCategory> {
     
-    public EquipmentCategory select(EquipmentCategory objeto) throws Exception;   
-    
+    public EquipmentCategory getById(Long id) throws Exception;
+
 }

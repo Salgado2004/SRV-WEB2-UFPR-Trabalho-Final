@@ -39,7 +39,7 @@ public class DaoFactory {
     public EmployeeDao getEmployeeDao(){
         return switch (type) {
             case JSON -> EmployeeJsonDao.getEmployeeJsonDao();
-            case POSTGRES -> EmployeeSQLDao.getEmployeeSQLDao();
+            case POSTGRES -> EmployeeSQLDao.getEmployeeSQLDao(connectionFactory);
             default -> throw new RuntimeException("Tipo não existe:" + type);
         };
     }
@@ -47,7 +47,7 @@ public class DaoFactory {
     public CustomerDao getCustomerDao(){
         return switch (type) {
             case JSON -> CustomerJsonDao.getCustomerJsonDao();
-            case POSTGRES -> CustomerSQLDao.getCustomerSQLDao();
+            case POSTGRES -> CustomerSQLDao.getCustomerSQLDao(connectionFactory);
             default -> throw new RuntimeException("Tipo não existe:" + type);
         };
     }
@@ -55,7 +55,7 @@ public class DaoFactory {
     public RequestDao getRequestDao(){
         return switch (type) {
             case JSON -> RequestJsonDao.getRequestJsonDao();
-            case POSTGRES -> RequestSQLDao.getRequestSQLDao();
+            case POSTGRES -> RequestSQLDao.getRequestSQLDao(connectionFactory);
             default -> throw new RuntimeException("Tipo não existe:" + type);
         };
     }

@@ -28,7 +28,7 @@ public class UserDao {
         System.out.println("Usuário salvo com sucesso!");
     }
 
-    public Customer selectCustomer(Long id){
+    public Customer getById(Long id){
         try {
             List<CustomerOutputDTO> customers = jsonService.readObjectFromFile("clients.json", new TypeReference<>(){});
             for (CustomerOutputDTO customer : customers) {

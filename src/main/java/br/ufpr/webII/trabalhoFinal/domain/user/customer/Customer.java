@@ -4,6 +4,7 @@ import br.ufpr.webII.trabalhoFinal.domain.address.Address;
 import br.ufpr.webII.trabalhoFinal.domain.user.User;
 
 public class Customer extends User {
+    private Long customerId;
     private String cpf;
     private Address address;
     private String phone;
@@ -33,6 +34,16 @@ public class Customer extends User {
     }
 
     // Getters e Setters para todos os campos, incluindo os herdados de User
+
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
     public String getCpf() {
         return cpf;
     }

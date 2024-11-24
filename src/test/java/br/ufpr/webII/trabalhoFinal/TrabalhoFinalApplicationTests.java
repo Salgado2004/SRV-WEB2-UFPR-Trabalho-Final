@@ -1,6 +1,7 @@
 package br.ufpr.webII.trabalhoFinal;
 
 import br.ufpr.webII.trabalhoFinal.controller.AuthController;
+import br.ufpr.webII.trabalhoFinal.domain.CommonResponse;
 import br.ufpr.webII.trabalhoFinal.domain.address.Address;
 import br.ufpr.webII.trabalhoFinal.infra.service.AuthService;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerInputDTO;
@@ -37,7 +38,7 @@ class TrabalhoFinalApplicationTests {
 		CustomerInputDTO customerInputDTO = new CustomerInputDTO("12345678909","John","Doe","test@dominio.com", address,"4002-8922");
 
 		// Chamar o método de registro
-		ResponseEntity<String> response = authController.register(customerInputDTO);
+		ResponseEntity<CommonResponse> response = authController.register(customerInputDTO);
 
 		// Verificar se a resposta é 201 Created
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -50,7 +51,7 @@ class TrabalhoFinalApplicationTests {
 		CustomerInputDTO customerInputDTO = new CustomerInputDTO("12345678909","John","Doe","aaaaaaaaaaaaaaa", address,"4002-8922");
 
 		// Chamar o método de registro
-		ResponseEntity<String> response = authController.register(customerInputDTO);
+		ResponseEntity<CommonResponse> response = authController.register(customerInputDTO);
 
 		// Verificar se a resposta é 400 Bad Request
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -63,7 +64,7 @@ class TrabalhoFinalApplicationTests {
 		CustomerInputDTO customerInputDTO = new CustomerInputDTO("12345678910","John","Doe","test@dominio.com", address,"4002-8922");
 
 		// Chamar o método de registro
-		ResponseEntity<String> response = authController.register(customerInputDTO);
+		ResponseEntity<CommonResponse> response = authController.register(customerInputDTO);
 
 		// Verificar se a resposta é 400 Bad Request
 		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

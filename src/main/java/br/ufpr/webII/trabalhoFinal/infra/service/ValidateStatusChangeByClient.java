@@ -10,8 +10,8 @@ public class ValidateStatusChangeByClient implements ValidateStatusChangeInterfa
         RequestStatusCategory nextStatus;
 
         try {
-            currentStatus = RequestStatusCategory.valueOf(data.currentStatus());
-            nextStatus = RequestStatusCategory.valueOf(data.nextStatus());
+            currentStatus = data.currentStatus();
+            nextStatus = data.nextStatus();
         } catch (IllegalArgumentException e) {
             return false;
         }

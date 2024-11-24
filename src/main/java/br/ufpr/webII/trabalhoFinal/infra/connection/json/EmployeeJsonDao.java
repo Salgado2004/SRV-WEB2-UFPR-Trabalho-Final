@@ -74,7 +74,7 @@ public class EmployeeJsonDao implements EmployeeDao {
             List<EmployeeOutputDTO> data = jsonService.readObjectFromFile("employees.json", new TypeReference<>() {});
             for(EmployeeOutputDTO emp:data){
                 if(emp.id() == objeto.getId()){
-                    if(Employee.whoIsLoggedIn() == objeto.getId()){
+                    if(1 == objeto.getId()){
                         System.out.println("O empregado não pode se deletar, sim somos anti-suicidio!");//Função demtro do empregado que vai validar se é ele logado
                         return;                     //pelas regras de negocio, o funcionario não pode se deletar
                     }else{

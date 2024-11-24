@@ -4,26 +4,30 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.connection.json;
 
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
-import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
-import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
-import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
-import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
+import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
+import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
+import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
+import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 
 /**
  *
  * @author mateus
  */
-public class RequestJsonDao implements RequestDao {
+public class RequestJsonDao extends RequestDao {
     
     public static RequestJsonDao requestDao;
     
@@ -65,6 +69,33 @@ public class RequestJsonDao implements RequestDao {
     }
 
     @Override
+    public Request getById(Long id) throws Exception {
+        try {
+            List<RequestOutputDTO> data = jsonService.readObjectFromFile("requests.json", new TypeReference<>() {
+            });
+            List<RequestStatusOutputDTO> status = jsonService.readObjectFromFile("requestStatuses.json", new TypeReference<>() {
+            });
+
+            for (RequestOutputDTO request : data) {
+                if (request.requestId().equals(id)) {
+                    Request newRequest = new Request(request);
+                    newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
+                    newRequest.setCustomer(custumerDao.getById(request.customerId()));
+                    for (RequestStatusOutputDTO requestStatus : status) {
+                        if (requestStatus.requestId().equals(request.requestId())) {
+                            newRequest.addRequestStatus(new RequestStatus(newRequest, requestStatus));
+                        }
+                    }
+                    return newRequest;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao consultar arquivos: " + e.getMessage());
+        }
+        throw new ResourceNotFoundException("Solicitação não encontrada");
+    }
+
+    @Override
     public void update(Request objeto) throws Exception {
         try{
             List<RequestOutputDTO> data = jsonService.readObjectFromFile("requestStatuses.json", new TypeReference<>() {});
@@ -80,6 +111,11 @@ public class RequestJsonDao implements RequestDao {
         }catch(IOException e){
             System.out.println("Erro ao acessar arquivos: "+e.getMessage());
         }
+    }
+
+    @Override
+    public void requestUpdate(RequestUpdateDTO requestStatus) throws Exception {
+        // TODO
     }
 
     @Override
@@ -124,7 +160,7 @@ public class RequestJsonDao implements RequestDao {
                 if (request.requestId().equals(id)) {
                     Request newRequest = new Request(request);
                     newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
-                    newRequest.setCustomer(custumerDao.selectCustomer(request.customerId()));
+                    newRequest.setCustomer(custumerDao.getById(request.customerId()));
                     for (RequestStatusOutputDTO requestStatus : status) {
                         if (requestStatus.requestId().equals(request.requestId())) {
                             newRequest.addRequestStatus(new RequestStatus(newRequest, requestStatus));
@@ -150,5 +186,4 @@ public class RequestJsonDao implements RequestDao {
             System.out.println("Erro ao acessar o arquivo: "+e.getMessage());
         }
     }
-    
 }
