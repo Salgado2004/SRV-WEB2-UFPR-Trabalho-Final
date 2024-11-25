@@ -28,4 +28,14 @@ public record RequestStatusOutputDTO(
     {
         this(null, requestId, dateTime, inChargeEmployeeId, senderEmployeeId, category);
     }
+
+    public RequestStatusOutputDTO(RequestStatus requestStatus, Long requestId) {
+        this(
+                requestStatus.getRequestStatusId(),
+                requestId,
+                Date.from(requestStatus.getDateTime().atZone(ZoneId.systemDefault()).toInstant()),
+                requestStatus.getInChargeEmployee() == null ? null : requestStatus.getInChargeEmployee().getId(),
+                requestStatus.getSenderEmployee() == null ? null : requestStatus.getSenderEmployee().getId(),
+                requestStatus.getCategory());
+    }
 }

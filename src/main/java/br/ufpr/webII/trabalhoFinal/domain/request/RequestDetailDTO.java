@@ -26,7 +26,7 @@ public record RequestDetailDTO(
                 request.getRepairDesc(),
                 request.getCustomerOrientations(),
                 request.getCustomer().getId(),
-                request.getRequestStatus().stream().map(RequestStatusOutputDTO::new).toList()
+                request.getRequestStatus().stream().map(e -> new RequestStatusOutputDTO(e, request.getId()) ).toList()
         );
     }
 }
