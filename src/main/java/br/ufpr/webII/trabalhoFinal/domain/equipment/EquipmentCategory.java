@@ -14,7 +14,7 @@ public class EquipmentCategory {
 
     public EquipmentCategory(EquipmentCategoryInputDTO data) {
         this.equipCategoryId = 0L;
-        this.categoryDesc = data.categoryDesc();
+        this.categoryDesc = data.description();
     }
 
     public EquipmentCategory(EquipmentCategoryOutputDTO data) {
@@ -24,7 +24,7 @@ public class EquipmentCategory {
 
     public EquipmentCategory(EquipmentCategoryUpdateDTO data) {
         this.equipCategoryId = data.equipCategoryId();
-        this.categoryDesc = data.categoryDesc();
+        this.categoryDesc = data.description();
     }
 
     public EquipmentCategory(Long id) {

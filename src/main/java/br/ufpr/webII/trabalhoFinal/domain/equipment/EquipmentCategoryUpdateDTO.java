@@ -7,5 +7,5 @@ public record EquipmentCategoryUpdateDTO(
     @NotNull
         Long equipCategoryId,
     @NotBlank
-        String categoryDesc
+        String description
 ) {}
