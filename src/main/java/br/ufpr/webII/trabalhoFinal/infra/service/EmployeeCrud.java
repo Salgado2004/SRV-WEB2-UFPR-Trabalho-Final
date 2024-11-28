@@ -27,10 +27,9 @@ public class EmployeeCrud {
         }
     }
 
-    public void deleteEmployee(EmployeeInputDTO data, Long userId) {
+    public void deleteEmployee(Long userId) {
         try{
-            Employee employee = new Employee(data);
-            employee.setId(userId);
+            Employee employee = new Employee(userId);
             EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             employeeSQLDao.delete(employee);
         } catch (Exception e){
