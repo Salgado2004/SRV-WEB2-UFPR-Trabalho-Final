@@ -6,7 +6,7 @@ import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import java.util.List;
 
 public record RequestDetailDTO(
-        Long id,
+        Long requestId,
         String equipmentDesc,
         EquipmentCategory equipCategory,
         String defectDesc,

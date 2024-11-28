@@ -7,6 +7,7 @@ import java.util.List;
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.EmployeeDao;
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
 
 public class EmployeeSQLDao implements EmployeeDao {
 
@@ -50,6 +51,10 @@ public class EmployeeSQLDao implements EmployeeDao {
             }
             con.commit();
         } catch (SQLException e) {
+            // verificar erro de chave duplicada
+            if (e.getSQLState().equals("23505")) {
+                throw new RegisteringException("Erro ao salvar funcionário no banco de dados: e-mail já cadastrado.", e);
+            }
             throw new Exception("Erro ao salvar funcionário no banco de dados: " + e.getMessage(), e);
         }
     }
@@ -122,7 +127,7 @@ public class EmployeeSQLDao implements EmployeeDao {
 
     @Override
     public Employee getById(Long id) throws Exception {
-        String query = "SELECT u.\"name\", u.surname, u.email, e.* FROM public.\"user\" u join employee e ON u.id = e.user_id WHERE u.profile = 'EMPLOYEE' AND u.active = true AND e.id = ?";
+        String query = "SELECT u.\"name\", u.surname, u.email, e.* FROM public.\"user\" u join employee e ON u.id = e.user_id WHERE u.profile = 'EMPLOYEE' AND u.active = true AND e.user_id = ?";
         try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)) {
             sql.setLong(1, id);
             ResultSet rs = sql.executeQuery();

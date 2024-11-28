@@ -20,9 +20,6 @@ public class EmployeeCrud {
     public void registerEmployee(EmployeeInputDTO data) {
         try {
             Employee employee = new Employee(data);
-            String salt = PasswordService.generateSalt();
-            String password = PasswordService.hashPassword(data.password(), salt);
-            employee.setPassword(password);
             EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             employeeSQLDao.insert(employee);
         } catch (Exception e){

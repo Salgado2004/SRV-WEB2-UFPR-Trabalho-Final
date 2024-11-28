@@ -16,41 +16,11 @@ public class ValidateStatusChangeByEmployee implements ValidateStatusChangeInter
             return false; // Status inválido
         }
 
-        switch (currentStatus) {
-            case BUDGETED:
-                // O funcionário pode aprovar ou rejeitar a solicitação
-                if (nextStatus == RequestStatusCategory.APPROVED) {
-                    return true;
-                }
-                if (nextStatus == RequestStatusCategory.REJECTED) {
-                    // Motivo da rejeição é obrigatório
-                    return data.rejectionReason() != null && !data.rejectionReason().isEmpty();
-                }
-                return false;
-
-            case REJECTED:
-                // O funcionário pode aprovar a solicitação rejeitada
-                if (nextStatus == RequestStatusCategory.APPROVED) {
-                    return true;
-                }
-                return false;
-
-            case FIXED:
-                // O funcionário pode marcar como pago
-                if (nextStatus == RequestStatusCategory.PAID) {
-                    return true;
-                }
-                return false;
-
-            case PAID:
-                // O funcionário pode fechar a requisição após o pagamento
-                if (nextStatus == RequestStatusCategory.FINALIZED) {
-                    return true;
-                }
-                return false;
-
-            default:
-                return false; // Transições inválidas
-        }
+        return switch (currentStatus) {
+            case OPEN -> nextStatus == RequestStatusCategory.BUDGETED;
+            case APPROVED -> nextStatus == RequestStatusCategory.REDIRECTED || nextStatus == RequestStatusCategory.FIXED;
+            case PAID -> nextStatus == RequestStatusCategory.FINALIZED;
+            default -> false; // Transições inválidas
+        };
     }
 }

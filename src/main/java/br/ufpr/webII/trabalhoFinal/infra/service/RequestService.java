@@ -73,9 +73,9 @@ public class RequestService {
     public void updateRequest(RequestUpdateDTO data) {
         ValidateStatusChangeContext context = new ValidateStatusChangeContext();
         try {
-            if ("CLIENT".equals(data.userType())) {
+            if ("CUSTOMER".equalsIgnoreCase(data.userType())) {
                 context.setStrategy(new ValidateStatusChangeByClient());
-            } else if ("EMPLOYEE".equals(data.userType())) {
+            } else if ("EMPLOYEE".equalsIgnoreCase(data.userType())) {
                 context.setStrategy(new ValidateStatusChangeByEmployee());
             } else {
                 throw new RequestException("Usuário não autorizado a realizar essa ação");
@@ -95,7 +95,7 @@ public class RequestService {
                 requestDao.insertStatus(
                         new RequestStatus(
                                 new Request(data.requestId()),
-                                data.currentStatus(),
+                                data.nextStatus(),
                                 new Employee(data.inChargeEmployeeId()),
                                 new Employee(data.senderEmployeeId()),
                                 data.datetime()
