@@ -14,6 +14,7 @@ import br.ufpr.webII.trabalhoFinal.domain.request.reports.CategoryReport;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReport;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 import jakarta.validation.constraints.PastOrPresent;
+import java.util.List;
 
 /**
  *
@@ -30,5 +31,7 @@ public abstract class RequestDao implements DAO<Request> {
     public ArrayList<CategoryReport> listCategoryReport() throws Exception {
         return new ArrayList<>();
     };
+
+    public abstract List<Request> listByUserId(String search) throws Exception;
 
 }

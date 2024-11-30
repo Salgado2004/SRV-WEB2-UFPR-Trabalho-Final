@@ -135,4 +135,15 @@ public class RequestService {
         return report;
     }
 
+    public List<Request> listRequests(String search) {
+        List<Request> lista = new ArrayList<>();
+        try{
+            RequestDao requestDao = daoFactory.getRequestDao();
+            lista = requestDao.listByUserId(search);
+        } catch (Exception e){
+            throw new RequestException(e.getMessage());
+        }
+        return lista;
+    }
+
 }

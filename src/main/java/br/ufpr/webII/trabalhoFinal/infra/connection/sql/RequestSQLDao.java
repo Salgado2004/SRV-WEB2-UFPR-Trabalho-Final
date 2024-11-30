@@ -289,5 +289,35 @@ public class RequestSQLDao extends RequestDao {
         return reports;
     }
 
+    @Override
+    public List<Request> listByUserId(String search) throws Exception {
+        List<Request> lista = new ArrayList<>();
+        try(    Connection con = connectionFactory.getConnection();
+                PreparedStatement ps = con.prepareStatement(search);
+                ){
+            try(ResultSet rs = ps.executeQuery()){
+                EquipmentSQLDao equipmentSQLDao = new EquipmentSQLDao(connectionFactory);
+                while (rs.next()){
+                    Request request = new Request();
+                    request.setId(rs.getLong("id"));
+                    request.setEquipmentDesc(rs.getString("equip_desc"));
+                    request.setDefectDesc(rs.getString("defect_desc"));
+                    request.setBudget(rs.getDouble("budget"));
+                    request.setRepairDesc(rs.getString("repair_desc"));
+                    request.setCustomerOrientations(rs.getString("customer_orientations"));
+                    request.setEquipmentCategory(equipmentSQLDao.getById(rs.getLong("equip_category_id")));
+                    request.setRequestStatus(this.getStatusList(request.getId()));
+                    request.setCustomer(new Customer(rs.getLong("customer_id")));
+                    request.setActive(rs.getBoolean("active"));
+                    lista.add(request);
+                }
+            }
+            
+        } catch (Exception e){
+            throw new Exception("Erro ao pesquisar por usuario.");
+        }
+        return lista;
+    }
+
 
 }

@@ -5,8 +5,11 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
+
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.TokenException;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -14,23 +17,37 @@ import java.util.List;
  */
 public class PresentRequestToUserContext {
     
+    @Autowired
+    TokenService tokenSrv;
     
-    private final String client = "SELECT * FROM public.request WHERE active = true AND customer_id = ?";
-    private final String employee = "SELECT * FROM public.request AS request INNER JOIN public.request_status AS status "
+
+        
+    private String client = "SELECT * FROM public.request WHERE active = true AND customer_id = ";
+    private String employee = "SELECT * FROM public.request AS request INNER JOIN public.request_status AS status "
             + "ON request.request_id = status.request_id"
-            + "WHERE status.in_charge_employee = ? OR status.status = OPEN";
+            + "WHERE status.status = OPEN OR status.in_charge_employee = ";
     
     public PresentRequestToUserContext(){
     }
     
-    public List<Request> showRequestToUser(JWTToken token){
-        List<Request> listagem = new ArrayList<Request>();
-        try(//implementar conexão depois ou fazer a chamda do dau passando a string
-                ){
-            
-        }
+    public String showRequestToUser(){
+        String sql = "";
+        String tipo = tokenSrv.getProfile(token);
         
-        return listagem;
+        switch(tipo){
+            case "employee":
+                employee += tokenSrv.getUserId(token);
+                sql = employee;
+                break;
+            case "customer":
+                client += tokenSrv.getUserId(token);
+                sql = client;
+                break;
+            default:
+                throw new TokenException("Token não autorizado!");
+        }
+
+        return sql;
     }
     
 }
