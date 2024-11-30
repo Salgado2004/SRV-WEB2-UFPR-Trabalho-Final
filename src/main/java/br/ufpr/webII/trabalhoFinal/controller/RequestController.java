@@ -18,7 +18,6 @@ import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CategoryReport;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReport;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReportDTO;
-import br.ufpr.webII.trabalhoFinal.infra.service.PresentRequestToUserContext;
 import br.ufpr.webII.trabalhoFinal.infra.service.RequestService;
 import jakarta.validation.Valid;
 
@@ -26,9 +25,6 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/service/v1/requests")
 public class RequestController {
-    
-    @Autowired
-    PresentRequestToUserContext requestContext;
 
     @Autowired
     private RequestService requestService;

@@ -3,6 +3,10 @@ package br.ufpr.webII.trabalhoFinal.infra.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufpr.webII.trabalhoFinal.infra.service.strategy.PresentRequestToUserContext;
+import br.ufpr.webII.trabalhoFinal.infra.service.strategy.ValidateStatusChangeByClient;
+import br.ufpr.webII.trabalhoFinal.infra.service.strategy.ValidateStatusChangeByEmployee;
+import br.ufpr.webII.trabalhoFinal.infra.service.strategy.ValidateStatusChangeContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.infra.service;
+package br.ufpr.webII.trabalhoFinal.infra.service.strategy;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;

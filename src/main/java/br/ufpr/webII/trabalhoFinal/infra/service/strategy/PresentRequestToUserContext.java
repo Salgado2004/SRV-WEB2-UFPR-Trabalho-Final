@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.infra.service;
+package br.ufpr.webII.trabalhoFinal.infra.service.strategy;
 
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.TokenException;
 import org.springframework.beans.factory.annotation.Autowired;
