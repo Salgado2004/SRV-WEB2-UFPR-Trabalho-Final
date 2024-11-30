@@ -7,14 +7,7 @@ import jakarta.validation.constraints.PastOrPresent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.domain.CommonResponse;
@@ -48,8 +41,8 @@ public class RequestController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<RequestListItemDTO>> listRequests() {
-        List<Request> requests = requestService.listRequests();
+    public ResponseEntity<List<RequestListItemDTO>> listRequests(@RequestHeader("Authorization") String auth) {
+        List<Request> requests = requestService.listRequests(auth);
         return ResponseEntity.ok(requests.stream().map(RequestListItemDTO::new).toList());
     }
 
@@ -84,12 +77,5 @@ public class RequestController {
     public ResponseEntity<List<CategoryReport>> getCategoryReport(){
         List<CategoryReport> report = requestService.listCategoryReport();
         return ResponseEntity.ok(report.stream().map(reportItem -> reportItem).toList());
-    }
-    
-    @GetMapping("{customer_id}")
-    public ResponseEntity<List<Request>> getByUserId(){
-        String search = requestContext.showRequestToUser();
-        List<Request> list = requestService.listRequests(search);
-        return ResponseEntity.ok(list.stream().map(reportItem -> reportItem).toList());
     }
 }

@@ -27,7 +27,7 @@ import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
 public class RequestSQLDao extends RequestDao {
 
     private static RequestSQLDao instance;
-    private ConnectionFactory connectionFactory;
+    private final ConnectionFactory connectionFactory;
 
     private RequestSQLDao(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
@@ -87,19 +87,6 @@ public class RequestSQLDao extends RequestDao {
     }
 
     @Override
-    public void requestUpdate(RequestUpdateDTO requestUpdateDTO) throws Exception {
-        try (
-                Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("")
-        ) {
-
-
-        } catch (Exception e) {
-            throw new Exception("Erro ao atualizar requisição de serviço", e);
-        }
-    }
-
-    @Override
     public void delete(Request request) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
@@ -114,10 +101,16 @@ public class RequestSQLDao extends RequestDao {
 
     @Override
     public List<Request> listAll() throws Exception {
+        throw new UnsupportedOperationException("Use o método com filtro -> listAll(String query, Long id)");
+    }
+
+    @Override
+    public List<Request> listAll(String query, Long id) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request WHERE active = true")
+                PreparedStatement ps = con.prepareStatement(query)
         ) {
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             List<Request> requests = new ArrayList<>();
             EquipmentSQLDao equipmentSQLDao = new EquipmentSQLDao(connectionFactory);
@@ -185,7 +178,7 @@ public class RequestSQLDao extends RequestDao {
                 ps.setNull(3, java.sql.Types.BIGINT);
             }
 
-            if (requestStatus.getInChargeEmployee() != null && requestStatus.getInChargeEmployee().getId() != null){
+            if (requestStatus.getInChargeEmployee() != null && requestStatus.getInChargeEmployee().getId() != null) {
                 ps.setLong(4, requestStatus.getInChargeEmployee().getId());
             } else {
                 ps.setNull(4, java.sql.Types.BIGINT);
@@ -218,7 +211,7 @@ public class RequestSQLDao extends RequestDao {
                 ));
             }
             rs.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return list;
@@ -288,36 +281,4 @@ public class RequestSQLDao extends RequestDao {
         }
         return reports;
     }
-
-    @Override
-    public List<Request> listByUserId(String search) throws Exception {
-        List<Request> lista = new ArrayList<>();
-        try(    Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement(search);
-                ){
-            try(ResultSet rs = ps.executeQuery()){
-                EquipmentSQLDao equipmentSQLDao = new EquipmentSQLDao(connectionFactory);
-                while (rs.next()){
-                    Request request = new Request();
-                    request.setId(rs.getLong("id"));
-                    request.setEquipmentDesc(rs.getString("equip_desc"));
-                    request.setDefectDesc(rs.getString("defect_desc"));
-                    request.setBudget(rs.getDouble("budget"));
-                    request.setRepairDesc(rs.getString("repair_desc"));
-                    request.setCustomerOrientations(rs.getString("customer_orientations"));
-                    request.setEquipmentCategory(equipmentSQLDao.getById(rs.getLong("equip_category_id")));
-                    request.setRequestStatus(this.getStatusList(request.getId()));
-                    request.setCustomer(new Customer(rs.getLong("customer_id")));
-                    request.setActive(rs.getBoolean("active"));
-                    lista.add(request);
-                }
-            }
-            
-        } catch (Exception e){
-            throw new Exception("Erro ao pesquisar por usuario.");
-        }
-        return lista;
-    }
-
-
 }

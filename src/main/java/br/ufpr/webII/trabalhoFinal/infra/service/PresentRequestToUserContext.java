@@ -1,53 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.TokenException;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author mateus
  */
+
+@Component
 public class PresentRequestToUserContext {
-    
-    @Autowired
-    TokenService tokenSrv;
-    
 
-        
-    private String client = "SELECT * FROM public.request WHERE active = true AND customer_id = ";
-    private String employee = "SELECT * FROM public.request AS request INNER JOIN public.request_status AS status "
-            + "ON request.request_id = status.request_id"
-            + "WHERE status.status = OPEN OR status.in_charge_employee = ";
-    
-    public PresentRequestToUserContext(){
-    }
-    
-    public String showRequestToUser(){
-        String sql = "";
-        String tipo = tokenSrv.getProfile(token);
-        
-        switch(tipo){
-            case "employee":
-                employee += tokenSrv.getUserId(token);
-                sql = employee;
-                break;
-            case "customer":
-                client += tokenSrv.getUserId(token);
-                sql = client;
-                break;
-            default:
-                throw new TokenException("Token não autorizado!");
-        }
-
-        return sql;
+    public String showRequestToUser(String profile){
+        return switch (profile) {
+            case "Customer" -> "SELECT * FROM public.request WHERE customer_id = ? AND active = TRUE;";
+            case "Employee" -> "SELECT * FROM public.request WHERE id IN (SELECT request_id FROM public.request_status rs WHERE (status = 'OPEN' OR in_charge_employee_id = ?) AND date_time = (SELECT MAX(date_time) FROM public.request_status WHERE request_id = rs.request_id)) AND active = TRUE;";
+            default -> throw new TokenException("Perfil não encontrado");
+        };
     }
     
 }

@@ -1,6 +1,5 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,6 @@ import br.ufpr.webII.trabalhoFinal.infra.connection.CustomerDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
-import br.ufpr.webII.trabalhoFinal.infra.connection.sql.RequestSQLDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
 
 @Service
@@ -30,6 +28,12 @@ public class RequestService {
 
     @Autowired
     private DaoFactory daoFactory;
+
+    @Autowired
+    private PresentRequestToUserContext requestContext;
+
+    @Autowired
+    private TokenService tokenSrv;
 
     public void createRequest(RequestInputDTO data) {
         try {
@@ -52,10 +56,14 @@ public class RequestService {
         }
     }
 
-    public List<Request> listRequests() {
+    public List<Request> listRequests(String auth) {
         try {
+            String authorization = tokenSrv.getAuthorizationToken(auth);
+            String profile = tokenSrv.getProfile(authorization);
+            String context = requestContext.showRequestToUser(profile);
+            Long userId = tokenSrv.getUserId(authorization);
             RequestDao requestDao = daoFactory.getRequestDao();
-            return requestDao.listAll();
+            return requestDao.listAll(context, userId);
         } catch (Exception e) {
             throw new RequestException(e.getMessage());
         }
@@ -134,16 +142,4 @@ public class RequestService {
         }
         return report;
     }
-
-    public List<Request> listRequests(String search) {
-        List<Request> lista = new ArrayList<>();
-        try{
-            RequestDao requestDao = daoFactory.getRequestDao();
-            lista = requestDao.listByUserId(search);
-        } catch (Exception e){
-            throw new RequestException(e.getMessage());
-        }
-        return lista;
-    }
-
 }
