@@ -45,7 +45,7 @@ public class RequestService {
             EquipmentCategory equipment = equipmentDao.getById(data.equipmentCategoryId());
 
             CustomerDao customerDao = daoFactory.getCustomerDao();
-            Customer customer = customerDao.getById(data.customerId());
+            Customer customer = customerDao.getByUserId(data.customerId());
 
             RequestDao requestDao = daoFactory.getRequestDao();
             Request request = new Request(data, customer, equipment);
@@ -98,10 +98,18 @@ public class RequestService {
                 RequestDao requestDao = daoFactory.getRequestDao();
 
                 Request request = requestDao.getById(data.requestId());
-                request.setRejectionReason(data.rejectionReason());
-                request.setBudget(data.budget());
-                request.setRepairDesc(data.repairDesc());
-                request.setCustomerOrientations(data.customerOrientations());
+                if (data.rejectionReason() != null) {
+                    request.setRejectionReason(data.rejectionReason());
+                }
+                if (data.budget() != null) {
+                    request.setBudget(data.budget());
+                }
+                if (data.repairDesc() != null) {
+                    request.setRepairDesc(data.repairDesc());
+                }
+                if (data.customerOrientations() != null) {
+                    request.setCustomerOrientations(data.customerOrientations());
+                }
                 requestDao.update(request);
 
                 requestDao.insertStatus(
@@ -124,7 +132,7 @@ public class RequestService {
         }
     }
 
-    public List<CommomReport> listCommomReport(CommomReportDTO data){
+    public List<CommomReport> listCommomReport(CommomReportDTO data) {
         List<CommomReport> report = new ArrayList<>();
 
         try {
@@ -136,7 +144,7 @@ public class RequestService {
         return report;
     }
 
-    public List<CategoryReport> listCategoryReport(){
+    public List<CategoryReport> listCategoryReport() {
         List<CategoryReport> report = new ArrayList<>();
         try {
             RequestDao requestDao = daoFactory.getRequestDao();

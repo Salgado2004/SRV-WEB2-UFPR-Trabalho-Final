@@ -16,33 +16,15 @@ public class ValidateStatusChangeByClient implements ValidateStatusChangeInterfa
             return false;
         }
 
-        switch (currentStatus) {
-            case BUDGETED:
-                if (nextStatus == RequestStatusCategory.APPROVED) {
-                    return true;
-                }
-
-                if (nextStatus == RequestStatusCategory.REJECTED) {
-                    if (data.rejectionReason() != null && !data.rejectionReason().isEmpty()) {
-                        return true;
-                    }
-                }
-                return false;
-
-            case REJECTED:
-                if (nextStatus == RequestStatusCategory.APPROVED) {
-                    return true;
-                }
-                return false;
-
-            case FIXED:
-                if (nextStatus == RequestStatusCategory.PAID) {
-                    return true;
-                }
-                return false;
-            
-            default:
-                return false;
-        }
+        return switch (currentStatus) {
+            case BUDGETED -> // O status BUDGETED só pode ser alterado para APPROVED ou REJECTED (com motivo)
+                    nextStatus == RequestStatusCategory.APPROVED ||
+                    (nextStatus == RequestStatusCategory.REJECTED && data.rejectionReason() != null && !data.rejectionReason().isEmpty());
+            case REJECTED -> // O status REJECTED só pode ser alterado para APPROVED
+                    nextStatus == RequestStatusCategory.APPROVED;
+            case FIXED -> // O status FIXED só pode ser alterado para PAID
+                nextStatus == RequestStatusCategory.PAID;
+            default -> false;
+        };
     }
 }

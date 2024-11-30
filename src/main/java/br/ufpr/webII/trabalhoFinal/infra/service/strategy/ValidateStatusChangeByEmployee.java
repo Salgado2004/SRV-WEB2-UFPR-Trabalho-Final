@@ -17,9 +17,13 @@ public class ValidateStatusChangeByEmployee implements ValidateStatusChangeInter
         }
 
         return switch (currentStatus) {
-            case OPEN -> nextStatus == RequestStatusCategory.BUDGETED;
-            case APPROVED -> nextStatus == RequestStatusCategory.REDIRECTED || nextStatus == RequestStatusCategory.FIXED;
-            case PAID -> nextStatus == RequestStatusCategory.FINALIZED;
+            case OPEN -> // O status OPEN só pode ser alterado para BUDGETED
+                    nextStatus == RequestStatusCategory.BUDGETED;
+            case APPROVED, REDIRECTED -> // Os status APPROVED e REDIRECTED podem ser alterados para FIXED (com descrição de reparo) ou REDIRECTED (com funcionário)
+                    (nextStatus == RequestStatusCategory.REDIRECTED && data.senderEmployeeId() != null) ||
+                    (nextStatus == RequestStatusCategory.FIXED && data.repairDesc() != null && !data.repairDesc().isEmpty());
+            case PAID -> // O status PAID só pode ser alterado para FINALIZED
+                    nextStatus == RequestStatusCategory.FINALIZED;
             default -> false; // Transições inválidas
         };
     }
