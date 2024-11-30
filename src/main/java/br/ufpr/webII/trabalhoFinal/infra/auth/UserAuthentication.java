@@ -22,11 +22,11 @@ public class UserAuthentication extends OncePerRequestFilter {
 
     @Autowired
     TokenService tokenSrv;
-    
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String authorizationHeader = getAuthorizationToken(request);
+        String authorizationHeader = tokenSrv.getAuthorizationToken(request.getHeader("Authorization"));
         String autorizationURL = request.getRequestURI();
        
         String[] partes = new String[7];
@@ -75,13 +75,6 @@ public class UserAuthentication extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
         }
-    }
-
-    private String getAuthorizationToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null)
-            return "";
-        return authorizationHeader.replace("Bearer ", "");
     }
     
 }
