@@ -207,7 +207,7 @@ public class RequestSQLDao extends RequestDao {
                         RequestStatusCategory.fromString(rs.getString("status")),
                         employeeSQLDao.getById(rs.getLong("in_charge_employee_id")),
                         employeeSQLDao.getById(rs.getLong("sending_employee_id")),
-                        new Timestamp(rs.getDate("date_time").getTime()).toLocalDateTime()
+                        rs.getTimestamp("date_time").toLocalDateTime()
                 ));
             }
             rs.close();
