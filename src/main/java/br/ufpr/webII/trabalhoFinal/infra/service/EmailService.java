@@ -49,7 +49,7 @@ public class EmailService {
             helper.setFrom("manutads.noreply@gmail.com");
             helper.setTo(messageDTO.to());
             helper.setSubject("Novo usuário e senha gerados!");
-            helper.setText(emailBody(senha));
+            helper.setText(emailBody(senha), true);
 
             sender.send(mimeMessage);
 
