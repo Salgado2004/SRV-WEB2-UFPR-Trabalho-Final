@@ -37,16 +37,14 @@ public class RequestSQLDao extends RequestDao {
         return instance == null ? instance = new RequestSQLDao(connectionFactory) : instance;
     }
 
-    public static RequestDao getRequestSQLDao() {
-        return getRequestSQLDao(instance.connectionFactory);
-    }
-
     @Override
     public void insert(Request request) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
                 PreparedStatement ps = con.prepareStatement("INSERT INTO public.request (equip_desc, defect_desc, budget, repair_desc, customer_orientations, equip_category_id, customer_id, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                         Statement.RETURN_GENERATED_KEYS)) {
+            con.setAutoCommit(false);
+
             ps.setString(1, request.getEquipmentDesc());
             ps.setString(2, request.getDefectDesc());
             ps.setDouble(3, request.getBudget());
@@ -60,6 +58,10 @@ public class RequestSQLDao extends RequestDao {
             if (rs.next()) {
                 request.setId(rs.getLong(1));
             }
+            this.insertStatus(request.getRequestStatus().get(0));
+
+            con.commit();
+
         } catch (Exception e) {
             throw new Exception("Erro ao inserir requisição de serviço", e);
         }
