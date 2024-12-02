@@ -1,11 +1,14 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
 import br.ufpr.webII.trabalhoFinal.domain.email.MessageDTO;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -40,17 +43,22 @@ public class EmailService {
 
     public void sendEmail(MessageDTO messageDTO){
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
+            MimeMessage mimeMessage = sender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-            message.setFrom("manutads.noreply@gmail.com");
-            message.setTo(messageDTO.to());
-            message.setSubject("Novo usuário e senha gerados!");
-            message.setText(emailBody(senha));
+            helper.setFrom("manutads.noreply@gmail.com");
+            helper.setTo(messageDTO.to());
+            helper.setSubject("Novo usuário e senha gerados!");
+            helper.setText(emailBody(senha));
 
-            sender.send(message);
+            sender.send(mimeMessage);
 
         } catch (MailException | IOException ex){
             System.out.println(("Erro no envio do email!"+ex.getMessage()));
+        } catch (MessagingException e) {
+
+            throw new RuntimeException(e);
+
         }
 
     }
