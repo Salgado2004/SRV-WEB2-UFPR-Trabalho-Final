@@ -19,7 +19,7 @@ public class ValidateStatusChangeByClient implements ValidateStatusChangeInterfa
         return switch (currentStatus) {
             case BUDGETED -> // O status BUDGETED só pode ser alterado para APPROVED ou REJECTED (com motivo)
                     nextStatus == RequestStatusCategory.APPROVED ||
-                    (nextStatus == RequestStatusCategory.REJECTED && data.rejectionReason() != null && !data.rejectionReason().isEmpty());
+                    (nextStatus == RequestStatusCategory.REJECTED && data.rejectReason() != null && !data.rejectReason().isEmpty());
             case REJECTED -> // O status REJECTED só pode ser alterado para APPROVED
                     nextStatus == RequestStatusCategory.APPROVED;
             case FIXED -> // O status FIXED só pode ser alterado para PAID

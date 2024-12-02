@@ -15,6 +15,15 @@ public class Address {
     public Address() {
     }
 
+    public Address(String cep, String uf, String city, String district, String street, int number) {
+        this.cep = cep;
+        this.uf = uf;
+        this.city = city;
+        this.district = district;
+        this.street = street;
+        this.number = number;
+    }
+
     public Long getId() {
         return id;
     }

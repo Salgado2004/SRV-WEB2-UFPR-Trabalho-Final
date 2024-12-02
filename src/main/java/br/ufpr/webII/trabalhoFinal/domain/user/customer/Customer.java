@@ -37,8 +37,16 @@ public class Customer extends User {
         this.setId(customerId);
     }
 
+    public Customer(Long id, String name, String surname, String email, String phone, String cpf, Address address){
+        this.setId(id);
+        this.setName(name);
+        this.setSurname(surname);
+        this.setEmail(email);
+        this.setPhone(phone);
+        this.setCpf(cpf);
+        this.setAddress(address);
+    }
     // Getters e Setters para todos os campos, incluindo os herdados de User
-
 
     public Long getCustomerId() {
         return customerId;
