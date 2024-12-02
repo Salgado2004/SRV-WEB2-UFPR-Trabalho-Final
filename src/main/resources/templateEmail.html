@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-Vindo ao ManutADS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 3px solid #0f766e;
+        }
+        .header {
+            background-color: #0f766e;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+            color: #0f766e;
+        }
+        .content p {
+            margin: 16px 0;
+            line-height: 1.6;
+        }
+        .password {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            background-color: #7c3aed;
+            color: #ffffff;
+            border-radius: 8px;
+        }
+        .footer {
+            background-color: #f3f4f6;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+            color: #7c3aed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Bem-Vindo ao ManutADS!</h1>
+        </div>
+        <div class="content">
+            <p>Olá,</p>
+            <p>Estamos muito felizes por tê-lo conosco! No ManuTADS, nossa missão é facilitar a manutenção de equipamentos relacionados a computadores de forma prática e eficiente.</p>
+            <p>Abaixo está a sua senha para acesso à nossa plataforma. </p>
+            <span class="password">{{senha}}</span>
+            <p>Se precisar de qualquer ajuda, nossa equipe está sempre à disposição.</p>
+            <p>Atenciosamente,</p>
+            <p><strong>Equipe ManuTADS</strong></p>
+        </div>
+        <div class="footer">
+            &copy; 2024 ManutADS - Todos os direitos reservados.
+        </div>
+    </div>
+</body>
+</html>
