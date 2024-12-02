@@ -1,4 +1,4 @@
-package br.ufpr.webII.trabalhoFinal.infra.service;
+package br.ufpr.webII.trabalhoFinal.infra.connection;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
-public class JsonFileService {
+public class JsonFileWriter {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     // Método para gravar um objeto em um arquivo JSON

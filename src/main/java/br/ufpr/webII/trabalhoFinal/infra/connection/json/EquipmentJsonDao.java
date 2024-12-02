@@ -7,13 +7,12 @@ package br.ufpr.webII.trabalhoFinal.infra.connection.json;
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
-import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
+import br.ufpr.webII.trabalhoFinal.infra.connection.JsonFileWriter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -22,13 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class EquipmentJsonDao implements EquipmentDao {
     
     private static EquipmentJsonDao equipmentDao;
-    private JsonFileService jsonService;
+    private final JsonFileWriter jsonService;
 
-    private EquipmentJsonDao(JsonFileService jsonFileService){
-        this.jsonService = jsonFileService;
+    EquipmentJsonDao(JsonFileWriter jsonFileWriter){
+        this.jsonService = jsonFileWriter;
     }
 
-    public static EquipmentDao getEquipmentJsonDao(JsonFileService jsonService){
+    public static EquipmentDao getEquipmentJsonDao(JsonFileWriter jsonService){
         if (equipmentDao == null)
             equipmentDao = new EquipmentJsonDao(jsonService);
         return equipmentDao;
@@ -68,10 +67,8 @@ public class EquipmentJsonDao implements EquipmentDao {
             List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json", new TypeReference<>() {});
             
             // find category by id
-            Iterator<EquipmentCategory> iterator = categories.iterator();
-            while(iterator.hasNext()) {
-                EquipmentCategory category = iterator.next();
-                if(category.getEquipCategoryId().equals(equipmentCategory.getEquipCategoryId())) {
+            for (EquipmentCategory category : categories) {
+                if (category.getEquipCategoryId().equals(equipmentCategory.getEquipCategoryId())) {
                     // update
                     category.setCategoryDesc(equipmentCategory.getCategoryDesc());
                     break;
@@ -112,10 +109,9 @@ public class EquipmentJsonDao implements EquipmentDao {
     public List<EquipmentCategory> listAll() throws Exception {
         try {
             // read json
-            List<EquipmentCategory> categories = jsonService.readObjectFromFile("equipmentCategory.json",
+            return jsonService.readObjectFromFile("equipmentCategory.json",
                 new TypeReference<>() {
                 });
-            return categories;
         } catch (IOException e) {
             System.out.println("Erro ao consultar arquivos: " + e.getMessage());
             return Collections.emptyList();

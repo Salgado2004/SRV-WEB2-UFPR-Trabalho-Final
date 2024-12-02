@@ -9,19 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.domain.request.RequestOutputDTO;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
 import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
-import br.ufpr.webII.trabalhoFinal.infra.repository.EquipmentDao;
-import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
+import br.ufpr.webII.trabalhoFinal.infra.connection.JsonFileWriter;
 
 /**
  *
@@ -30,24 +26,25 @@ import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
 public class RequestJsonDao extends RequestDao {
     
     public static RequestJsonDao requestDao;
-    
-    private RequestJsonDao(){}
 
-    public static RequestDao getRequestJsonDao() {
+    JsonFileWriter jsonService;
+
+    EquipmentJsonDao equipmentDao;
+
+    CustomerJsonDao custumerDao;
+    
+    private RequestJsonDao(JsonFileWriter jsonFileWriter){
+        this.jsonService = jsonFileWriter;
+        this.equipmentDao = new EquipmentJsonDao(jsonFileWriter);
+        this.custumerDao = new CustomerJsonDao(jsonFileWriter);
+    }
+
+    public static RequestDao getRequestJsonDao(JsonFileWriter jsonFileWriter) {
         if(requestDao == null){
-            return requestDao = new RequestJsonDao();
+            return requestDao = new RequestJsonDao(jsonFileWriter);
         }else
             return requestDao;    
     }
-    
-    @Autowired
-    JsonFileService jsonService;
-
-    @Autowired
-    EquipmentDao equipmentDao;
-    
-    @Autowired
-    CustomerJsonDao custumerDao;
 
     @Override
     public void insert(Request element) throws Exception {
@@ -79,7 +76,7 @@ public class RequestJsonDao extends RequestDao {
             for (RequestOutputDTO request : data) {
                 if (request.requestId().equals(id)) {
                     Request newRequest = new Request(request);
-                    newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
+                    newRequest.setEquipmentCategory(equipmentDao.getById(request.equipmentCategoryId()));
                     newRequest.setCustomer(custumerDao.getById(request.customerId()));
                     for (RequestStatusOutputDTO requestStatus : status) {
                         if (requestStatus.requestId().equals(request.requestId())) {
@@ -129,7 +126,7 @@ public class RequestJsonDao extends RequestDao {
             ArrayList<Request> requests = new ArrayList<>();
             for (RequestOutputDTO request : data) {
                 Request newRequest = new Request(request);
-                newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
+                newRequest.setEquipmentCategory(equipmentDao.getById(request.equipmentCategoryId()));
                 for (RequestStatusOutputDTO requestStatus : status) {
                     if (requestStatus.requestId().equals(request.requestId())) {
                         newRequest.addRequestStatus(new RequestStatus(newRequest, requestStatus));
@@ -154,7 +151,7 @@ public class RequestJsonDao extends RequestDao {
             for (RequestOutputDTO request : data) {
                 if (request.requestId().equals(id)) {
                     Request newRequest = new Request(request);
-                    newRequest.setEquipmentCategory(equipmentDao.select(request.equipmentCategoryId()));
+                    newRequest.setEquipmentCategory(equipmentDao.getById(request.equipmentCategoryId()));
                     newRequest.setCustomer(custumerDao.getById(request.customerId()));
                     for (RequestStatusOutputDTO requestStatus : status) {
                         if (requestStatus.requestId().equals(request.requestId())) {
