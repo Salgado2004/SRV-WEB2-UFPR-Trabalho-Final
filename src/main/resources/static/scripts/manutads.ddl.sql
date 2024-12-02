@@ -90,3 +90,20 @@ CREATE TABLE request_status (
 CREATE INDEX idx_request_status_request_id ON request_status(request_id);
 CREATE INDEX idx_request_status_sending_employee_id ON request_status(sending_employee_id);
 CREATE INDEX idx_request_status_in_charge_employee_id ON request_status(in_charge_employee_id);
+
+ALTER TABLE public.request_status DROP CONSTRAINT fk_sending_employee;
+ALTER TABLE public.request_status ADD CONSTRAINT fk_sending_employee FOREIGN KEY (sending_employee_id) REFERENCES employee(user_id);
+
+ALTER TABLE public.request_status DROP CONSTRAINT fk_in_charge_employee;
+ALTER TABLE public.request_status ADD CONSTRAINT fk_in_charge_employee FOREIGN KEY (sending_employee_id) REFERENCES employee(user_id);
+
+ALTER TABLE public.request ADD COLUMN reject_reason TEXT;
+
+ALTER TABLE public.request DROP CONSTRAINT fk_customer;
+
+UPDATE request
+SET customer_id = customer.user_id
+FROM customer
+WHERE request.customer_id = customer.id;
+
+ALTER TABLE public.request ADD CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customer(user_id);

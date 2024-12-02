@@ -1,6 +1,7 @@
 package br.ufpr.webII.trabalhoFinal.domain.request;
 
-import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
+
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerListDTO;
 
 import java.time.LocalDateTime;
 
@@ -9,18 +10,16 @@ public record RequestListItemDTO(
         String title,
         String description,
         String status,
-        String equipmentCategory,
-        Customer client,
-        LocalDateTime created_at) {
-    public RequestListItemDTO(Request request){
+        LocalDateTime created_at,
+        CustomerListDTO client) {
+    public RequestListItemDTO(Request request) {
         this(
                 request.getId(),
                 request.getEquipmentDesc(),
                 request.getDefectDesc(),
-                request.getRequestStatus().get(request.getRequestStatus().size() -1).getCategory().toString(),
-                request.getEquipmentCategory().getCategoryDesc(),
-                request.getCustomer(),
-                request.getRequestStatus().get(0).getDateTime()
+                request.getRequestStatus().get(request.getRequestStatus().size() - 1).getCategory().toString(),
+                request.getRequestStatus().get(request.getRequestStatus().size() - 1).getDateTime(),
+                new CustomerListDTO(request.getCustomer())
         );
     }
 }

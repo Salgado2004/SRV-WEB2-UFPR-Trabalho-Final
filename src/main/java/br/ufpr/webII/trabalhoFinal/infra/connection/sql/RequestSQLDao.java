@@ -9,14 +9,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufpr.webII.trabalhoFinal.domain.address.Address;
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
-import br.ufpr.webII.trabalhoFinal.domain.request.RequestUpdateDTO;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CategoryReport;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReport;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
-import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
@@ -71,17 +70,18 @@ public class RequestSQLDao extends RequestDao {
     public void update(Request element) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("UPDATE public.request SET equip_desc = ?, defect_desc = ?, budget = ?, repair_desc = ?, customer_orientations = ?, equip_category_id = ?, customer_id = ?, active = ? WHERE id = ?")
+                PreparedStatement ps = con.prepareStatement("UPDATE public.request SET equip_desc = ?, defect_desc = ?, budget = ?, reject_reason = ?, repair_desc = ?, customer_orientations = ?, equip_category_id = ?, customer_id = ?, active = ? WHERE id = ?")
         ) {
             ps.setString(1, element.getEquipmentDesc());
             ps.setString(2, element.getDefectDesc());
             ps.setDouble(3, element.getBudget());
-            ps.setString(4, element.getRepairDesc());
-            ps.setString(5, element.getCustomerOrientations());
-            ps.setLong(6, element.getEquipmentCategory().getEquipCategoryId());
-            ps.setLong(7, element.getCustomer().getId());
-            ps.setBoolean(8, element.getActive());
-            ps.setLong(9, element.getId());
+            ps.setString(4, element.getRejectReason());
+            ps.setString(5, element.getRepairDesc());
+            ps.setString(6, element.getCustomerOrientations());
+            ps.setLong(7, element.getEquipmentCategory().getEquipCategoryId());
+            ps.setLong(8, element.getCustomer().getId());
+            ps.setBoolean(9, element.getActive());
+            ps.setLong(10, element.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             throw new Exception("Erro ao atualizar requisição de serviço", e);
@@ -115,24 +115,33 @@ public class RequestSQLDao extends RequestDao {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             List<Request> requests = new ArrayList<>();
-            EquipmentSQLDao equipmentSQLDao = new EquipmentSQLDao(connectionFactory);
             while (rs.next()) {
                 Request request = new Request();
                 request.setId(rs.getLong("id"));
                 request.setEquipmentDesc(rs.getString("equip_desc"));
                 request.setDefectDesc(rs.getString("defect_desc"));
-                request.setBudget(rs.getDouble("budget"));
-                request.setRepairDesc(rs.getString("repair_desc"));
-                request.setCustomerOrientations(rs.getString("customer_orientations"));
-                request.setEquipmentCategory(equipmentSQLDao.getById(rs.getLong("equip_category_id")));
                 request.setRequestStatus(this.getStatusList(request.getId()));
-                request.setCustomer(new Customer(rs.getLong("customer_id")));
-                request.setActive(rs.getBoolean("active"));
+                request.setCustomer(new Customer(
+                        rs.getLong("customer_id"),
+                        rs.getString("customer_name"),
+                        rs.getString("customer_surname"),
+                        rs.getString("customer_email"),
+                        rs.getString("customer_phone"),
+                        rs.getString("customer_cpf"),
+                        new Address(
+                                rs.getString("cep"),
+                                rs.getString("uf"),
+                                rs.getString("city"),
+                                rs.getString("district"),
+                                rs.getString("street"),
+                                Integer.parseInt(rs.getString("number"))
+                        )
+                ));
+                request.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
                 requests.add(request);
             }
             return requests;
         } catch (Exception e) {
-            System.out.println(e);
             throw new Exception("Erro ao listar requisições de serviço", e);
         }
     }
@@ -141,7 +150,7 @@ public class RequestSQLDao extends RequestDao {
     public Request getById(Long id) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request WHERE id = ? AND active = true");
+                PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request WHERE id = ? AND active = true")
         ) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
@@ -214,7 +223,7 @@ public class RequestSQLDao extends RequestDao {
             }
             rs.close();
         } catch (Exception e) {
-            System.out.println(e);
+            throw new Exception("Erro ao buscar status de requisição de serviço", e);
         }
         return list;
     }
@@ -270,7 +279,7 @@ public class RequestSQLDao extends RequestDao {
 
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement(query);
+                PreparedStatement ps = con.prepareStatement(query)
         ) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

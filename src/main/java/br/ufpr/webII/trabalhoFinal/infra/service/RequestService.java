@@ -98,8 +98,8 @@ public class RequestService {
                 RequestDao requestDao = daoFactory.getRequestDao();
 
                 Request request = requestDao.getById(data.requestId());
-                if (data.rejectionReason() != null) {
-                    request.setRejectionReason(data.rejectionReason());
+                if (data.rejectReason() != null) {
+                    request.setRejectReason(data.rejectReason());
                 }
                 if (data.budget() != null) {
                     request.setBudget(data.budget());

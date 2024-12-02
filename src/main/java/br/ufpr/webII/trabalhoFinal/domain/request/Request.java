@@ -5,6 +5,7 @@ import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -13,9 +14,10 @@ public class Request {
     private String equipmentDesc;
     private EquipmentCategory equipmentCategory;
     private String defectDesc;
+    private LocalDateTime createdAt;
     private double budget;
     private String repairDesc;
-    private String rejectionReason;
+    private String rejectReason;
     private String customerOrientations;
     private Customer customer;
     private ArrayList<RequestStatus> requestStatus;
@@ -88,12 +90,12 @@ public class Request {
         this.budget = budget;
     }
 
-    public void setRejectionReason(String rejectionReason) {
-        this.rejectionReason = rejectionReason;
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
     }
 
-    public String getRejectionReason() {
-        return rejectionReason;
+    public String getRejectReason() {
+        return rejectReason;
     }
 
     public String getRepairDesc() {
@@ -111,6 +113,11 @@ public class Request {
     public void setCustomerOrientations(String customerOrientations) {
         this.customerOrientations = customerOrientations;
     }
+
+    public LocalDateTime getCreatedAt() {return createdAt;}
+
+    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
+
 
     public Customer getCustomer() {
         return customer;
