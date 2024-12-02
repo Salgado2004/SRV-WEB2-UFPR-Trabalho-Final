@@ -1,9 +1,12 @@
 package br.ufpr.webII.trabalhoFinal.infra.service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.ufpr.webII.trabalhoFinal.infra.service.strategy.PresentRequestToUserContext;
+import br.ufpr.webII.trabalhoFinal.infra.service.strategy.ValidateStatusChangeByClient;
+import br.ufpr.webII.trabalhoFinal.infra.service.strategy.ValidateStatusChangeByEmployee;
+import br.ufpr.webII.trabalhoFinal.infra.service.strategy.ValidateStatusChangeContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +25,6 @@ import br.ufpr.webII.trabalhoFinal.infra.connection.CustomerDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.EquipmentDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
-import br.ufpr.webII.trabalhoFinal.infra.connection.sql.RequestSQLDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.RequestException;
 
 @Service
@@ -31,13 +33,19 @@ public class RequestService {
     @Autowired
     private DaoFactory daoFactory;
 
+    @Autowired
+    private PresentRequestToUserContext requestContext;
+
+    @Autowired
+    private TokenService tokenSrv;
+
     public void createRequest(RequestInputDTO data) {
         try {
             EquipmentDao equipmentDao = daoFactory.getEquipmentDao();
             EquipmentCategory equipment = equipmentDao.getById(data.equipmentCategoryId());
 
             CustomerDao customerDao = daoFactory.getCustomerDao();
-            Customer customer = customerDao.getById(data.customerId());
+            Customer customer = customerDao.getByUserId(data.customerId());
 
             RequestDao requestDao = daoFactory.getRequestDao();
             Request request = new Request(data, customer, equipment);
@@ -52,10 +60,14 @@ public class RequestService {
         }
     }
 
-    public List<Request> listRequests() {
+    public List<Request> listRequests(String auth) {
         try {
+            String authorization = tokenSrv.getAuthorizationToken(auth);
+            String profile = tokenSrv.getProfile(authorization);
+            String context = requestContext.showRequestToUser(profile);
+            Long userId = tokenSrv.getUserId(authorization);
             RequestDao requestDao = daoFactory.getRequestDao();
-            return requestDao.listAll();
+            return requestDao.listAll(context, userId);
         } catch (Exception e) {
             throw new RequestException(e.getMessage());
         }
@@ -73,9 +85,9 @@ public class RequestService {
     public void updateRequest(RequestUpdateDTO data) {
         ValidateStatusChangeContext context = new ValidateStatusChangeContext();
         try {
-            if ("CLIENT".equals(data.userType())) {
+            if ("CUSTOMER".equalsIgnoreCase(data.userType())) {
                 context.setStrategy(new ValidateStatusChangeByClient());
-            } else if ("EMPLOYEE".equals(data.userType())) {
+            } else if ("EMPLOYEE".equalsIgnoreCase(data.userType())) {
                 context.setStrategy(new ValidateStatusChangeByEmployee());
             } else {
                 throw new RequestException("Usuário não autorizado a realizar essa ação");
@@ -86,16 +98,24 @@ public class RequestService {
                 RequestDao requestDao = daoFactory.getRequestDao();
 
                 Request request = requestDao.getById(data.requestId());
-                request.setRejectionReason(data.rejectionReason());
-                request.setBudget(data.budget());
-                request.setRepairDesc(data.repairDesc());
-                request.setCustomerOrientations(data.customerOrientations());
+                if (data.rejectionReason() != null) {
+                    request.setRejectionReason(data.rejectionReason());
+                }
+                if (data.budget() != null) {
+                    request.setBudget(data.budget());
+                }
+                if (data.repairDesc() != null) {
+                    request.setRepairDesc(data.repairDesc());
+                }
+                if (data.customerOrientations() != null) {
+                    request.setCustomerOrientations(data.customerOrientations());
+                }
                 requestDao.update(request);
 
                 requestDao.insertStatus(
                         new RequestStatus(
                                 new Request(data.requestId()),
-                                data.currentStatus(),
+                                data.nextStatus(),
                                 new Employee(data.inChargeEmployeeId()),
                                 new Employee(data.senderEmployeeId()),
                                 data.datetime()
@@ -112,7 +132,7 @@ public class RequestService {
         }
     }
 
-    public List<CommomReport> listCommomReport(CommomReportDTO data){
+    public List<CommomReport> listCommomReport(CommomReportDTO data) {
         List<CommomReport> report = new ArrayList<>();
 
         try {
@@ -124,7 +144,7 @@ public class RequestService {
         return report;
     }
 
-    public List<CategoryReport> listCategoryReport(){
+    public List<CategoryReport> listCategoryReport() {
         List<CategoryReport> report = new ArrayList<>();
         try {
             RequestDao requestDao = daoFactory.getRequestDao();
@@ -134,5 +154,4 @@ public class RequestService {
         }
         return report;
     }
-
 }

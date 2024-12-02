@@ -11,5 +11,5 @@ import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
  * @author mateus
  */
 public interface EmployeeDao extends DAO<Employee> {
-    
+    Employee getById(Long id) throws Exception;
 }

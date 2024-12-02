@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotBlank;
 public record EquipmentCategoryInputDTO (
         Long equipCategoryId,
     @NotBlank 
-        String categoryDesc
+        String description
 ) {}

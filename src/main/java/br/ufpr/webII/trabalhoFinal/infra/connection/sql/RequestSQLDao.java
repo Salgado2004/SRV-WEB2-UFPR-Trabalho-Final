@@ -27,7 +27,7 @@ import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
 public class RequestSQLDao extends RequestDao {
 
     private static RequestSQLDao instance;
-    private ConnectionFactory connectionFactory;
+    private final ConnectionFactory connectionFactory;
 
     private RequestSQLDao(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
@@ -45,7 +45,8 @@ public class RequestSQLDao extends RequestDao {
     public void insert(Request request) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("INSERT INTO public.request (equip_desc, defect_desc, budget, repair_desc, customer_orientations, equip_category_id, customer_id, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+                PreparedStatement ps = con.prepareStatement("INSERT INTO public.request (equip_desc, defect_desc, budget, repair_desc, customer_orientations, equip_category_id, customer_id, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, request.getEquipmentDesc());
             ps.setString(2, request.getDefectDesc());
             ps.setDouble(3, request.getBudget());
@@ -55,6 +56,10 @@ public class RequestSQLDao extends RequestDao {
             ps.setLong(7, request.getCustomer().getId());
             ps.setBoolean(8, true);
             ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                request.setId(rs.getLong(1));
+            }
         } catch (Exception e) {
             throw new Exception("Erro ao inserir requisição de serviço", e);
         }
@@ -82,19 +87,6 @@ public class RequestSQLDao extends RequestDao {
     }
 
     @Override
-    public void requestUpdate(RequestUpdateDTO requestUpdateDTO) throws Exception {
-        try (
-                Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("")
-        ) {
-
-
-        } catch (Exception e) {
-            throw new Exception("Erro ao atualizar requisição de serviço", e);
-        }
-    }
-
-    @Override
     public void delete(Request request) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
@@ -109,10 +101,16 @@ public class RequestSQLDao extends RequestDao {
 
     @Override
     public List<Request> listAll() throws Exception {
+        throw new UnsupportedOperationException("Use o método com filtro -> listAll(String query, Long id)");
+    }
+
+    @Override
+    public List<Request> listAll(String query, Long id) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request WHERE active = true")
+                PreparedStatement ps = con.prepareStatement(query)
         ) {
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             List<Request> requests = new ArrayList<>();
             EquipmentSQLDao equipmentSQLDao = new EquipmentSQLDao(connectionFactory);
@@ -170,12 +168,23 @@ public class RequestSQLDao extends RequestDao {
     public void insertStatus(RequestStatus requestStatus) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("INSERT INTO public.request_status (date_time, request_id, sending_employee_id, in_charge_employee_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+                PreparedStatement ps = con.prepareStatement("INSERT INTO public.request_status (date_time, request_id, sending_employee_id, in_charge_employee_id, status) VALUES (?, ?, ?, ?, ?)")) {
             ps.setTimestamp(1, java.sql.Timestamp.valueOf(requestStatus.getDateTime()));
             ps.setLong(2, requestStatus.getRequest().getId());
-            ps.setLong(3, requestStatus.getSenderEmployee().getId());
-            ps.setLong(4, requestStatus.getInChargeEmployee().getId());
-            ps.setString(5, requestStatus.getCategory().toString());
+
+            if (requestStatus.getSenderEmployee() != null && requestStatus.getSenderEmployee().getId() != null) {
+                ps.setLong(3, requestStatus.getSenderEmployee().getId());
+            } else {
+                ps.setNull(3, java.sql.Types.BIGINT);
+            }
+
+            if (requestStatus.getInChargeEmployee() != null && requestStatus.getInChargeEmployee().getId() != null) {
+                ps.setLong(4, requestStatus.getInChargeEmployee().getId());
+            } else {
+                ps.setNull(4, java.sql.Types.BIGINT);
+            }
+
+            ps.setObject(5, requestStatus.getCategory().toString().toUpperCase(), java.sql.Types.OTHER);
             ps.executeUpdate();
         } catch (Exception e) {
             throw new Exception("Erro ao inserir status de requisição de serviço", e);
@@ -186,7 +195,7 @@ public class RequestSQLDao extends RequestDao {
     public ArrayList<RequestStatus> getStatusList(Long requestId) throws Exception {
         ArrayList<RequestStatus> list = new ArrayList<>();
         try (Connection con = connectionFactory.getConnection();
-             PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request_status WHERE request_id = ?")
+             PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request_status WHERE request_id = ? ORDER BY id;")
         ) {
             ps.setLong(1, requestId);
             ResultSet rs = ps.executeQuery();
@@ -198,11 +207,11 @@ public class RequestSQLDao extends RequestDao {
                         RequestStatusCategory.fromString(rs.getString("status")),
                         employeeSQLDao.getById(rs.getLong("in_charge_employee_id")),
                         employeeSQLDao.getById(rs.getLong("sending_employee_id")),
-                        new Timestamp(rs.getDate("date_time").getTime()).toLocalDateTime()
+                        rs.getTimestamp("date_time").toLocalDateTime()
                 ));
             }
             rs.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return list;
@@ -272,6 +281,4 @@ public class RequestSQLDao extends RequestDao {
         }
         return reports;
     }
-
-
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -139,8 +140,8 @@ public class RequestDao {
             RequestStatusOutputDTO status = new RequestStatusOutputDTO(
                 request.requestId(),
                 Date.from(request.datetime().atZone(ZoneId.systemDefault()).toInstant()),
-                request.inChargeEmployeeId(),
-                request.senderEmployeeId(),
+                new Employee(request.inChargeEmployeeId()),
+                new Employee(request.senderEmployeeId()),
                 requestStatus
             );
 

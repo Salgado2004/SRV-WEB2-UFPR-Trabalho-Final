@@ -106,5 +106,9 @@ public class EmployeeJsonDao implements EmployeeDao {
         }
         return null;
     }
-    
+
+    @Override
+    public Employee getById(Long id) throws Exception {
+        return null;
+    }
 }

@@ -114,11 +114,6 @@ public class RequestJsonDao extends RequestDao {
     }
 
     @Override
-    public void requestUpdate(RequestUpdateDTO requestStatus) throws Exception {
-        // TODO
-    }
-
-    @Override
     public void delete(Request objeto) throws Exception {
         throw new UnsupportedOperationException("Uma requisição não pode ser Deletada."); 
     }
@@ -185,5 +180,10 @@ public class RequestJsonDao extends RequestDao {
         } catch(Exception e){
             System.out.println("Erro ao acessar o arquivo: "+e.getMessage());
         }
+    }
+
+    @Override
+    public List<Request> listAll(String query, Long id) throws Exception {
+        return null;
     }
 }

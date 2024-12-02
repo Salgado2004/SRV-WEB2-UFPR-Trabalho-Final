@@ -20,9 +20,6 @@ public class EmployeeCrud {
     public void registerEmployee(EmployeeInputDTO data) {
         try {
             Employee employee = new Employee(data);
-            String salt = PasswordService.generateSalt();
-            String password = PasswordService.hashPassword(data.password(), salt);
-            employee.setPassword(password);
             EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             employeeSQLDao.insert(employee);
         } catch (Exception e){
@@ -30,10 +27,9 @@ public class EmployeeCrud {
         }
     }
 
-    public void deleteEmployee(EmployeeInputDTO data, Long userId) {
+    public void deleteEmployee(Long userId) {
         try{
-            Employee employee = new Employee(data);
-            employee.setId(userId);
+            Employee employee = new Employee(userId);
             EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             employeeSQLDao.delete(employee);
         } catch (Exception e){

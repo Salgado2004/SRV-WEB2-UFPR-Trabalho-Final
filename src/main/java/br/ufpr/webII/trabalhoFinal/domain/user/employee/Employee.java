@@ -23,7 +23,7 @@ public class Employee extends User {
     }
 
     public Employee(Long id) {
-        this.employeeId = id;
+        this.setId(id);
     }
 
     public Long getEmployeeId() {

@@ -7,7 +7,7 @@ public record EquipmentCategoryListItemDTO (
     @NotNull
         Long equipCategoryId,
     @NotBlank
-        String categoryDesc
+        String description
 ){
     public EquipmentCategoryListItemDTO (EquipmentCategory equipmentCategory){
         this(equipmentCategory.getEquipCategoryId(), equipmentCategory.getCategoryDesc());
