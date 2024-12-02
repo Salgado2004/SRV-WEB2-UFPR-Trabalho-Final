@@ -24,7 +24,7 @@ public record RequestDetailDTO(
                 request.getEquipmentCategory(),
                 request.getDefectDesc(),
                 request.getBudget(),
-                request.getRejectionReason(),
+                request.getRejectReason(),
                 request.getRepairDesc(),
                 request.getCustomerOrientations(),
                 request.getCustomer().getId(),

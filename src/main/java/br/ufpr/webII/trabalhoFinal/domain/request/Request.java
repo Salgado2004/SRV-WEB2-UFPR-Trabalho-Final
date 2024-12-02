@@ -17,7 +17,7 @@ public class Request {
     private LocalDateTime createdAt;
     private double budget;
     private String repairDesc;
-    private String rejectionReason;
+    private String rejectReason;
     private String customerOrientations;
     private Customer customer;
     private ArrayList<RequestStatus> requestStatus;
@@ -90,12 +90,12 @@ public class Request {
         this.budget = budget;
     }
 
-    public void setRejectionReason(String rejectionReason) {
-        this.rejectionReason = rejectionReason;
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
     }
 
-    public String getRejectionReason() {
-        return rejectionReason;
+    public String getRejectReason() {
+        return rejectReason;
     }
 
     public String getRepairDesc() {

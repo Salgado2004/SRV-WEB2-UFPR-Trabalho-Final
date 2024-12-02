@@ -124,6 +124,7 @@ public class RequestDao {
                             equipmentDesc,
                             defectDesc,
                             request.budget(),
+                            request.rejectReason(),
                             request.repairDesc(),
                             request.customerOrientations(),
                             customerId

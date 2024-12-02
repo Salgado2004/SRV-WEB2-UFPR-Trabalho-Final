@@ -14,7 +14,7 @@ public record RequestUpdateDTO(
         @NotNull RequestStatusCategory currentStatus,
         @NotNull RequestStatusCategory nextStatus,
         @PastOrPresent LocalDateTime datetime,
-        String rejectionReason,
+        String rejectReason,
         Double budget,
         String repairDesc,
         String customerOrientations,

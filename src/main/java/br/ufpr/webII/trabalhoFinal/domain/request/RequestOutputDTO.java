@@ -6,13 +6,13 @@ public record RequestOutputDTO(
         String equipmentDesc,
         String defectDesc,
         double budget,
-        String rejectionReason,
+        String rejectReason,
         String repairDesc,
         String customerOrientations,
         Long customerId) {
     public RequestOutputDTO(Request request) {
         this(request.getId(), request.getEquipmentCategory().getEquipCategoryId(), request.getEquipmentDesc(),
-                request.getDefectDesc(), request.getBudget(), request.getRejectionReason(), request.getRepairDesc(),
+                request.getDefectDesc(), request.getBudget(), request.getRejectReason(), request.getRepairDesc(),
                 request.getCustomerOrientations(), request.getCustomer().getId());
     }
 }
