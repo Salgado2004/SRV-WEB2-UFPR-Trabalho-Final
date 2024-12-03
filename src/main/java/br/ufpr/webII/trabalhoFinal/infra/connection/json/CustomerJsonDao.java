@@ -8,13 +8,12 @@ import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.infra.connection.CustomerDao;
 import br.ufpr.webII.trabalhoFinal.infra.exceptions.ResourceNotFoundException;
-import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
+import br.ufpr.webII.trabalhoFinal.infra.connection.JsonFileWriter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -23,16 +22,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CustomerJsonDao implements CustomerDao {
     
     public static CustomerJsonDao customerDao;
-     
-    @Autowired
-    JsonFileService jsonService;
+
+    JsonFileWriter jsonService;
     
-    private CustomerJsonDao(){
+    CustomerJsonDao(JsonFileWriter jsonService){
+        this.jsonService = jsonService;
     }
 
-    public static CustomerDao getCustomerJsonDao() {
+    public static CustomerDao getCustomerJsonDao(JsonFileWriter jsonFileWriter) {
         if(customerDao == null){
-            return customerDao = new CustomerJsonDao();
+            return customerDao = new CustomerJsonDao(jsonFileWriter);
         } else{
             return customerDao;
         }
@@ -72,7 +71,7 @@ public class CustomerJsonDao implements CustomerDao {
         try{
             List<CustomerOutputDTO> data = jsonService.readObjectFromFile("clients.json", new TypeReference<>() {});
             for(CustomerOutputDTO emp:data){
-                if(emp.id() == objeto.getId()){
+                if(Objects.equals(emp.id(), objeto.getId())){
                         data.remove(emp);
                         jsonService.writeJsonToFile("clients.json", data);
                         return;

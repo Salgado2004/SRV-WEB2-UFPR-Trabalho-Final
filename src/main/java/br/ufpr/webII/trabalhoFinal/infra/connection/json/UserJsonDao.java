@@ -4,7 +4,7 @@ import br.ufpr.webII.trabalhoFinal.domain.user.User;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerOutputDTO;
 import br.ufpr.webII.trabalhoFinal.infra.connection.UserDao;
-import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
+import br.ufpr.webII.trabalhoFinal.infra.connection.JsonFileWriter;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.IOException;
@@ -14,15 +14,15 @@ import java.util.List;
 public class UserJsonDao implements UserDao {
 
     private static UserJsonDao instance;
-    private final JsonFileService jsonService;
+    private final JsonFileWriter jsonService;
 
-    private UserJsonDao(JsonFileService jsonFileService){
-        this.jsonService = jsonFileService;
+    private UserJsonDao(JsonFileWriter jsonFileWriter){
+        this.jsonService = jsonFileWriter;
     }
 
-    public static UserJsonDao getUserJsonDao(JsonFileService jsonFileService){
+    public static UserJsonDao getUserJsonDao(JsonFileWriter jsonFileWriter){
         if(instance == null){
-            instance = new UserJsonDao(jsonFileService);
+            instance = new UserJsonDao(jsonFileWriter);
         }
         return instance;
     }

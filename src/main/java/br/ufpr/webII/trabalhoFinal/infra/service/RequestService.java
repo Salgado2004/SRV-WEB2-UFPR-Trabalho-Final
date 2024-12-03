@@ -49,9 +49,9 @@ public class RequestService {
 
             RequestDao requestDao = daoFactory.getRequestDao();
             Request request = new Request(data, customer, equipment);
+            request.getRequestStatus().add(new RequestStatus(request, RequestStatusCategory.OPEN, data.startDate()));
 
             requestDao.insert(request);
-            requestDao.insertStatus(new RequestStatus(request, RequestStatusCategory.OPEN, data.startDate()));
 
         } catch (IllegalArgumentException e) {
             throw new RequestException(e.getMessage());

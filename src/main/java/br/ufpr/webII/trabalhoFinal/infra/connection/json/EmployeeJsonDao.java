@@ -7,7 +7,7 @@ package br.ufpr.webII.trabalhoFinal.infra.connection.json;
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.EmployeeOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.user.employee.Employee;
 import br.ufpr.webII.trabalhoFinal.infra.connection.EmployeeDao;
-import br.ufpr.webII.trabalhoFinal.infra.service.JsonFileService;
+import br.ufpr.webII.trabalhoFinal.infra.connection.JsonFileWriter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,18 +25,18 @@ import org.springframework.stereotype.Service;
 public class EmployeeJsonDao implements EmployeeDao {
     
     private static EmployeeJsonDao employeeDao;
+    JsonFileWriter jsonService;
     
-    private EmployeeJsonDao(){}
+    private EmployeeJsonDao(JsonFileWriter jsonFileWriter){
+        this.jsonService = jsonFileWriter;
+    }
 
-    public static EmployeeDao getEmployeeJsonDao() {
+    public static EmployeeDao getEmployeeJsonDao(JsonFileWriter jsonFileWriter) {
         if(employeeDao == null)
-            return employeeDao = new EmployeeJsonDao();
+            return employeeDao = new EmployeeJsonDao(jsonFileWriter);
         else
             return employeeDao;
     }
-    
-    @Autowired
-    JsonFileService jsonService;
 
     @Override
     public void insert(Employee element) throws Exception {
