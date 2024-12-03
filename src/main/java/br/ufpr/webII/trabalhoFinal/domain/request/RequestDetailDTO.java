@@ -2,6 +2,7 @@ package br.ufpr.webII.trabalhoFinal.domain.request;
 
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusOutputDTO;
 import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
+import br.ufpr.webII.trabalhoFinal.domain.user.customer.CustomerListDTO;
 
 import java.util.List;
 
@@ -14,8 +15,8 @@ public record RequestDetailDTO(
         String rejectReason,
         String repairDesc,
         String customerOrientations,
-        Long customerId,
-        List<RequestStatusOutputDTO> status
+        List<RequestStatusOutputDTO> status,
+        CustomerListDTO customer
 ) {
     public RequestDetailDTO(Request request){
         this(
@@ -27,8 +28,8 @@ public record RequestDetailDTO(
                 request.getRejectReason(),
                 request.getRepairDesc(),
                 request.getCustomerOrientations(),
-                request.getCustomer().getId(),
-                request.getRequestStatus().stream().map(e -> new RequestStatusOutputDTO(e, request.getId()) ).toList()
+                request.getRequestStatus().stream().map(e -> new RequestStatusOutputDTO(e, request.getId())).toList(),
+                new CustomerListDTO(request.getCustomer())
         );
     }
 }

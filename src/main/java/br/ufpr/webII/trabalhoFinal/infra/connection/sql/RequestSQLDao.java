@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufpr.webII.trabalhoFinal.domain.address.Address;
+import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CategoryReport;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReport;
@@ -150,27 +151,79 @@ public class RequestSQLDao extends RequestDao {
     public Request getById(Long id) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("SELECT * FROM public.request WHERE id = ? AND active = true")
+                PreparedStatement ps = con.prepareStatement(
+                        "SELECT r.*, ec.category_desc, c.*, u.*, a.*, rs.id AS rs_id, rs.date_time, rs.status, rs.in_charge_employee_id, rs.sending_employee_id " +
+                                "FROM public.request r " +
+                                "JOIN public.equip_category ec ON r.equip_category_id = ec.id " +
+                                "JOIN public.customer c ON r.customer_id = c.user_id " +
+                                "JOIN public.address a ON c.address_id = a.id " +
+                                "JOIN public.user u ON c.user_id = u.id " +
+                                "LEFT JOIN public.request_status rs ON rs.request_id = r.id " +
+                                "WHERE r.id = ? AND r.active = true ORDER BY rs.date_time;"
+                )
         ) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
+            Request request = null;
+            ArrayList<RequestStatus> statusList = new ArrayList<>();
             EquipmentSQLDao equipmentSQLDao = new EquipmentSQLDao(connectionFactory);
+            EmployeeSQLDao employeeSQLDao = new EmployeeSQLDao(connectionFactory);
+
+
             if (rs.next()) {
-                Request request = new Request();
+                request = new Request();
                 request.setId(rs.getLong("id"));
                 request.setEquipmentDesc(rs.getString("equip_desc"));
                 request.setDefectDesc(rs.getString("defect_desc"));
                 request.setBudget(rs.getDouble("budget"));
                 request.setRepairDesc(rs.getString("repair_desc"));
                 request.setCustomerOrientations(rs.getString("customer_orientations"));
+                request.setRejectReason(rs.getString("reject_reason"));
                 request.setEquipmentCategory(equipmentSQLDao.getById(rs.getLong("equip_category_id")));
-                request.setRequestStatus(this.getStatusList(request.getId()));
-                request.setCustomer(new Customer(rs.getLong("customer_id")));
+                request.setCustomer(new Customer(
+                        rs.getLong("customer_id"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getString("email"),
+                        rs.getString("phone_number"),
+                        rs.getString("cpf"),
+                        new Address(
+                                rs.getString("cep"),
+                                rs.getString("uf"),
+                                rs.getString("city"),
+                                rs.getString("district"),
+                                rs.getString("street"),
+                                Integer.parseInt(rs.getString("number"))
+                        )
+                ));
                 request.setActive(rs.getBoolean("active"));
-                return request;
             }
-            return null;
+            statusList.add(new RequestStatus(
+                    rs.getLong("rs_id"),
+                    request,
+                    RequestStatusCategory.fromString(rs.getString("status")),
+                    employeeSQLDao.getById(rs.getLong("in_charge_employee_id")),
+                    employeeSQLDao.getById(rs.getLong("sending_employee_id")),
+                    rs.getTimestamp("date_time").toLocalDateTime()
+            ));
+
+            while (rs.next()){
+                statusList.add(new RequestStatus(
+                        rs.getLong("rs_id"),
+                        request,
+                        RequestStatusCategory.fromString(rs.getString("status")),
+                        employeeSQLDao.getById(rs.getLong("in_charge_employee_id")),
+                        employeeSQLDao.getById(rs.getLong("sending_employee_id")),
+                        rs.getTimestamp("date_time").toLocalDateTime()
+                ));
+            }
+            if (request != null) {
+                request.setRequestStatus(statusList);
+            }
+
+            return request;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new Exception("Erro ao buscar requisição de serviço", e);
         }
     }
