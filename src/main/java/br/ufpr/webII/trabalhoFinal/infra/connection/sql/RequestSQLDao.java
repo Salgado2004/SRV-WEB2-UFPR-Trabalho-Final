@@ -151,16 +151,7 @@ public class RequestSQLDao extends RequestDao {
     public Request getById(Long id) throws Exception {
         try (
                 Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement(
-                        "SELECT r.*, ec.category_desc, c.*, u.*, a.*, rs.id AS rs_id, rs.date_time, rs.status, rs.in_charge_employee_id, rs.sending_employee_id " +
-                                "FROM public.request r " +
-                                "JOIN public.equip_category ec ON r.equip_category_id = ec.id " +
-                                "JOIN public.customer c ON r.customer_id = c.user_id " +
-                                "JOIN public.address a ON c.address_id = a.id " +
-                                "JOIN public.user u ON c.user_id = u.id " +
-                                "LEFT JOIN public.request_status rs ON rs.request_id = r.id " +
-                                "WHERE r.id = ? AND r.active = true ORDER BY rs.date_time;"
-                )
+                PreparedStatement ps = con.prepareStatement("SELECT * FROM proc_detailRequest(?);")
         ) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
