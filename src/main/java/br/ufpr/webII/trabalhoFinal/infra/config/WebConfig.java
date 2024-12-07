@@ -1,10 +1,9 @@
 package br.ufpr.webII.trabalhoFinal.infra.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import org.springframework.lang.NonNull;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -33,6 +32,10 @@ public class WebConfig implements WebMvcConfigurer {
         // Requests Controller        
         addCorsMapping(registry, BASE_URL + "/requests", "POST", "GET");
         addCorsMapping(registry, BASE_URL + "/requests/{id}", "GET", "PUT");
+
+        // Reports Controller
+        addCorsMapping(registry, BASE_URL + "/requests/report", "GET");
+        addCorsMapping(registry, BASE_URL + "/requests/report/category", "GET");
     }
 
     private void addCorsMapping(CorsRegistry registry, String path, String... methods) {
