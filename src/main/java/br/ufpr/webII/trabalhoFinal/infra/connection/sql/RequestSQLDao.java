@@ -4,13 +4,16 @@
  */
 package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.ufpr.webII.trabalhoFinal.domain.address.Address;
-import br.ufpr.webII.trabalhoFinal.domain.equipment.EquipmentCategory;
 import br.ufpr.webII.trabalhoFinal.domain.request.Request;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CategoryReport;
 import br.ufpr.webII.trabalhoFinal.domain.request.reports.CommomReport;
@@ -18,7 +21,6 @@ import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatus;
 import br.ufpr.webII.trabalhoFinal.domain.request.status.RequestStatusCategory;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
-import br.ufpr.webII.trabalhoFinal.infra.connection.DaoFactory;
 import br.ufpr.webII.trabalhoFinal.infra.connection.RequestDao;
 
 /**
@@ -289,14 +291,20 @@ public class RequestSQLDao extends RequestDao {
             ps.setTimestamp(1, startDate != null ? Timestamp.valueOf(startDate) : null);
             ps.setTimestamp(2, endDate != null ? Timestamp.valueOf(endDate) : null);
 
+            double totalRevenue = 0.0;
+            
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Timestamp timestamp = rs.getTimestamp("day");
                     LocalDateTime day = timestamp != null ? timestamp.toLocalDateTime() : null;
-                    CommomReport report = new CommomReport(day, rs.getDouble("total_revenue"));
+                    double revenue = rs.getDouble("total_revenue");
+                    totalRevenue += revenue;
+                    CommomReport report = new CommomReport(day, revenue);
                     reports.add(report);
                 }
             }
+
+            reports.add(new CommomReport(null, totalRevenue));
         } catch (Exception e) {
             throw new Exception("Erro ao carregar dados do relatório");
         }
@@ -304,6 +312,8 @@ public class RequestSQLDao extends RequestDao {
     }
 
     public ArrayList<CategoryReport> listCategoryReport() throws Exception {
+        double totalRevenue = 0.0;
+
         ArrayList<CategoryReport> reports = new ArrayList<>();
         String query = "SELECT " +
                 "ec.category_desc AS category, " +
@@ -328,9 +338,12 @@ public class RequestSQLDao extends RequestDao {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     CategoryReport report = new CategoryReport(rs.getString("category"), rs.getDouble("total_revenue"));
+                    double revenue = rs.getDouble("total_revenue");
+                    totalRevenue += revenue;
                     reports.add(report);
                 }
             }
+            reports.add(new CategoryReport("TOTAL", totalRevenue));
         } catch (Exception e) {
             throw new Exception("Erro ao carregar dados do relatório de categoria");
         }
