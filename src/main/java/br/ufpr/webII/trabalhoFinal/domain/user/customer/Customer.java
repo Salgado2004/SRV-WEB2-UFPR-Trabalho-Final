@@ -12,12 +12,12 @@ public class Customer extends User {
     public Customer(){}
 
     public Customer(CustomerInputDTO dto){
-        this.setCpf(dto.cpf());
+        this.setCpf(dto.cpf().replaceAll("[^0-9]", ""));
         this.setName(dto.name());
         this.setSurname(dto.surname());
         this.setEmail(dto.email());
         this.setAddress(dto.address());
-        this.setPhone(dto.phone());
+        this.setPhone(dto.phone().replaceAll("[^0-9]", ""));
     }
 
     public Customer(CustomerOutputDTO dto) {

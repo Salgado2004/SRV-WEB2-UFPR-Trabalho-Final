@@ -7,6 +7,7 @@ package br.ufpr.webII.trabalhoFinal.infra.connection.sql;
 import br.ufpr.webII.trabalhoFinal.domain.user.customer.Customer;
 import br.ufpr.webII.trabalhoFinal.infra.connection.CustomerDao;
 import br.ufpr.webII.trabalhoFinal.infra.connection.ConnectionFactory;
+import br.ufpr.webII.trabalhoFinal.infra.exceptions.RegisteringException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import java.sql.ResultSet;
 import java.util.List;
 
 /**
- *
  * @author mateus
  */
 public class CustomerSQLDao implements CustomerDao {
@@ -44,7 +44,7 @@ public class CustomerSQLDao implements CustomerDao {
                 ps.setString(1, customer.getName());
                 ps.setString(2, customer.getSurname());
                 ps.setString(3, customer.getEmail());
-                ps.setString(4, customer.getPassword()+":"+customer.getSalt());
+                ps.setString(4, customer.getPassword() + ":" + customer.getSalt());
                 ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
@@ -79,6 +79,13 @@ public class CustomerSQLDao implements CustomerDao {
             }
             con.commit();
         } catch (SQLException e) {
+            if (e.getSQLState().equals("23505")) {
+                if (e.getMessage().contains("email")) {
+                    throw new IllegalArgumentException("E-mail já cadastrado");
+                } else if (e.getMessage().contains("cpf")) {
+                    throw new IllegalArgumentException("CPF já cadastrado");
+                }
+            }
             throw new Exception("Erro ao salvar cliente no banco de dados: " + e.getMessage(), e);
         }
     }
@@ -97,7 +104,7 @@ public class CustomerSQLDao implements CustomerDao {
     public List<Customer> listAll() throws Exception {
         List<Customer> customers = new ArrayList<>();
         String query = "SELECT u.\"name\", u.surname, u.email, c.* FROM public.\"user\" u join customer c ON u.id = c.user_id WHERE u.profile = 'CUSTOMER' AND u.active = true;";
-        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)){
+        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)) {
             ResultSet rs = sql.executeQuery();
             while (rs.next()) {
                 Customer customer = new Customer();
@@ -120,7 +127,7 @@ public class CustomerSQLDao implements CustomerDao {
     public Customer getByUserId(Long id) throws Exception {
         Customer customer = new Customer();
         String query = "SELECT u.\"name\", u.surname, u.email, c.* FROM public.\"user\" u join customer c ON u.id = c.user_id WHERE u.profile = 'CUSTOMER' AND u.active = true AND u.id = ?;";
-        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)){
+        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)) {
             sql.setLong(1, id);
             ResultSet rs = sql.executeQuery();
             if (rs.next()) {
@@ -142,7 +149,7 @@ public class CustomerSQLDao implements CustomerDao {
     public Customer getById(Long id) throws Exception {
         Customer customer = new Customer();
         String query = "SELECT u.\"name\", u.surname, u.email, c.* FROM public.\"user\" u join customer c ON u.id = c.user_id WHERE u.profile = 'CUSTOMER' AND u.active = true AND c.id = ?;";
-        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)){
+        try (Connection con = connectionFactory.getConnection(); PreparedStatement sql = con.prepareStatement(query)) {
             sql.setLong(1, id);
             ResultSet rs = sql.executeQuery();
             if (rs.next()) {
@@ -159,7 +166,6 @@ public class CustomerSQLDao implements CustomerDao {
         }
         return customer;
     }
-
 
 
 }
