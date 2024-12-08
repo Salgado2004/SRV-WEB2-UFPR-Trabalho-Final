@@ -25,6 +25,8 @@ public class EmployeeCrud {
             Employee employee = new Employee(data);
             EmployeeDao employeeSQLDao = daoFactory.getEmployeeDao();
             employeeSQLDao.insert(employee);
+        } catch (IllegalArgumentException e) {
+            throw e;
         } catch (Exception e){
             throw new RegisteringException("Erro ao inserir funcionário: " + e.getMessage(), e);
         }
