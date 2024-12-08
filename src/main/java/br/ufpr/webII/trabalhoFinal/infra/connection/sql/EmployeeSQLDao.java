@@ -51,9 +51,8 @@ public class EmployeeSQLDao implements EmployeeDao {
             }
             con.commit();
         } catch (SQLException e) {
-            // verificar erro de chave duplicada
             if (e.getSQLState().equals("23505")) {
-                throw new RegisteringException("Erro ao salvar funcionário no banco de dados: e-mail já cadastrado.", e);
+                throw new IllegalArgumentException("Erro ao salvar funcionário no banco de dados: e-mail já cadastrado.");
             }
             throw new Exception("Erro ao salvar funcionário no banco de dados: " + e.getMessage(), e);
         }

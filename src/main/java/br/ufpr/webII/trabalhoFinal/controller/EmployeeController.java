@@ -37,8 +37,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<CommonResponse> deleteEmployee(@PathVariable Long userId) throws Exception{
-        employeeCrud.deleteEmployee(userId);
+    public ResponseEntity<CommonResponse> deleteEmployee(@PathVariable Long userId, @RequestHeader("Authorization") String auth) throws Exception{
+        employeeCrud.deleteEmployee(userId, auth);
         return ResponseEntity.ok().body(new CommonResponse("Empregado excluído com sucesso"));
     }
     

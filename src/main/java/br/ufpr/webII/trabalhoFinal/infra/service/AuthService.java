@@ -37,6 +37,8 @@ public class AuthService {
         try {
             CustomerDao customerDao = daoFactory.getCustomerDao();
             customerDao.insert(customer);
+        } catch (IllegalArgumentException e){
+            throw new RegisteringException(e.getMessage());
         } catch (Exception e){
             throw new RegisteringException("Erro ao salvar cliente", e);
         }

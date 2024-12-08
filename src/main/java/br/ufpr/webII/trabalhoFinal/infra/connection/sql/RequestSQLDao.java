@@ -41,26 +41,49 @@ public class RequestSQLDao extends RequestDao {
 
     @Override
     public void insert(Request request) throws Exception {
-        try (
-                Connection con = connectionFactory.getConnection();
-                PreparedStatement ps = con.prepareStatement("INSERT INTO public.request (equip_desc, defect_desc, budget, repair_desc, customer_orientations, equip_category_id, customer_id, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                        Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection con = connectionFactory.getConnection()) {
             con.setAutoCommit(false);
 
-            ps.setString(1, request.getEquipmentDesc());
-            ps.setString(2, request.getDefectDesc());
-            ps.setDouble(3, request.getBudget());
-            ps.setString(4, request.getRepairDesc());
-            ps.setString(5, request.getCustomerOrientations());
-            ps.setLong(6, request.getEquipmentCategory().getEquipCategoryId());
-            ps.setLong(7, request.getCustomer().getId());
-            ps.setBoolean(8, true);
-            ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                request.setId(rs.getLong(1));
+            try(PreparedStatement ps = con.prepareStatement("INSERT INTO public.request (equip_desc, defect_desc, budget, repair_desc, customer_orientations, equip_category_id, customer_id, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS)){
+                ps.setString(1, request.getEquipmentDesc());
+                ps.setString(2, request.getDefectDesc());
+                ps.setDouble(3, request.getBudget());
+                ps.setString(4, request.getRepairDesc());
+                ps.setString(5, request.getCustomerOrientations());
+                ps.setLong(6, request.getEquipmentCategory().getEquipCategoryId());
+                ps.setLong(7, request.getCustomer().getId());
+                ps.setBoolean(8, true);
+                ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    request.setId(rs.getLong(1));
+                }
             }
-            this.insertStatus(request.getRequestStatus().get(0));
+
+            RequestStatus requestStatus = request.getRequestStatus().get(0);
+
+            try (PreparedStatement ps = con.prepareStatement("INSERT INTO public.request_status (date_time, request_id, sending_employee_id, in_charge_employee_id, status) VALUES (?, ?, ?, ?, ?)")) {
+                ps.setTimestamp(1, java.sql.Timestamp.valueOf(requestStatus.getDateTime()));
+                ps.setLong(2, requestStatus.getRequest().getId());
+
+                if (requestStatus.getSenderEmployee() != null && requestStatus.getSenderEmployee().getId() != null) {
+                    ps.setLong(3, requestStatus.getSenderEmployee().getId());
+                } else {
+                    ps.setNull(3, java.sql.Types.BIGINT);
+                }
+
+                if (requestStatus.getInChargeEmployee() != null && requestStatus.getInChargeEmployee().getId() != null) {
+                    ps.setLong(4, requestStatus.getInChargeEmployee().getId());
+                } else {
+                    ps.setNull(4, java.sql.Types.BIGINT);
+                }
+
+                ps.setObject(5, requestStatus.getCategory().toString().toUpperCase(), java.sql.Types.OTHER);
+                ps.executeUpdate();
+            } catch (Exception e) {
+                throw new Exception("Erro ao inserir status de requisição de serviço", e);
+            }
 
             con.commit();
 
@@ -246,7 +269,6 @@ public class RequestSQLDao extends RequestDao {
         } catch (Exception e) {
             throw new Exception("Erro ao inserir status de requisição de serviço", e);
         }
-
     }
 
     public ArrayList<RequestStatus> getStatusList(Long requestId) throws Exception {

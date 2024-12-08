@@ -39,6 +39,11 @@ public class ExceptionResponseHandler {
         return ResponseEntity.badRequest().body(errors.stream().map(HttpRequestError::new).toList());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<HttpRequestError> handleIllegalArgument(IllegalArgumentException e){
+        return ResponseEntity.badRequest().body(new HttpRequestError(e.getMessage()));
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<HttpRequestError> handleResourceNotFound(ResourceNotFoundException e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new HttpRequestError(e.getMessage()));
