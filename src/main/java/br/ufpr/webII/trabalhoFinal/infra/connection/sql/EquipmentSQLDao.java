@@ -23,7 +23,7 @@ public class EquipmentSQLDao implements EquipmentDao {
     private static EquipmentSQLDao instance;
     private final ConnectionFactory connectionFactory;
 
-    public EquipmentSQLDao(ConnectionFactory connectionFactory){
+    EquipmentSQLDao(ConnectionFactory connectionFactory){
         this.connectionFactory = connectionFactory;
     }
 
